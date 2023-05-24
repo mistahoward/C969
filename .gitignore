@@ -1,0 +1,45 @@
+# .gitignore for a .NET Windows Forms project
+
+# Ignore all build directories
+bin/
+obj/
+
+# Ignore all .user specific files and local config
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Ignore package target files
+*.targets
+
+# Ignore Visual Studio cache files
+.vs/
+
+# Ignore NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+
+# Ignore ReSharper cache directory
+_ReSharper*/
+
+# Ignore .NET Core output directory
+**/[Bb]in/[Dd]ebug/netcoreapp*/
+**/[Bb]in/[Rr]elease/netcoreapp*/
+
+# Ignore TestResults
+[Testt]est[Rr]esult*
+
+# Ignore .vscode
+.vscode/
+
+# Ignore .idea
+.idea/
+
+# Ignore log files
+*.log
