@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Reflection;
 
 namespace C969.Data
 {
@@ -70,41 +71,47 @@ namespace C969.Data
                 }
             }
         }
-
-        /// <summary>
-        /// Adds a new row to a specified table.
-        /// </summary>
-        /// <param name="tableName">The name of the table to insert data into.</param>
-        /// <param name="data">The data to insert into the table.</param>
-        /// <returns>True if the operation was successful, otherwise false.</returns>
-        /// <exception cref="MySqlException">Thrown when an error occurs executing the query.</exception>
-        /// <remarks>
-        /// This method constructs an INSERT query using the specified table name and data and executes it using
-        /// the MySqlConnection object returned by the OpenConnection method. It returns 'true' if the command
-        /// executes successfully, otherwise 'false'.
-        /// </remarks>
-        /// 
-        /// <example>
-        /// This sample demonstrates how to use the AddData method.
-        ///
-        /// <code>
-        /// var db = new DatabaseImpl();
-        /// var data = new Dictionary&lt;string,string&gt;();
-        /// data.Add("id", "1");
-        /// data.Add("name", "item1");
-        /// bool result = db.AddData("myTable", data);
-        /// </code>
-        /// </example>
-        protected bool AddData(string tableName, Dictionary<string, string> data)
+        /// <Summary>
+        /// Adds data to model
+        /// </Summary>
+        /// <typeparam name="T">The type of the model</typeparam>
+        /// <param name="model">Model object with the data to add</param>
+        /// <returns>True if the data was successfully added, false otherwise.</returns>
+        protected bool AddData<T>(T model) where T : class
         {
             using (MySqlConnection connection = OpenConnection())
             {
-                string columns = string.Join(", ", data.Keys);
-                string values = string.Join(", ", data.Values);
+                // Getting the table name from the type of model, lower casing it to match db ERD
+                string tableName = (typeof(T).Name).ToLower();
 
+                // Extract property names and values from the model
+                PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                List<string> columnNames = new List<string>();
+                List<string> paramNames = new List<string>();
+                foreach (PropertyInfo prop in properties)
+                {
+                    string propName = prop.Name;
+                    columnNames.Add(propName);
+                    paramNames.Add("@" + propName);
+                }
+
+                // Construct the SQL query
+                string columns = string.Join(", ", columnNames);
+                string values = string.Join(", ", paramNames);
                 string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
+
                 MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
+                // Add parameters to the command
+                foreach (PropertyInfo prop in properties)
+                {
+                    string paramName = "@" + prop.Name;
+                    object paramValue = prop.GetValue(model);
+                    command.Parameters.AddWithValue(paramName, paramValue);
+                }
+
+                // Execute Query
                 try
                 {
                     return command.ExecuteNonQuery() > 0;
@@ -115,40 +122,50 @@ namespace C969.Data
                 }
             }
         }
-
         /// <summary>
-        /// Updates data in a specified table based on a condition.
+        /// Updates data in DB
         /// </summary>
-        /// <param name="tableName">The name of the table to update data in.</param>
-        /// <param name="columns">The list of columns to update.</param>
-        /// <param name="values">The new values to set for the specified columns.</param>
-        /// <param name="condition">The condition used to determine which rows to update.</param>
-        /// <returns>True if the operation was successful, otherwise false.</returns>
-        /// <exception cref="MySqlException">Thrown when an error occurs executing the query.</exception>
-        /// <remarks>
-        /// This method constructs an UPDATE query using the specified table name, columns, values, and condition
-        /// and executes it using the MySqlConnection object returned by the OpenConnection method. It returns 'true'
-        /// if the command executes successfully, otherwise 'false'.
-        /// </remarks>
-        protected bool UpdateData(string tableName, string[] columns, string[] values, string condition)
+        /// <typeparam name="T">Type of the model</typeparam>
+        /// <param name="model">Model Object (table name)</param>
+        /// <param name="identifierName">Column Name in DB</param>
+        /// <param name="identifierValue">Matched value of said object </param>
+        /// <returns>True if the data was successfully added, false otherwise.</returns>
+        /// <exception cref="Exception"></exception>
+        protected bool UpdateData<T>(T model, string identifierName, object identifierValue) where T : class
         {
             using (MySqlConnection connection = OpenConnection())
             {
-                string updateQuery = $"UPDATE {tableName} SET ";
-                for (int i = 0; i < columns.Length; i++)
+                // Getting the table name from the type of model, lower casing it to match db ERD
+                string tableName = (typeof(T).Name).ToLower();
+
+                // Extract property names and values from the model
+                PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                List<string> setPairs = new List<string>();
+                // Extract extract key and value from column
+                foreach (PropertyInfo prop in properties)
                 {
-                    updateQuery += $"{columns[i]}=@{columns[i]}{(i < columns.Length - 1 ? ", " : "")}";
-
+                    string propName = prop.Name;
+                    setPairs.Add($"{propName} = @{propName}");
                 }
-                updateQuery += $" WHERE {condition}";
 
+                // Combine set pairs
+                string setPairsString = string.Join(", ", setPairs);
+
+                // Construct query
+                string updateQuery = $"UPDATE {tableName} SET {setPairsString} WHERE {identifierName} = @identifierValue";
+
+                // Open connection
                 MySqlCommand command = new MySqlCommand(updateQuery, connection);
-                for (int i = 0; i < columns.Length; i++)
+
+                // Loop through properties, adding and binding parameter, matched with the model of T
+                foreach (PropertyInfo prop in properties)
                 {
-                    command.Parameters.AddWithValue($"@{columns[i]}", values[i]);
-
+                    command.Parameters.AddWithValue("@" + prop.Name, prop.GetValue(model));
                 }
+                command.Parameters.AddWithValue("@identifierValue", identifierValue);
 
+                // Execute query
                 try
                 {
                     return command.ExecuteNonQuery() > 0;
@@ -161,33 +178,26 @@ namespace C969.Data
         }
 
         /// <summary>
-        /// Deletes data from a specified table based on a condition.
+        /// Deletes data in DB
         /// </summary>
-        /// <param name="tableName">The name of the table to delete data from.</param>
-        /// <param name="condition">The condition used to determine which rows to delete.</param>
-        /// <returns>True if the operation was successful, otherwise false.</returns>
-        /// <exception cref="MySqlException">Thrown when an error occurs executing the query.</exception>
-        /// <remarks>
-        /// This method constructs a DELETE query using the specified table name and condition and executes it
-        /// using the MySqlConnection object returned by the OpenConnection method. It returns 'true' if the command executes
-        /// successfully, otherwise 'false'.
-        /// </remarks>
-        ///
-        ///<example>
-        /// This sample demonstrates how to use the DeleteData method.
-        ///
-        /// <code>
-        /// var db = new DatabaseImpl();
-        /// bool result = db.DeleteData("myTable", "id = 1");
-        /// </code>
-        /// </example>
-        protected bool DeleteData(string tableName, string condition)
+        /// <typeparam name="T">Type of model</typeparam>
+        /// <param name="condition">Condition to search on - example "id = 0".</param>
+        /// <returns>True if the data was successfully deleted, false otherwise.</returns>
+        /// <exception cref="Exception"></exception>
+        protected bool DeleteData<T>(string condition) where T : class
         {
             using (MySqlConnection connection = OpenConnection())
             {
+                // Getting the table name from the type of model, lower casing it to match db ERD
+                string tableName = (typeof(T).Name).ToLower();
+
+                // Constructing Query
                 string deleteQuery = $"DELETE FROM {tableName} WHERE {condition}";
+
+                // Opening connection
                 MySqlCommand command = new MySqlCommand(deleteQuery, connection);
 
+                // Execute query
                 try
                 {
                     return command.ExecuteNonQuery() > 0;
@@ -198,6 +208,6 @@ namespace C969.Data
                 }
             }
         }
-
     }
 }
+
