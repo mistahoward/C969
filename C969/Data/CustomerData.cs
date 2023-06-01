@@ -9,11 +9,19 @@ namespace C969.Data
 {
     public class CustomerData : Database
     {
+        /// <summary>
+        /// Gets a user from the DB by id
+        /// </summary>
+        /// <param name="id">ID of the customer - customerId in db</param>
+        /// <returns>Customer if success, exception if fail</returns>
+        /// <exception cref="Exception"></exception>
         public Customer GetCustomerById(int id)
         {
+            // Create empty customer and null result customer
             Customer emptyCustomer = new Customer();
             Customer resultCustomer = null;
 
+            // Retrieve Data using parameter, assign to result customer
             using (var sqlResponse = RetrieveData(emptyCustomer, "customerId", id))
             {
                 if (sqlResponse.Read())
@@ -32,7 +40,7 @@ namespace C969.Data
                 }
             }
 
-            // If result user exists, return it - otherwise, throw an exception
+            // If result customer exists, return it - otherwise, throw an exception
             if (resultCustomer == null)
             {
                 throw new Exception("No user found with the provided ID.");
