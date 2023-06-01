@@ -42,24 +42,39 @@ namespace C969.Data
         }
 
         /// <summary>
-        /// Retrieves data from a specified table based on a set of columns.
+        /// Retrieves data of a model based on provided conditions
         /// </summary>
-        /// <param name="tableName">The name of the table to retrieve data from.</param>
-        /// <param name="columns">The list of columns to retrieve data from.</param>
-        /// <returns>A MySqlDataReader object containing the retrieved data.</returns>
-        /// <exception cref="MySqlException">Thrown when an error occurs executing the query.</exception>
-        /// <remarks>
-        /// This method constructs a SELECT query using the specified table name and columns and executes it using
-        /// the MySqlConnection object returned by the OpenConnection method. It returns a MySqlDataReader object
-        /// containing the results of the query.
-        /// </remarks>
-        protected MySqlDataReader RetrieveData(string tableName, string[] columns)
+        /// <typeparam name="T">the type of the model</typeparam>
+        /// <param name="model">Model object</param>
+        /// <param name="conditionColumn">Column name</param>
+        /// <param name="conditionValue">Value to match</param>
+        /// <returns>MySqlDataReader or false if fail</returns>
+        /// <exception cref="Exception"></exception>
+        protected MySqlDataReader RetrieveData<T>(T model, string conditionColumn, object conditionValue) where T : class
         {
             using (MySqlConnection connection = OpenConnection())
             {
-                string columnsString = string.Join(",", columns);
-                string query = $"SELECT {columnsString} FROM {tableName}";
+                // Getting the table name from the type of model, lower casing it to match db ERD
+                string tableName = (typeof(T).Name).ToLower();
+
+                // Extract property names and values from the model
+                PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                List<string> columnNames = new List<string>();
+
+                foreach (PropertyInfo prop in properties)
+                {
+                    string propName = prop.Name;
+                    columnNames.Add(propName);
+                }
+
+                // Construct the SQL query
+                string columns = string.Join(", ", columnNames);
+                string query = $"SELECT {columns} FROM {tableName} WHERE {conditionColumn} = @value";
                 MySqlCommand command = new MySqlCommand(query, connection);
+
+                // Add value as a parameter to prevent SQL Injection
+                command.Parameters.AddWithValue("@value", conditionValue);
 
                 try
                 {
@@ -71,6 +86,7 @@ namespace C969.Data
                 }
             }
         }
+
         /// <Summary>
         /// Adds data to model
         /// </Summary>
