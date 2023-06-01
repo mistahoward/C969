@@ -90,6 +90,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\CustomerData.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Models\Address.cs" />

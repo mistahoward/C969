@@ -22,7 +22,7 @@ namespace C969.Data
             User emptyUser = new User();
             User resultUser = null;
             // Call retrieve data, read the response and transpose it to the result user
-            using (var sqlResponse = RetrieveData(emptyUser, "id", id))
+            using (var sqlResponse = RetrieveData(emptyUser, "userId", id))
             {
                 if (sqlResponse.Read())
                 {
