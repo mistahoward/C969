@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Reflection;
 
 namespace C969.Data
@@ -48,9 +49,9 @@ namespace C969.Data
         /// <param name="model">Model object</param>
         /// <param name="conditionColumn">Column name</param>
         /// <param name="conditionValue">Value to match</param>
-        /// <returns>MySqlDataReader or false if fail</returns>
+        /// <returns>DataTable or false if fail</returns>
         /// <exception cref="Exception"></exception>
-        protected MySqlDataReader RetrieveData<T>(T model, string conditionColumn, object conditionValue) where T : class
+        protected DataTable RetrieveData<T>(T model, string conditionColumn, object conditionValue) where T : class
         {
             using (MySqlConnection connection = OpenConnection())
             {
@@ -78,7 +79,12 @@ namespace C969.Data
 
                 try
                 {
-                    return command.ExecuteReader();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+                        return dt;
+                    }
                 }
                 catch (MySqlException ex)
                 {

@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,22 +23,30 @@ namespace C969.Data
             User emptyUser = new User();
             User resultUser = null;
             // Call retrieve data, read the response and transpose it to the result user
-            using (var sqlResponse = RetrieveData(emptyUser, "userId", id))
+            DataTable dt = RetrieveData(emptyUser, "userId", id);
+            if (dt.Rows.Count > 0)
             {
-                if (sqlResponse.Read())
+                DataRow row = dt.Rows[0];
+                var userId = row.Field<int>("userId");
+                var userName = row.Field<string>("userName");
+                var password = row.Field<string>("password");
+                var active = Convert.ToBoolean(row["active"]);
+                var createDate = row.Field<DateTime>("createDate");
+                var createdBy = row.Field<string>("createdBy");
+                var lastUpdate = row.Field<DateTime>("lastUpdate");
+                var lastUpdateBy = row.Field<string>("lastUpdateBy");
+
+                resultUser = new User
                 {
-                    resultUser = new User
-                    {
-                        userId = sqlResponse.GetInt32(sqlResponse.GetOrdinal("userId")),
-                        userName = sqlResponse.GetString(sqlResponse.GetOrdinal("userName")),
-                        password = sqlResponse.GetString(sqlResponse.GetOrdinal("password")),
-                        active = sqlResponse.GetBoolean(sqlResponse.GetOrdinal("active")),
-                        createDate = sqlResponse.GetDateTime(sqlResponse.GetOrdinal("createDate")),
-                        createdBy = sqlResponse.GetString(sqlResponse.GetOrdinal("createdBy")),
-                        lastUpdate = sqlResponse.GetDateTime(sqlResponse.GetOrdinal("lastUpdate")),
-                        lastUpdateBy = sqlResponse.GetString(sqlResponse.GetOrdinal("lastUpdateBy"))
-                    };
-                }
+                    userId = userId,
+                    userName = userName,
+                    password = password,
+                    active = active,
+                    createDate = createDate,
+                    createdBy = createdBy,
+                    lastUpdate = lastUpdate,
+                    lastUpdateBy = lastUpdateBy
+                };
             }
 
             // If result user exists, return it - otherwise, throw an exception
