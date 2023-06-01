@@ -48,5 +48,14 @@ namespace C969.Data
 
             return resultCustomer;
         }
+        /// <summary>
+        /// Add Customer to db
+        /// </summary>
+        /// <param name="workingCustomer">Customer object to add</param>
+        /// <returns>Boolean of success</returns>
+        public bool AddCustomer(Customer workingCustomer)
+        {
+            return AddData(workingCustomer);
+        }
     }
 }
