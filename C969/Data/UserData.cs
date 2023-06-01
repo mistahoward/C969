@@ -10,11 +10,18 @@ namespace C969.Data
 {
     public class UserData : Database
     {
+        /// <summary>
+        /// Gets a user from the DB by id
+        /// </summary>
+        /// <param name="id">ID of the user - userId in db</param>
+        /// <returns>User if success, exception if fail</returns>
+        /// <exception cref="Exception"></exception>
         public User GetUserById(int id)
         {
+            // Create an empty User and null result user
             User emptyUser = new User();
             User resultUser = null;
-
+            // Call retrieve data, read the response and transpose it to the result user
             using (var sqlResponse = RetrieveData(emptyUser, "id", id))
             {
                 if (sqlResponse.Read())
@@ -33,6 +40,7 @@ namespace C969.Data
                 }
             }
 
+            // If result user exists, return it - otherwise, throw an exception
             if (resultUser == null)
             {
                 throw new Exception("No user found with the provided ID.");
