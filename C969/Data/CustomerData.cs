@@ -43,7 +43,7 @@ namespace C969.Data
             // If result customer exists, return it - otherwise, throw an exception
             if (resultCustomer == null)
             {
-                throw new Exception("No user found with the provided ID.");
+                throw new Exception("No customers found with the provided ID.");
             }
 
             return resultCustomer;
