@@ -69,11 +69,20 @@ namespace C969.Data
         /// Update customer in db
         /// </summary>
         /// <param name="workingCustomer">Customer object to update</param>
-        /// <returns></returns>
+        /// <returns>Boolean of success</returns>
         public bool UpdateCustomer(Customer workingCustomer)
         {
             // ! Customer ID should not be changed!
             return UpdateData<Customer>(workingCustomer, "customerId", workingCustomer.customerId);
+        }
+        /// <summary>
+        /// Delete customer in db
+        /// </summary>
+        /// <param name="id">customerId to delete</param>
+        /// <returns>Boolean of success</returns>
+        public bool DeleteCustomer(int id) 
+        {
+            return DeleteData<Customer>($"customerId = {id}");
         }
     }
 }
