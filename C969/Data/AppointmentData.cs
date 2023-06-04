@@ -30,7 +30,7 @@ namespace C969.Data
                 var createDate = row.Field<DateTime>("createDate");
                 var createdBy = row.Field<string>("createdBy");
                 var lastUpdate = row.Field<DateTime>("lastUpdate");
-                var lastUpdateBy = row.Field<string>("lastUpdatedBy");
+                var lastUpdateBy = row.Field<string>("lastUpdateBy");
 
                 var workingAppointment = new Appointment {
                     appointmentId = appointmentId,
