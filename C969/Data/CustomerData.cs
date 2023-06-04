@@ -95,7 +95,11 @@ namespace C969.Data
                 // If the customer has associated appointments, delete all of the appointments
                 if (customersAppointments.Count > 0)
                 {
-                    // delete appointments
+                    // Lambda used here for readibility and concicessness - also elimnates the need for a loop index
+                    customersAppointments.ForEach((appointment) =>
+                    {
+                        appointmentAccess.DeleteAppointmentById(appointment.appointmentId);
+                    });
                 }
 
                 // Delete the customer, assign the bool to deletionStatus for return

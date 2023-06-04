@@ -75,5 +75,9 @@ namespace C969.Data
 
             return appointmentList;
         }
+        public bool DeleteAppointmentById(int id)
+        {
+            return DeleteData<Appointment>($"appointmentId = {id}");
+        }
     }
 }
