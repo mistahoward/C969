@@ -1,4 +1,5 @@
-﻿using C969.Models;
+﻿using C969.Exceptions;
+using C969.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -57,7 +58,18 @@ namespace C969.Data
         {
             var emptyAppointment = new Appointment();
 
-            var customerAppointmentsDataTable = RetrieveData<Appointment>(emptyAppointment, "customerId", id);
+            var customerAccess = new CustomerData();
+
+            try
+            {
+                var claimedCustomer = customerAccess.GetCustomerById(id);
+            }
+            catch (Exception ex)
+            {
+                throw new DataNotFound("Customer not found", ex);
+            }
+
+            var customerAppointmentsDataTable = RetrieveData(emptyAppointment, "customerId", id);
 
             var appointmentList = ConvertAppointmentDataTableToList(customerAppointmentsDataTable);
 
