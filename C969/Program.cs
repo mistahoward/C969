@@ -15,6 +15,12 @@ namespace C969
         [STAThread]
         static void Main()
         {
+            var dataAccess = new CustomerData();
+
+            var deleteCustomer = dataAccess.DeleteCustomerById(1);
+
+            Console.WriteLine(deleteCustomer);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());

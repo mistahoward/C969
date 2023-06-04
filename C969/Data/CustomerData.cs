@@ -80,9 +80,10 @@ namespace C969.Data
         /// </summary>
         /// <param name="id">customerId to delete</param>
         /// <returns>Boolean of success</returns>
-        public bool DeleteCustomer(int id) 
-        {
-            return DeleteData<Customer>($"customerId = {id}");
-        }
+        //public bool DeleteCustomerById(int id) 
+        //{
+        //    var customerToDelete = GetCustomerById(id);
+        //    //return DeleteData<Customer>($"customerId = {id}");
+        //}
     }
 }
