@@ -11,6 +11,35 @@ namespace C969.Data
 {
     public class CustomerData : Database
     {
+        public List<Customer> ConvertCustomerDataTableToList(DataTable dt)
+        {
+            List<Customer> customerList = new List<Customer>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var customerId = row.Field<int>("customerId");
+                var customerName = row.Field<string>("customerName");
+                var addressId = row.Field<int>("addressId");
+                var active = Convert.ToBoolean(row["active"]);
+                var createDate = row.Field<DateTime>("createDate");
+                var createdBy = row.Field<string>("createdBy");
+                var lastUpdate = row.Field<DateTime>("lastUpdate");
+                var lastUpdateBy = row.Field<string>("lastUpdateBy");
+
+                var workingCustomer = new Customer
+                {
+                    customerId = customerId,
+                    customerName = customerName,
+                    addressId = addressId,
+                    active = active,
+                    createDate = createDate,
+                    createdBy = createdBy,
+                    lastUpdate = lastUpdate,
+                    lastUpdateBy = lastUpdateBy
+                };
+                customerList.Add(workingCustomer);
+            }
+            return customerList;
+        }
         /// <summary>
         /// Gets a customer from the DB by id
         /// </summary>
@@ -161,6 +190,19 @@ namespace C969.Data
             }
 
             return deletionStatus;
+        }
+
+        /// <summary>
+        /// Get a list of customers
+        /// </summary>
+        /// <returns>List of customers</returns>
+        public List<Customer> GetCustomers()
+        {
+            var customerDataTable = RetrieveData<Customer>();
+
+            var customerList = ConvertCustomerDataTableToList(customerDataTable);
+
+            return customerList;
         }
     }
 }

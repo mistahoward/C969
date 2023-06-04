@@ -93,6 +93,39 @@ namespace C969.Data
                 }
             }
         }
+        /// <summary>
+        /// Retrieves all data of a model type (overload method)
+        /// </summary>
+        /// <typeparam name="T">the type of the model</typeparam>
+        /// <returns>DataTable or false if fail</returns>
+        /// <exception cref="Exception"></exception>
+        protected DataTable RetrieveData<T>() where T : class
+        {
+            using (MySqlConnection connection = OpenConnection())
+            {
+                // Getting the table name from the type of model, lower casing it to match db ERD
+                string tableName = (typeof(T).Name).ToLower();
+
+                // Construct the SQL query
+                string query = $"SELECT * FROM {tableName}";
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                try
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+                        return dt;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception("An error occurred while executing the query", ex);
+                }
+            }
+        }
+
 
         /// <Summary>
         /// Adds data to model
