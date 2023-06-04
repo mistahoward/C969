@@ -100,6 +100,13 @@ namespace C969.Data
         /// <returns>Boolean of success</returns>
         public bool AddCustomer(Customer workingCustomer)
         {
+            var validCustomer = ValidateCustomer(workingCustomer);
+
+            if (!validCustomer)
+            {
+                throw new InvalidObject("Customer isn't valid");
+            }
+
             return AddData(workingCustomer);
         }
         /// <summary>
@@ -109,6 +116,13 @@ namespace C969.Data
         /// <returns>Boolean of success</returns>
         public bool UpdateCustomer(Customer workingCustomer)
         {
+            var validCustomer = ValidateCustomer(workingCustomer);
+
+            if (!validCustomer)
+            {
+                throw new InvalidObject("Customer isn't valid");
+            }
+
             return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);
         }
         /// <summary>

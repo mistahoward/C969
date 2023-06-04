@@ -96,6 +96,7 @@
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Exceptions\DataNotFound.cs" />
+    <Compile Include="Exceptions\InvalidObject.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Appointment.cs" />
     <Compile Include="Models\City.cs" />
