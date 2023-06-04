@@ -1,4 +1,5 @@
-﻿using C969.Models;
+﻿using C969.Exceptions;
+using C969.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -72,18 +73,40 @@ namespace C969.Data
         /// <returns>Boolean of success</returns>
         public bool UpdateCustomer(Customer workingCustomer)
         {
-            // ! Customer ID should not be changed!
-            return UpdateData<Customer>(workingCustomer, "customerId", workingCustomer.customerId);
+            return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);
         }
         /// <summary>
         /// Delete customer in db
         /// </summary>
         /// <param name="id">customerId to delete</param>
         /// <returns>Boolean of success</returns>
-        //public bool DeleteCustomerById(int id) 
-        //{
-        //    var customerToDelete = GetCustomerById(id);
-        //    //return DeleteData<Customer>($"customerId = {id}");
-        //}
+        public bool DeleteCustomerById(int id)
+        {
+            // Create appointment data object
+            var appointmentAccess = new AppointmentData();
+
+            bool deletionStatus = false;
+
+            try
+            {
+                // Get customers appointments - need to do a cascade delete because of the foreign keys
+                var customersAppointments = appointmentAccess.GetAppointmentsByCustomerId(id);
+
+                // If the customer has associated appointments, delete all of the appointments
+                if (customersAppointments.Count > 0)
+                {
+                    // delete appointments
+                }
+
+                // Delete the customer, assign the bool to deletionStatus for return
+                deletionStatus = DeleteData<Customer>($"customerId = {id}");
+            }
+            catch
+            {
+                return deletionStatus;
+            }
+
+            return deletionStatus;
+        }
     }
 }
