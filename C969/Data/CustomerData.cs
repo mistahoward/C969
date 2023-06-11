@@ -1,5 +1,6 @@
 ﻿using C969.Exceptions;
 using C969.Models;
+using C969.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -87,49 +88,13 @@ namespace C969.Data
             return resultCustomer;
         }
         /// <summary>
-        /// Validation method for Customer Objects
-        /// </summary>
-        /// <param name="customerToValidate">Customer Object</param>
-        /// <returns>Boolean</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public bool ValidateCustomer(Customer customerToValidate)
-        {
-            // Throw an exception if null is passed through in parameters
-            if (customerToValidate == null)
-            {
-                throw new ArgumentNullException("Customer to validate cannot be null");
-            }
-            // Grab the properties of the customer object
-            var customerProperties = typeof(Customer).GetProperties();
-
-            // Use a lambda function for effiency - .All will stop iterating over the properties as soon as it finds one that is false, short circuting
-            return customerProperties.All(property =>
-            {
-                var value = property.GetValue(customerToValidate);
-
-                if (value is int intValue)
-                {
-                    return intValue != 0;
-                }
-                if (value is string strValue)
-                {
-                    return !string.IsNullOrEmpty(strValue);
-                }
-                if (value is DateTime dateTimeValue)
-                {
-                    return dateTimeValue != default;
-                }
-                return true;
-            });
-        }
-        /// <summary>
         /// Add Customer to db
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>
         /// <returns>Boolean of success</returns>
         public bool AddCustomer(Customer workingCustomer)
         {
-            var validCustomer = ValidateCustomer(workingCustomer);
+            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {

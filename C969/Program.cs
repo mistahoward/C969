@@ -17,7 +17,7 @@ namespace C969
         {
             var dataAccess = new CustomerData();
 
-            var deleteCustomer = dataAccess.DeleteCustomerById(1);
+            var deleteCustomer = dataAccess.DeleteCustomerById(2);
 
             Console.WriteLine(deleteCustomer);
 
