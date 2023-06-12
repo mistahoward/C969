@@ -133,8 +133,7 @@ namespace C969.Data
         /// <param name="model">The instance of the model used to retrieve the data</param>
         /// <param name="conditionColumn">The name of the column to match the value against</param>
         /// <param name="conditionValue">The value to match the column with.</param>
-        /// <returns>A single DataRow that matches the specified condition</returns>
-        /// <exception cref="Exception"></exception>
+        /// <returns>A single DataRow that matches the specified condition - or null if not found</returns>
         protected DataRow RetrieveSingleRow<T>(T model, string conditionColumn, object conditionValue) where T : class
         {
             // Calls RetrieveData method
@@ -143,7 +142,7 @@ namespace C969.Data
             // Check if any rows were returned
             if (dt.Rows.Count == 0)
             {
-                throw new Exception("No data found");
+                return null;
             }
 
             // Return the first row

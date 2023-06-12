@@ -15,7 +15,7 @@ namespace C969.Data
         /// <summary>
         /// Gets a customer from the db by id
         /// </summary>
-        /// <param name="id">ID of the customer - customerId in db</param>
+        /// <param name="id">ID of the customer</param>
         /// <returns>Customer if success, exception if fail</returns>
         /// <exception cref="DataNotFound"></exception>
         public Customer GetCustomerById(int id)
@@ -24,14 +24,22 @@ namespace C969.Data
             Customer emptyCustomer = new Customer();
             // Call RetrieveSingleRow and transpose it to the result customer
             DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerId", id);
-            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow);
-
-            // If result customer exists, return it - otherwise, throw an exception
-            if (resultCustomer == null)
-            {
-                throw new DataNotFound("No customer found with the provided ID.");
-            }
-
+            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
+                ?? throw new DataNotFound("No customer found with the provided ID");
+            return resultCustomer;
+        }
+        /// <summary>
+        /// Gets a customer from the db by name
+        /// </summary>
+        /// <param name="customerName">Name of the customer</param>
+        /// <returns>Customer if success, exception if fail</returns>
+        /// <exception cref="DataNotFound"></exception>
+        public Customer GetCustomerByName(string customerName)
+        {
+            Customer emptyCustomer = new Customer();
+            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerName", customerName);
+            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
+                ?? throw new DataNotFound("No customer found with provided name");
             return resultCustomer;
         }
         /// <summary>
