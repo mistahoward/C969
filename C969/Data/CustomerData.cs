@@ -27,27 +27,8 @@ namespace C969.Data
             DataTable dt = RetrieveData(emptyCustomer, "customerId", id);
             if (dt.Rows.Count > 0)
             {
-                DataRow row = dt.Rows[0];
-                var customerId = row.Field<int>("customerId");
-                var customerName = row.Field<string>("customerName");
-                var addressId = row.Field<int>("addressId");
-                var active = Convert.ToBoolean(row["active"]);
-                var createDate = row.Field<DateTime>("createDate");
-                var createdBy = row.Field<string>("createdBy");
-                var lastUpdate = row.Field<DateTime>("lastUpdate");
-                var lastUpdateBy = row.Field<string>("lastUpdateBy");
-
-                resultCustomer = new Customer
-                {
-                    customerId = customerId,
-                    customerName = customerName,
-                    addressId = addressId,
-                    active = active,
-                    createDate = createDate,
-                    createdBy = createdBy,
-                    lastUpdate = lastUpdate,
-                    lastUpdateBy = lastUpdateBy
-                };
+                DataRow row = dt.Rows[0]; 
+                resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(row);
             }
 
             // If result customer exists, return it - otherwise, throw an exception
@@ -92,41 +73,23 @@ namespace C969.Data
             return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);
         }
         /// <summary>
-        /// Delete customer in db
+        /// Marks customer as inactive in db
         /// </summary>
-        /// <param name="id">customerId to delete</param>
+        /// <param name="id">customerId to mark as inactive</param>
         /// <returns>Boolean of success</returns>
+        /// <exception cref="Exception"></exception>
         public bool DeleteCustomerById(int id)
         {
-            // Create appointment data object
-            var appointmentAccess = new AppointmentData();
-
-            bool deletionStatus = false;
-
             try
             {
-                // Get customers appointments - need to do a cascade delete because of the foreign keys
-                var customersAppointments = appointmentAccess.GetAppointmentsByCustomerId(id);
-
-                // If the customer has associated appointments, delete all of the appointments
-                if (customersAppointments.Count > 0)
-                {
-                    // Lambda used here for readibility and concicessness - also elimnates the need for a loop index
-                    customersAppointments.ForEach((appointment) =>
-                    {
-                        appointmentAccess.DeleteAppointmentById(appointment.appointmentId);
-                    });
-                }
-
-                // Delete the customer, assign the bool to deletionStatus for return
-                deletionStatus = DeleteData<Customer>($"customerId = {id}");
+                Customer claimedCustomer = GetCustomerById(id);
+                claimedCustomer.active = false;
+                return UpdateData(claimedCustomer, "customerId", claimedCustomer.customerId);
             }
-            catch
+            catch (Exception ex)
             {
-                return deletionStatus;
+                throw new Exception("Something went wrong trying to delete the customer", ex);
             }
-
-            return deletionStatus;
         }
 
         /// <summary>

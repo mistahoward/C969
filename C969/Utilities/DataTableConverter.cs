@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace C969.Utilities
 {
     /// <summary>
-    /// Utility class for converting DataTables to lists of objects
+    /// Utility class for converting DataTables to working items
     /// </summary>
     public class DataTableConverter
     {
@@ -43,6 +43,31 @@ namespace C969.Utilities
             }
 
             return modelList;
+        }
+
+        /// <summary>
+        /// Converts a given DataRow to an object of type T
+        /// </summary>
+        /// <typeparam name="T">Type of object</typeparam>
+        /// <param name="row">DataRow to convert</param>
+        /// <returns>Object of type T converted from the DataRow</returns>
+        public static T ConvertDataRowToModel<T>(DataRow row) where T : class, new()
+        {
+            T model = new T();
+
+            foreach (DataColumn column in row.Table.Columns)
+            {
+                PropertyInfo property = model.GetType().GetProperty(column.ColumnName);
+
+                if (property != null && row[column] != DBNull.Value)
+                {
+                    Type convertTo = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+                    property.SetValue(model, Convert.ChangeType(row[column], convertTo));
+                }
+            }
+
+            return model;
         }
     }
 }
