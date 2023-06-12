@@ -42,11 +42,11 @@ namespace C969.Data
             return customerList;
         }
         /// <summary>
-        /// Gets a customer from the DB by id
+        /// Gets a customer from the db by id
         /// </summary>
         /// <param name="id">ID of the customer - customerId in db</param>
         /// <returns>Customer if success, exception if fail</returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="DataNotFound"></exception>
         public Customer GetCustomerById(int id)
         {
             // Create an empty Customer and null result Customer
@@ -82,7 +82,7 @@ namespace C969.Data
             // If result customer exists, return it - otherwise, throw an exception
             if (resultCustomer == null)
             {
-                throw new Exception("No customer found with the provided ID.");
+                throw new DataNotFound("No customer found with the provided ID.");
             }
 
             return resultCustomer;
@@ -92,6 +92,7 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>
         /// <returns>Boolean of success</returns>
+        /// <exception cref="InvalidObject"></exception>
         public bool AddCustomer(Customer workingCustomer)
         {
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
@@ -110,7 +111,7 @@ namespace C969.Data
         /// <returns>Boolean of success</returns>
         public bool UpdateCustomer(Customer workingCustomer)
         {
-            var validCustomer = ValidateCustomer(workingCustomer);
+            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {
