@@ -8,8 +8,17 @@ using System.Threading.Tasks;
 
 namespace C969.Utilities
 {
+    /// <summary>
+    /// Utility class for converting DataTables to lists of objects
+    /// </summary>
     public class DataTableConverter
     {
+        /// <summary>
+        /// Converts a given DataTable to a list of objects of type T
+        /// </summary>
+        /// <typeparam name="T">Type of object</typeparam>
+        /// <param name="dt">DataTable to convert</param>
+        /// <returns>List of objects of type T converted from the DataTable</returns>
         public static List<T> ConvertDataTableToList<T>(DataTable dt) where T : class, new()
         {
             List<T> modelList = new List<T>();
