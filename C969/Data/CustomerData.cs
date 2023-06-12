@@ -43,6 +43,24 @@ namespace C969.Data
             return resultCustomer;
         }
         /// <summary>
+        /// Checks if a customer exists in the database based on name and id
+        /// </summary>
+        /// <param name="workingCustomer">The customer instance to check</param>
+        /// <returns>true if the customer exists, false otherwise</returns>
+        public bool DoesCustomerExist(Customer workingCustomer)
+        {
+            try
+            {
+                Customer customerByNameSearch = GetCustomerByName(workingCustomer.customerName);
+                Customer customerByIdSearch = GetCustomerById(workingCustomer.customerId);
+                return true;
+            }
+            catch (DataNotFound)
+            {
+                return false;
+            }
+        }
+        /// <summary>
         /// Add Customer to db
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>
