@@ -20,16 +20,11 @@ namespace C969.Data
         /// <exception cref="DataNotFound"></exception>
         public Customer GetCustomerById(int id)
         {
-            // Create an empty Customer and null result Customer
+            // Create an empty Customer
             Customer emptyCustomer = new Customer();
-            Customer resultCustomer = null;
-            // Call retrieve data, read the response and transpose it to the result customer
-            DataTable dt = RetrieveData(emptyCustomer, "customerId", id);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow row = dt.Rows[0]; 
-                resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(row);
-            }
+            // Call RetrieveSingleRow and transpose it to the result customer
+            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerId", id);
+            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow);
 
             // If result customer exists, return it - otherwise, throw an exception
             if (resultCustomer == null)

@@ -44,7 +44,7 @@ namespace C969.Data
             try
             {
                 var attempedAddress = RetrieveData(emptyAddress, "address", address);
-
+                return DataTableConverter.ConvertDataRowToModel<Address>(attempedAddress);
             } catch (Exception ex)
             {
                 throw new Exception("No data found", ex);
