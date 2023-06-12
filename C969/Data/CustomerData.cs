@@ -20,9 +20,11 @@ namespace C969.Data
         /// <exception cref="DataNotFound"></exception>
         public Customer GetCustomerById(int id)
         {
-            // Create an empty Customer
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
             Customer emptyCustomer = new Customer();
-            // Call RetrieveSingleRow and transpose it to the result customer
             DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerId", id);
             Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
                 ?? throw new DataNotFound("No customer found with the provided ID");
@@ -36,6 +38,11 @@ namespace C969.Data
         /// <exception cref="DataNotFound"></exception>
         public Customer GetCustomerByName(string customerName)
         {
+            if (string.IsNullOrWhiteSpace(customerName))
+            {
+                throw new ArgumentException($"'{nameof(customerName)}' cannot be null or whitespace", nameof(customerName));
+            }
+
             Customer emptyCustomer = new Customer();
             DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerName", customerName);
             Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
@@ -108,6 +115,10 @@ namespace C969.Data
         /// <exception cref="Exception"></exception>
         public bool DeleteCustomerById(int id)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
             try
             {
                 Customer claimedCustomer = GetCustomerById(id);
@@ -121,16 +132,19 @@ namespace C969.Data
         }
 
         /// <summary>
-        /// Get a list of customers
+        /// Get a list of active customers
         /// </summary>
-        /// <returns>List of customers</returns>
+        /// <returns>List of active customers</returns>
         public List<Customer> GetCustomers()
         {
             var customerDataTable = RetrieveData<Customer>();
 
             var customerList = DataTableConverter.ConvertDataTableToList<Customer>(customerDataTable);
 
-            return customerList;
+            // lambda for readability and concisesness
+            var activeCustomers = customerList.Where(c => c.active).ToList();
+
+            return activeCustomers;
         }
     }
 }
