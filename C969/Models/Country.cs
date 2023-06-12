@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace C969.Models
 {
-    class Country
+    public class Country
     {
         [Required]
         public int countryId { get; set; }

@@ -12,35 +12,6 @@ namespace C969.Data
 {
     public class CustomerData : Database
     {
-        public List<Customer> ConvertCustomerDataTableToList(DataTable dt)
-        {
-            List<Customer> customerList = new List<Customer>();
-            foreach (DataRow row in dt.Rows)
-            {
-                var customerId = row.Field<int>("customerId");
-                var customerName = row.Field<string>("customerName");
-                var addressId = row.Field<int>("addressId");
-                var active = Convert.ToBoolean(row["active"]);
-                var createDate = row.Field<DateTime>("createDate");
-                var createdBy = row.Field<string>("createdBy");
-                var lastUpdate = row.Field<DateTime>("lastUpdate");
-                var lastUpdateBy = row.Field<string>("lastUpdateBy");
-
-                var workingCustomer = new Customer
-                {
-                    customerId = customerId,
-                    customerName = customerName,
-                    addressId = addressId,
-                    active = active,
-                    createDate = createDate,
-                    createdBy = createdBy,
-                    lastUpdate = lastUpdate,
-                    lastUpdateBy = lastUpdateBy
-                };
-                customerList.Add(workingCustomer);
-            }
-            return customerList;
-        }
         /// <summary>
         /// Gets a customer from the db by id
         /// </summary>
@@ -93,7 +64,7 @@ namespace C969.Data
         /// <param name="workingCustomer">Customer object to add</param>
         /// <returns>Boolean of success</returns>
         /// <exception cref="InvalidObject"></exception>
-        public bool AddCustomer(Customer workingCustomer)
+        public bool AddCustomer(Customer workingCustomer, Address workingAddress)
         {
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
@@ -166,7 +137,7 @@ namespace C969.Data
         {
             var customerDataTable = RetrieveData<Customer>();
 
-            var customerList = ConvertCustomerDataTableToList(customerDataTable);
+            var customerList = DataTableConverter.ConvertDataTableToList<Customer>(customerDataTable);
 
             return customerList;
         }

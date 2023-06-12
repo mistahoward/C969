@@ -91,10 +91,14 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Data\AddressData.cs" />
     <Compile Include="Data\AppointmentData.cs" />
+    <Compile Include="Data\CityData.cs" />
+    <Compile Include="Data\CountryData.cs" />
     <Compile Include="Data\CustomerData.cs" />
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\UserData.cs" />
+    <Compile Include="Utilities\DataTableConverter.cs" />
     <Compile Include="Utilities\Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Utilities\Exceptions\DataNotFound.cs" />
     <Compile Include="Utilities\Exceptions\InvalidObject.cs" />

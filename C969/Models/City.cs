@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace C969.Models
 {
-    class City
+    public class City
     {
         [Required]
         public int cityId { get; set; }

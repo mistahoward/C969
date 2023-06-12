@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace C969.Models
 {
-    class Address
+    public class Address
     {
         [Required]
         public int addressId { get; set; }

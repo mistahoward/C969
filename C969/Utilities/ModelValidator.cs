@@ -11,6 +11,7 @@ namespace C969.Utilities
     {
         public static bool ValidateModel<T>(T model) where T : class
         {
+            if (model == null) return false;
             var context = new ValidationContext(model, serviceProvider: null, items: null);
             var results = new List<ValidationResult>();
 
