@@ -101,6 +101,7 @@
     <Compile Include="Utilities\DataTableConverter.cs" />
     <Compile Include="Utilities\Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Utilities\Exceptions\DataNotFound.cs" />
+    <Compile Include="Utilities\Exceptions\DuplicateData.cs" />
     <Compile Include="Utilities\Exceptions\InvalidObject.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Appointment.cs" />

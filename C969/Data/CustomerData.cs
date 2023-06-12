@@ -68,6 +68,13 @@ namespace C969.Data
         /// <exception cref="InvalidObject"></exception>
         public bool AddCustomer(Customer workingCustomer, Address workingAddress)
         {
+            var existingCustomer = DoesCustomerExist(workingCustomer);
+
+            if (existingCustomer)
+            {
+                throw new DuplicateData("Customer already exists!");
+            }
+
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
