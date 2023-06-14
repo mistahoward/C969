@@ -156,10 +156,10 @@ namespace C969.Data
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);
         }
         /// <summary>
-        /// Deletes an address from the database by id.
+        /// Deletes an address from the database by id
         /// </summary>
         /// <param name="id">id of the address to delete</param>
-        /// <returns>True if the address was successfully deleted, False otherwise.</returns>
+        /// <returns>True if the address was successfully deleted, False otherwise</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
         /// <exception cref="ChangeNotPermitted">Thrown when address is still attached to customers (foreign key constraint)</exception>
         /// <exception cref="DataNotFound">Thrown when address object cannot be found by provided id</exception>
