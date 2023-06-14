@@ -114,13 +114,13 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool AddAddress(Address workingAddress)
         {
-            var validAddress = ModelValidator.ValidateModel(workingAddress);
+            bool validAddress = ModelValidator.ValidateModel(workingAddress);
             if (!validAddress)
             {
                 throw new InvalidObject("Address isn't valid");
             }
 
-            var existingAddress = DoesAddressExist(workingAddress);
+            bool existingAddress = DoesAddressExist(workingAddress);
 
             if (existingAddress)
             {
@@ -138,12 +138,12 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool UpdateAddress(Address workingAddress)
         {
-            var validAddress = ModelValidator.ValidateModel(workingAddress);
+            bool validAddress = ModelValidator.ValidateModel(workingAddress);
             if (!validAddress)
             {
                 throw new InvalidObject("Address isn't valid");
             }
-            var existingAddress = DoesAddressExist(workingAddress);
+            bool existingAddress = DoesAddressExist(workingAddress);
             if (existingAddress)
             {
                 throw new DuplicateData("Address already exists");
@@ -166,14 +166,14 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
 
-            var addressBeingUsed = AddressAttachedToCustomers(id);
+            bool addressBeingUsed = AddressAttachedToCustomers(id);
             if (addressBeingUsed)
             {
                 throw new ChangeNotPermitted("Address attached to customers");
             }
 
             Address claimedAddress = GetAddressById(id);
-            var existingAddress = DoesAddressExist(claimedAddress);
+            bool existingAddress = DoesAddressExist(claimedAddress);
 
             if (!existingAddress)
             {

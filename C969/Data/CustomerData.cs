@@ -93,14 +93,14 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool AddCustomer(Customer workingCustomer)
         {
-            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
+            bool validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {
                 throw new InvalidObject("Customer isn't valid");
             }
 
-            var existingCustomer = DoesCustomerExist(workingCustomer);
+            bool existingCustomer = DoesCustomerExist(workingCustomer);
 
             if (existingCustomer)
             {
@@ -118,14 +118,14 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool UpdateCustomer(Customer workingCustomer)
         {
-            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
+            bool validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {
                 throw new InvalidObject("Customer isn't valid");
             }
 
-            var existingCustomer = DoesCustomerExist(workingCustomer);
+            bool existingCustomer = DoesCustomerExist(workingCustomer);
 
             if (existingCustomer)
             {
@@ -150,7 +150,7 @@ namespace C969.Data
             }
 
             Customer claimedCustomer = GetCustomerById(id);
-            var existingCustomer = DoesCustomerExist(claimedCustomer);
+            bool existingCustomer = DoesCustomerExist(claimedCustomer);
 
             if (!existingCustomer)
             {
