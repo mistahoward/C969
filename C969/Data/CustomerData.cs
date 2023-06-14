@@ -17,7 +17,8 @@ namespace C969.Data
         /// </summary>
         /// <param name="id">ID of the customer</param>
         /// <returns>Customer if success, exception if fail</returns>
-        /// <exception cref="DataNotFound"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when customer object is not found with provided id</exception>
         public Customer GetCustomerById(int id)
         {
             if (id < 0)
@@ -36,7 +37,7 @@ namespace C969.Data
         /// <param name="customerName">Name of the customer</param>
         /// <returns>Customer if success, exception if fail</returns>
         /// <exception cref="ArgumentException">Thrown when customer name is null or whitespace</exception>
-        /// <exception cref="DataNotFound">Thrown when customer object is not found</exception>
+        /// <exception cref="DataNotFound">Thrown when customer object is not found by provided name</exception>
         public Customer GetCustomerByName(string customerName)
         {
             if (string.IsNullOrWhiteSpace(customerName))
