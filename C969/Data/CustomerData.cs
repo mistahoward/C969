@@ -69,6 +69,21 @@ namespace C969.Data
             }
         }
         /// <summary>
+        /// Retrieves a list of customers associated with an address ID
+        /// </summary>
+        /// <param name="id">ID of the address</param>
+        /// <returns>A list of customers associated with the address ID.</returns>
+        public List<Customer> GetCustomersByAddressId(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            var emptyCustomer = new Customer();
+            var customersDataTable = RetrieveData(emptyCustomer, "addressId", id);
+            return DataTableConverter.ConvertDataTableToList<Customer>(customersDataTable);
+        }
+        /// <summary>
         /// Add Customer to db
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>

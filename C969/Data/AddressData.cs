@@ -50,6 +50,44 @@ namespace C969.Data
             return resultAddress;
         }
         /// <summary>
+        /// Determines whether an address is attached to any customers.
+        /// </summary>
+        /// <param name="id">ID of the address</param>
+        /// <returns>True if the address is attached to at least one customer, otherwise false</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when address object is not found with provided id</exception>
+        /// <exception cref="Exception"></exception>
+        public bool AddressAttachedToCustomers(int id)
+        {
+            bool addressBeingUsed = false;
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            try
+            {
+                var claimedAddress = GetAddressById(id);
+                var customerDataAccess = new CustomerData();
+                var customerAddressLookUp = customerDataAccess.GetCustomersByAddressId(id);
+                if (customerAddressLookUp.Count <= 0)
+                {
+                    addressBeingUsed = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is DataNotFound)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    throw new Exception("Something went wrong checking if the address is attached to any customers");
+                }
+            }
+            return addressBeingUsed;
+        }
+        /// <summary>
         /// Checks if an address exists in the database based on name and id
         /// </summary>
         /// <param name="workingAddress">The address instance to check</param>
@@ -117,8 +155,49 @@ namespace C969.Data
 
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);
         }
+        /// <summary>
+        /// Deletes an address from the database by id.
+        /// </summary>
+        /// <param name="id">id of the address to delete</param>
+        /// <returns>True if the address was successfully deleted, False otherwise.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="ChangeNotPermitted">Thrown when address is still attached to customers (foreign key constraint)</exception>
+        /// <exception cref="DataNotFound">Thrown when address object cannot be found by provided id</exception>
+        /// <exception cref="Exception"></exception>
         public bool DeleteAddressById(int id)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+
+            var addressBeingUsed = AddressAttachedToCustomers(id);
+            if (addressBeingUsed)
+            {
+                throw new ChangeNotPermitted("Address attached to customers");
+            }
+
+            try
+            {
+                Address claimedAddress = GetAddressById(id);
+                var existingAddress = DoesAddressExist(claimedAddress);
+                if (!existingAddress)
+                {
+                    throw new DataNotFound("Address does not exist");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (ex is DataNotFound)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    throw new Exception("Something went wrong trying to delete the address", ex);
+                }
+            }
             return DeleteData<Address>($"addressId = {id}");
         }
     }
