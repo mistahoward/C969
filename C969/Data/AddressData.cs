@@ -163,7 +163,6 @@ namespace C969.Data
         /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
         /// <exception cref="ChangeNotPermitted">Thrown when address is still attached to customers (foreign key constraint)</exception>
         /// <exception cref="DataNotFound">Thrown when address object cannot be found by provided id</exception>
-        /// <exception cref="Exception"></exception>
         public bool DeleteAddressById(int id)
         {
             if (id < 0)
@@ -177,27 +176,14 @@ namespace C969.Data
                 throw new ChangeNotPermitted("Address attached to customers");
             }
 
-            try
-            {
-                Address claimedAddress = GetAddressById(id);
-                var existingAddress = DoesAddressExist(claimedAddress);
-                if (!existingAddress)
-                {
-                    throw new DataNotFound("Address does not exist");
-                }
+            Address claimedAddress = GetAddressById(id);
+            var existingAddress = DoesAddressExist(claimedAddress);
 
-            }
-            catch (Exception ex)
+            if (!existingAddress)
             {
-                if (ex is DataNotFound)
-                {
-                    throw ex;
-                }
-                else
-                {
-                    throw new Exception("Something went wrong trying to delete the address", ex);
-                }
+                throw new DataNotFound("Address does not exist");
             }
+
             return DeleteData<Address>($"addressId = {id}");
         }
     }
