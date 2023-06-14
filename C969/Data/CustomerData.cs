@@ -73,7 +73,7 @@ namespace C969.Data
         /// Retrieves a list of customers associated with an address ID
         /// </summary>
         /// <param name="id">ID of the address</param>
-        /// <returns>A list of customers associated with the address ID.</returns>
+        /// <returns>A list of customers associated with the address ID</returns>
         public List<Customer> GetCustomersByAddressId(int id)
         {
             if (id < 0)
@@ -93,18 +93,18 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool AddCustomer(Customer workingCustomer)
         {
-            var existingCustomer = DoesCustomerExist(workingCustomer);
-
-            if (existingCustomer)
-            {
-                throw new DuplicateData("Customer already exists");
-            }
-
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {
                 throw new InvalidObject("Customer isn't valid");
+            }
+
+            var existingCustomer = DoesCustomerExist(workingCustomer);
+
+            if (existingCustomer)
+            {
+                throw new DuplicateData("Customer already exists");
             }
 
             return AddData(workingCustomer);
@@ -118,18 +118,18 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool UpdateCustomer(Customer workingCustomer)
         {
-            var existingCustomer = DoesCustomerExist(workingCustomer);
-
-            if (existingCustomer)
-            {
-                throw new DuplicateData("Customer already exists");
-            }
-
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
             {
                 throw new InvalidObject("Customer isn't valid");
+            }
+
+            var existingCustomer = DoesCustomerExist(workingCustomer);
+
+            if (existingCustomer)
+            {
+                throw new DuplicateData("Customer already exists");
             }
 
             return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);

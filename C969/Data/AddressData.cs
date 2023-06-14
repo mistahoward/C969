@@ -114,18 +114,17 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool AddAddress(Address workingAddress)
         {
+            var validAddress = ModelValidator.ValidateModel(workingAddress);
+            if (!validAddress)
+            {
+                throw new InvalidObject("Address isn't valid");
+            }
+
             var existingAddress = DoesAddressExist(workingAddress);
 
             if (existingAddress)
             {
                 throw new DuplicateData("Address already exists");
-            }
-
-            var validAddress = ModelValidator.ValidateModel(workingAddress);
-
-            if (!validAddress)
-            {
-                throw new InvalidObject("Address isn't valid");
             }
 
             return AddData(workingAddress);
@@ -139,18 +138,15 @@ namespace C969.Data
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool UpdateAddress(Address workingAddress)
         {
-            var existingAddress = DoesAddressExist(workingAddress);
-
-            if (existingAddress)
-            {
-                throw new DuplicateData("Address already exists");
-            }
-
             var validAddress = ModelValidator.ValidateModel(workingAddress);
-
             if (!validAddress)
             {
                 throw new InvalidObject("Address isn't valid");
+            }
+            var existingAddress = DoesAddressExist(workingAddress);
+            if (existingAddress)
+            {
+                throw new DuplicateData("Address already exists");
             }
 
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);
