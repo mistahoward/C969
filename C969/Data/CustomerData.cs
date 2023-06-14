@@ -98,6 +98,13 @@ namespace C969.Data
         /// <returns>Boolean of success</returns>
         public bool UpdateCustomer(Customer workingCustomer)
         {
+            var existingCustomer = DoesCustomerExist(workingCustomer);
+
+            if (existingCustomer)
+            {
+                throw new DuplicateData("Customer already exists!");
+            }
+
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
 
             if (!validCustomer)
@@ -119,15 +126,28 @@ namespace C969.Data
             {
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
+
             try
             {
                 Customer claimedCustomer = GetCustomerById(id);
+                var existingCustomer = DoesCustomerExist(claimedCustomer);
+
+                if (existingCustomer)
+                {
+                    throw new DuplicateData("Customer already exists!");
+                }
                 claimedCustomer.active = false;
                 return UpdateData(claimedCustomer, "customerId", claimedCustomer.customerId);
             }
             catch (Exception ex)
             {
-                throw new Exception("Something went wrong trying to delete the customer", ex);
+                if (ex is DuplicateData)
+                {
+                    throw ex;
+                } else
+                {
+                    throw new Exception("Something went wrong trying to delete the customer", ex);
+                }
             }
         }
 
