@@ -17,7 +17,8 @@ namespace C969.Data
         /// </summary>
         /// <param name="id">ID of the address</param>
         /// <returns>Address if success, exception if fail</returns>
-        /// <exception cref="DataNotFound"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when address object is not found</exception>
         public Address GetAddressById(int id)
         {
             if (id < 0)
@@ -34,8 +35,8 @@ namespace C969.Data
         /// Gets an address from the db by name
         /// </summary>
         /// <param name="addressName">Name of the Address (Address.address)</param>
-        /// <returns>Address if success, exception if fail</returns>
-        /// <exception cref="DataNotFound"></exception>
+        /// <exception cref="ArgumentException">Thrown when address name is null or whitespace</exception>
+        /// <exception cref="DataNotFound">Thrown when address object is not found</exception>
         public Address GetAddressByName(string addressName)
         {
             if (string.IsNullOrWhiteSpace(addressName))
@@ -66,8 +67,22 @@ namespace C969.Data
                 return false;
             }
         }
+        /// <summary>
+        /// Add address to db
+        /// </summary>
+        /// <param name="workingAddress">Address object to add</param>
+        /// <returns>Boolean of success</returns>
+        /// <exception cref="DuplicateData">Thrown when the address already exists</exception>
+        /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool AddAddress(Address workingAddress)
         {
+            var existingAddress = DoesAddressExist(workingAddress);
+
+            if (existingAddress)
+            {
+                throw new DuplicateData("Address already exists");
+            }
+
             var validAddress = ModelValidator.ValidateModel(workingAddress);
 
             if (!validAddress)
@@ -77,8 +92,22 @@ namespace C969.Data
 
             return AddData(workingAddress);
         }
+        /// <summary>
+        /// Update address in db
+        /// </summary>
+        /// <param name="workingAddress">Address object to update</param>
+        /// <returns>Boolean of success</returns>
+        /// <exception cref="DuplicateData">Thrown when the address already exists</exception>
+        /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool UpdateAddress(Address workingAddress)
         {
+            var existingAddress = DoesAddressExist(workingAddress);
+
+            if (existingAddress)
+            {
+                throw new DuplicateData("Address already exists");
+            }
+
             var validAddress = ModelValidator.ValidateModel(workingAddress);
 
             if (!validAddress)

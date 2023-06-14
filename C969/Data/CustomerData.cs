@@ -35,7 +35,8 @@ namespace C969.Data
         /// </summary>
         /// <param name="customerName">Name of the customer</param>
         /// <returns>Customer if success, exception if fail</returns>
-        /// <exception cref="DataNotFound"></exception>
+        /// <exception cref="ArgumentException">Thrown when customer name is null or whitespace</exception>
+        /// <exception cref="DataNotFound">Thrown when customer object is not found</exception>
         public Customer GetCustomerByName(string customerName)
         {
             if (string.IsNullOrWhiteSpace(customerName))
@@ -72,14 +73,15 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>
         /// <returns>Boolean of success</returns>
-        /// <exception cref="InvalidObject"></exception>
-        public bool AddCustomer(Customer workingCustomer, Address workingAddress)
+        /// <exception cref="DuplicateData">Thrown when the customer already exists</exception>
+        /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
+        public bool AddCustomer(Customer workingCustomer)
         {
             var existingCustomer = DoesCustomerExist(workingCustomer);
 
             if (existingCustomer)
             {
-                throw new DuplicateData("Customer already exists!");
+                throw new DuplicateData("Customer already exists");
             }
 
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
@@ -96,13 +98,15 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCustomer">Customer object to update</param>
         /// <returns>Boolean of success</returns>
+        /// <exception cref="DuplicateData">Thrown when the customer already exists</exception>
+        /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool UpdateCustomer(Customer workingCustomer)
         {
             var existingCustomer = DoesCustomerExist(workingCustomer);
 
             if (existingCustomer)
             {
-                throw new DuplicateData("Customer already exists!");
+                throw new DuplicateData("Customer already exists");
             }
 
             var validCustomer = ModelValidator.ValidateModel(workingCustomer);
@@ -134,7 +138,7 @@ namespace C969.Data
 
                 if (existingCustomer)
                 {
-                    throw new DuplicateData("Customer already exists!");
+                    throw new DuplicateData("Customer already exists");
                 }
                 claimedCustomer.active = false;
                 return UpdateData(claimedCustomer, "customerId", claimedCustomer.customerId);
