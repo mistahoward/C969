@@ -67,6 +67,13 @@ namespace C969.Data
                 return false;
             }
         }
+        /// <summary>
+        /// Add country to db
+        /// </summary>
+        /// <param name="workingAddress">Country object to add</param>
+        /// <returns>Boolean of success</returns>
+        /// <exception cref="DuplicateData">Thrown when the country already exists</exception>
+        /// <exception cref="InvalidObject">Thrown when the country object is not valid</exception>
         public bool AddCountry(Country workingCountry)
         {
             var validCountry = ModelValidator.ValidateModel(workingCountry);
@@ -74,6 +81,13 @@ namespace C969.Data
             if (!validCountry)
             {
                 throw new InvalidObject("Country isn't valid");
+            }
+
+            bool existingCountry = DoesCountryExist(workingCountry);
+
+            if (existingCountry)
+            {
+                throw new DuplicateData("Country already exists");
             }
 
             return AddData(workingCountry);
