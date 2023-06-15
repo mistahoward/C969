@@ -49,6 +49,24 @@ namespace C969.Data
                 ?? throw new DataNotFound("No country found with provided name");
             return resultCountry;
         }
+        /// <summary>
+        /// Checks if a country exists in the database based on name and id
+        /// </summary>
+        /// <param name="workingCountry">The country instance to check</param>
+        /// <returns>true if the country exists, false otherwise</returns>
+        public bool DoesCountryExist(Country workingCountry)
+        {
+            try
+            {
+                Country countryByNameSearch = GetCountryByName(workingCountry.country);
+                Country countryByIdSearch = GetCountryById(workingCountry.countryId);
+                return true;
+            } 
+            catch (DataNotFound)
+            {
+                return false;
+            }
+        }
         public bool AddCountry(Country workingCountry)
         {
             var validCountry = ModelValidator.ValidateModel(workingCountry);
