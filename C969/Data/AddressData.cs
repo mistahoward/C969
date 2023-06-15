@@ -69,7 +69,7 @@ namespace C969.Data
                 var claimedAddress = GetAddressById(id);
                 var customerDataAccess = new CustomerData();
                 var customerAddressLookUp = customerDataAccess.GetCustomersByAddressId(id);
-                if (customerAddressLookUp.Count <= 0)
+                if (customerAddressLookUp.Count < 0)
                 {
                     addressBeingUsed = true;
                 }
