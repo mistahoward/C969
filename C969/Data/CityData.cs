@@ -1,6 +1,7 @@
 ﻿using C969.Exceptions;
 using C969.Models;
 using C969.Utilities;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,6 +51,44 @@ namespace C969.Data
             City resultCity = DataTableConverter.ConvertDataRowToModel<City>(cityRow)
                 ?? throw new DataNotFound("No city found with provided name");
             return resultCity;
+        }
+        /// <summary>
+        /// Determines whether a city is attached to any addresses.
+        /// </summary>
+        /// <param name="id">ID of the city</param>
+        /// <returns>True if the city is attached to at least one address, otherwise false</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when city object is not found with provided id</exception>
+        /// <exception cref="Exception"></exception>
+        public bool CityAttachedToAddresses(int id)
+        {
+            bool cityBeingUsed = false;
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            try
+            {
+                var claimedCity = GetCityById(id);
+                var addressDataAccess = new AddressData();
+                var addressCityLookUp = addressDataAccess.GetAddressByCityId(id);
+                if (addressCityLookUp.Count < 0)
+                {
+                    cityBeingUsed = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex is DataNotFound)
+                {
+                    throw ex;
+                }
+                else
+                {
+                    throw new Exception("Something went wrong checking if the city is attached to any addresses");
+                }
+            }
+            return cityBeingUsed;
         }
         /// <summary>
         /// Checks if a city exists in the database based on name and id
@@ -119,9 +158,34 @@ namespace C969.Data
 
             return UpdateData(workingCity, "cityId", workingCity.cityId);
         }
-        // TODO: add checks for foreign keys like in AddressData
+        /// <summary>
+        /// Deletes a city from the database by id
+        /// </summary>
+        /// <param name="id">id of the city to delete</param>
+        /// <returns>True if the city was successfully deleted, False otherwise</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="ChangeNotPermitted">Thrown when city is still attached to addresses (foreign key constraint)</exception>
+        /// <exception cref="DataNotFound">Thrown when city object cannot be found by provided id</exception>
         public bool DeleteCityById(int id)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+
+            bool cityBeingUsed = CityAttachedToAddresses(id);
+            if (cityBeingUsed)
+            {
+                throw new ChangeNotPermitted("City attached to addresses");
+            }
+
+            City claimedCity = GetCityById(id);
+            bool existingCity = DoesCityExist(claimedCity);
+
+            if (!existingCity)
+            {
+                throw new DataNotFound("City does not exist");
+            }
             return DeleteData<City>($"cityId = {id}");
         }
     }

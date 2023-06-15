@@ -88,6 +88,21 @@ namespace C969.Data
             return addressBeingUsed;
         }
         /// <summary>
+        /// Retrieves a list of addresses associated with a city id
+        /// </summary>
+        /// <param name="id">ID of the city</param>
+        /// <returns>A list of addresses associated with the city ID</returns>
+        public List<Address> GetAddressByCityId(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            var emptyAddress = new Address();
+            var addressDataTable = RetrieveData(emptyAddress, "cityId", id);
+            return DataTableConverter.ConvertDataTableToList<Address>(addressDataTable);
+        }
+        /// <summary>
         /// Checks if an address exists in the database based on name and id
         /// </summary>
         /// <param name="workingAddress">The address instance to check</param>
