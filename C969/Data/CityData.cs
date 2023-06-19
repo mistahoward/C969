@@ -134,6 +134,22 @@ namespace C969.Data
             return AddData(workingCity);
         }
         /// <summary>
+        /// Retrieves a list of cities associated with a country id
+        /// </summary>
+        /// <param name="id">ID of the country</param>
+        /// <returns>A list of cities associated with the country ID</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        public List<City> GetCityByCountryId(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            var emptyCity = new City();
+            var cityDataTable = RetrieveData(emptyCity, "countryId", id);
+            return DataTableConverter.ConvertDataTableToList<City>(cityDataTable);
+        }
+        /// <summary>
         /// Update customer in db
         /// </summary>
         /// <param name="workingCity">City object to update</param>

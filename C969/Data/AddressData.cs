@@ -92,6 +92,7 @@ namespace C969.Data
         /// </summary>
         /// <param name="id">ID of the city</param>
         /// <returns>A list of addresses associated with the city ID</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
         public List<Address> GetAddressByCityId(int id)
         {
             if (id < 0)
