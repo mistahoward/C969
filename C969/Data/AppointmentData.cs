@@ -13,12 +13,12 @@ namespace C969.Data
     public class AppointmentData : Database
     {
         /// <summary>
-        /// Gets an appointment from the db by id
+        /// Gets a list of appointments from the db by customer id
         /// </summary>
-        /// <param name="id">ID of the appointment - appointmentId in db</param>
-        /// <returns>List of papointments if success, exception if fail</returns>
+        /// <param name="id">Customer id to look up</param>
+        /// <returns>List of appointments if success, exception if fail</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
-        /// <exception cref="DataNotFound">Thrown when customer object is not found with provided id</exception>
+        /// 
         public List<Appointment> GetAppointmentsByCustomerId(int id)
         {
             if (id < 0)
@@ -27,20 +27,29 @@ namespace C969.Data
             }
             var emptyAppointment = new Appointment();
 
-            var customerAccess = new CustomerData();
-
-            try
-            {
-                var claimedCustomer = customerAccess.GetCustomerById(id);
-            }
-            catch (Exception ex)
-            {
-                throw new DataNotFound("Customer not found", ex);
-            }
-
             var customerAppointmentsDataTable = RetrieveData(emptyAppointment, "customerId", id);
 
             var appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(customerAppointmentsDataTable);
+
+            return appointmentList;
+        }
+        /// <summary>
+        /// Gets a list of appointments from teh db by user id 
+        /// </summary>
+        /// <param name="id">User id to look up</param>
+        /// <returns>List of appointments if success, exception if fail</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        public List<Appointment> GetAppointmentsByUserId(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            var emptyAppointment = new Appointment();
+
+            var userAppointmentsDataTable = RetrieveData(emptyAppointment, "userId", "id");
+
+            var appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(userAppointmentsDataTable);
 
             return appointmentList;
         }
