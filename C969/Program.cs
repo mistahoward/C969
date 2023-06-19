@@ -1,5 +1,4 @@
-﻿using C969.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,12 +14,6 @@ namespace C969
         [STAThread]
         static void Main()
         {
-            var dataAccess = new CustomerData();
-
-            var deleteCustomer = dataAccess.DeleteCustomerById(2);
-
-            Console.WriteLine(deleteCustomer);
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new LoginForm());
