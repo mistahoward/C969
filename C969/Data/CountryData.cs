@@ -178,7 +178,7 @@ namespace C969.Data
             Country claimedCountry = GetCountryById(id);
             bool existingCountry = DoesCountryExist(claimedCountry);
 
-            if (existingCountry)
+            if (!existingCountry)
             {
                 throw new DataNotFound("Country does not exist");
             }

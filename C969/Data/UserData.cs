@@ -51,5 +51,23 @@ namespace C969.Data
                 ?? throw new DataNotFound("No user found with provided name");
             return resultUser;
         }
+        /// <summary>
+        /// Marks a user as inactive in db
+        /// </summary>
+        /// <param name="id">userId to makr as inactive</param>
+        /// <returns>Boolean of success</returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public bool DeleteUserById(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+
+            User claimedUser = GetUserById(id);
+            claimedUser.active = false;
+
+            return UpdateData(claimedUser, "userId", claimedUser.userId);
+        }
     }
 }

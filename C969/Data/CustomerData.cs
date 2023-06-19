@@ -140,8 +140,6 @@ namespace C969.Data
         /// <param name="id">customerId to mark as inactive</param>
         /// <returns>Boolean of success</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
-        /// <exception cref="DataNotFound">Thrown when customer object cannot be found by provided id</exception>
-        /// <exception cref="Exception"></exception>
         public bool DeleteCustomerById(int id)
         {
             if (id < 0)
@@ -150,13 +148,8 @@ namespace C969.Data
             }
 
             Customer claimedCustomer = GetCustomerById(id);
-            bool existingCustomer = DoesCustomerExist(claimedCustomer);
-
-            if (!existingCustomer)
-            {
-                throw new DataNotFound("Customer does not exist");
-            }
             claimedCustomer.active = false;
+
             return UpdateData(claimedCustomer, "customerId", claimedCustomer.customerId);
         }
 

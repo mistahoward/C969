@@ -189,12 +189,6 @@ namespace C969.Data
             }
 
             Address claimedAddress = GetAddressById(id);
-            bool existingAddress = DoesAddressExist(claimedAddress);
-
-            if (!existingAddress)
-            {
-                throw new DataNotFound("Address does not exist");
-            }
 
             return DeleteData<Address>($"addressId = {id}");
         }
