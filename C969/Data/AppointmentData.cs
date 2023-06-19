@@ -17,9 +17,14 @@ namespace C969.Data
         /// </summary>
         /// <param name="id">ID of the appointment - appointmentId in db</param>
         /// <returns>List of papointments if success, exception if fail</returns>
-        /// <exception cref="DataNotFound"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when customer object is not found with provided id</exception>
         public List<Appointment> GetAppointmentsByCustomerId(int id)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
             var emptyAppointment = new Appointment();
 
             var customerAccess = new CustomerData();

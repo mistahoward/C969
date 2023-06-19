@@ -1,4 +1,6 @@
-﻿using C969.Models;
+﻿using C969.Exceptions;
+using C969.Models;
+using C969.Utilities;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,49 +14,22 @@ namespace C969.Data
     public class UserData : Database
     {
         /// <summary>
-        /// Gets a user from the DB by id
+        /// Gets a user from the db by id
         /// </summary>
-        /// <param name="id">ID of the user - userId in db</param>
+        /// <param name="id">ID of the user</param>
         /// <returns>User if success, exception if fail</returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when user object is not found</exception>
         public User GetUserById(int id)
         {
-            // Create an empty User and null result user
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
             User emptyUser = new User();
-            User resultUser = null;
-            // Call retrieve data, read the response and transpose it to the result user
-            DataTable dt = RetrieveData(emptyUser, "userId", id);
-            if (dt.Rows.Count > 0)
-            {
-                DataRow row = dt.Rows[0];
-                var userId = row.Field<int>("userId");
-                var userName = row.Field<string>("userName");
-                var password = row.Field<string>("password");
-                var active = Convert.ToBoolean(row["active"]);
-                var createDate = row.Field<DateTime>("createDate");
-                var createdBy = row.Field<string>("createdBy");
-                var lastUpdate = row.Field<DateTime>("lastUpdate");
-                var lastUpdateBy = row.Field<string>("lastUpdateBy");
-
-                resultUser = new User
-                {
-                    userId = userId,
-                    userName = userName,
-                    password = password,
-                    active = active,
-                    createDate = createDate,
-                    createdBy = createdBy,
-                    lastUpdate = lastUpdate,
-                    lastUpdateBy = lastUpdateBy
-                };
-            }
-
-            // If result user exists, return it - otherwise, throw an exception
-            if (resultUser == null)
-            {
-                throw new Exception("No user found with the provided ID.");
-            }
-
+            DataRow userRow = RetrieveSingleRow(emptyUser, "userId", id);
+            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow)
+                ?? throw new DataNotFound("No user found with the provided ID");
             return resultUser;
         }
     }
