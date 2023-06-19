@@ -27,9 +27,8 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
             User emptyUser = new User();
-            DataRow userRow = RetrieveSingleRow(emptyUser, "userId", id);
-            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow)
-                ?? throw new DataNotFound("No user found with the provided ID");
+            DataRow userRow = RetrieveSingleRow(emptyUser, "userId", id) ?? throw new DataNotFound("No user found with the provided ID");
+            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow);
             return resultUser;
         }
         /// <summary>
@@ -46,9 +45,8 @@ namespace C969.Data
                 throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace", nameof(name));
             }
             User emptyUser = new User();
-            DataRow userRow = RetrieveSingleRow(emptyUser, "userName", name);
-            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow)
-                ?? throw new DataNotFound("No user found with provided name");
+            DataRow userRow = RetrieveSingleRow(emptyUser, "userName", name) ?? throw new DataNotFound("No user found with provided name");
+            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow);
             return resultUser;
         }
         /// <summary>

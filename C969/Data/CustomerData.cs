@@ -26,9 +26,8 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
             Customer emptyCustomer = new Customer();
-            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerId", id);
-            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
-                ?? throw new DataNotFound("No customer found with the provided ID");
+            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerId", id) ?? throw new DataNotFound("No customer found with the provided ID");
+            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow);
             return resultCustomer;
         }
         /// <summary>
@@ -46,9 +45,8 @@ namespace C969.Data
             }
 
             Customer emptyCustomer = new Customer();
-            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerName", customerName);
-            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow)
-                ?? throw new DataNotFound("No customer found with provided name");
+            DataRow customerRow = RetrieveSingleRow(emptyCustomer, "customerName", customerName) ?? throw new DataNotFound("No customer found with provided name");
+            Customer resultCustomer = DataTableConverter.ConvertDataRowToModel<Customer>(customerRow);
             return resultCustomer;
         }
         /// <summary>

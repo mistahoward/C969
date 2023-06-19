@@ -26,9 +26,8 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
             Address emptyAddress = new Address();
-            DataRow addressRow = RetrieveSingleRow(emptyAddress, "addressId", id);
-            Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow)
-                ?? throw new DataNotFound("No address found with the provided ID");
+            DataRow addressRow = RetrieveSingleRow(emptyAddress, "addressId", id) ?? throw new DataNotFound("No address found with the provided ID");
+            Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow);
             return resultAddress;
         }
         /// <summary>
@@ -45,9 +44,8 @@ namespace C969.Data
                 throw new ArgumentException($"'{nameof(addressName)}' cannot be null or whitespace", nameof(addressName));
             }
             Address emptyAddress = new Address();
-            DataRow addressRow = RetrieveSingleRow(emptyAddress, "address", addressName);
-            Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow)
-                ?? throw new DataNotFound("No address found with provided Name");
+            DataRow addressRow = RetrieveSingleRow(emptyAddress, "address", addressName) ?? throw new DataNotFound("No address found with provided name");
+            Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow);
             return resultAddress;
         }
         /// <summary>

@@ -27,9 +27,8 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
             City emptyCity = new City();
-            DataRow cityRow = RetrieveSingleRow(emptyCity, "cityId", id);
-            City resultCity = DataTableConverter.ConvertDataRowToModel<City>(cityRow) 
-                ?? throw new DataNotFound("No city found with provided ID");
+            DataRow cityRow = RetrieveSingleRow(emptyCity, "cityId", id) ?? throw new DataNotFound("No city found with provided ID");
+            City resultCity = DataTableConverter.ConvertDataRowToModel<City>(cityRow);
             return resultCity;
         }
         /// <summary>
@@ -47,9 +46,8 @@ namespace C969.Data
             }
 
             City emptyCity = new City();
-            DataRow cityRow = RetrieveSingleRow(emptyCity, "city", cityName);
-            City resultCity = DataTableConverter.ConvertDataRowToModel<City>(cityRow)
-                ?? throw new DataNotFound("No city found with provided name");
+            DataRow cityRow = RetrieveSingleRow(emptyCity, "city", cityName) ?? throw new DataNotFound("No city found with provided name");
+            City resultCity = DataTableConverter.ConvertDataRowToModel<City>(cityRow);
             return resultCity;
         }
         /// <summary>

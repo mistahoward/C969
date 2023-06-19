@@ -26,9 +26,8 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
             }
             Country emptyCountry = new Country();
-            DataRow countryRow = RetrieveSingleRow(emptyCountry, "countryId", id);
-            Country resultCountry = DataTableConverter.ConvertDataRowToModel<Country>(countryRow)
-                ?? throw new DataNotFound("No  country found with the provided ID");
+            DataRow countryRow = RetrieveSingleRow(emptyCountry, "countryId", id) ?? throw new DataNotFound("No  country found with the provided ID");
+            Country resultCountry = DataTableConverter.ConvertDataRowToModel<Country>(countryRow);
             return resultCountry;
         }
         /// <summary>
@@ -44,9 +43,8 @@ namespace C969.Data
                 throw new ArgumentException($"'{nameof(countryName)}' cannot be null or whitespace", nameof(countryName));
             }
             Country emptyCountry = new Country();
-            DataRow countryRow = RetrieveSingleRow(emptyCountry, "country", countryName);
-            Country resultCountry = DataTableConverter.ConvertDataRowToModel<Country>(countryRow)
-                ?? throw new DataNotFound("No country found with provided name");
+            DataRow countryRow = RetrieveSingleRow(emptyCountry, "country", countryName) ?? throw new DataNotFound("No country found with provided name");
+            Country resultCountry = DataTableConverter.ConvertDataRowToModel<Country>(countryRow);
             return resultCountry;
         }
         /// <summary>
