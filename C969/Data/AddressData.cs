@@ -35,6 +35,7 @@ namespace C969.Data
         /// Gets an address from the db by name
         /// </summary>
         /// <param name="addressName">Name of the Address (Address.address)</param>
+        /// <returns>Address if success, exception if fail</returns>
         /// <exception cref="ArgumentException">Thrown when address name is null or whitespace</exception>
         /// <exception cref="DataNotFound">Thrown when address object is not found</exception>
         public Address GetAddressByName(string addressName)

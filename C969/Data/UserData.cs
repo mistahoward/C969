@@ -32,6 +32,24 @@ namespace C969.Data
                 ?? throw new DataNotFound("No user found with the provided ID");
             return resultUser;
         }
+        /// <summary>
+        /// Gets a user from the db by name
+        /// </summary>
+        /// <param name="name">Name of the user</param>
+        /// <returns>User if success, exception if fail</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="DataNotFound"></exception>
+        public User GetUserByName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException($"'{nameof(name)}' cannot be null or whitespace", nameof(name));
+            }
+            User emptyUser = new User();
+            DataRow userRow = RetrieveSingleRow(emptyUser, "userName", name);
+            User resultUser = DataTableConverter.ConvertDataRowToModel<User>(userRow)
+                ?? throw new DataNotFound("No user found with provided name");
+            return resultUser;
+        }
     }
-
 }
