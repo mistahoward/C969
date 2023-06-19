@@ -13,55 +13,6 @@ namespace C969.Data
     public class AppointmentData : Database
     {
         /// <summary>
-        /// Converts a DataTable to a List of Appointments
-        /// </summary>
-        /// <param name="dt">The DataTable to convert</param>
-        /// <returns>List of Appointment(s)</returns>
-        public List<Appointment> ConvertAppointmentDataTableToList(DataTable dt)
-        {
-            List<Appointment> appointmentList = new List<Appointment>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                var appointmentId = row.Field<int>("appointmentId");
-                var customerId = row.Field<int>("customerId");
-                var title = row.Field<string>("title");
-                var description = row.Field<string>("description");
-                var location = row.Field<string>("location");
-                var contact = row.Field<string>("contact");
-                var type = row.Field<string>("type");
-                var url = row.Field<string>("url");
-                var start = row.Field<DateTime>("start");
-                var end = row.Field<DateTime>("end");
-                var createDate = row.Field<DateTime>("createDate");
-                var createdBy = row.Field<string>("createdBy");
-                var lastUpdate = row.Field<DateTime>("lastUpdate");
-                var lastUpdateBy = row.Field<string>("lastUpdateBy");
-
-                var workingAppointment = new Appointment
-                {
-                    appointmentId = appointmentId,
-                    customerId = customerId,
-                    title = title,
-                    description = description,
-                    location = location,
-                    contact = contact,
-                    type = type,
-                    url = url,
-                    start = start,
-                    end = end,
-                    createDate = createDate,
-                    createdBy = createdBy,
-                    lastUpdate = lastUpdate,
-                    lastUpdateBy = lastUpdateBy,
-                };
-
-                appointmentList.Add(workingAppointment);
-            }
-
-            return appointmentList;
-        }
-        /// <summary>
         /// Gets an appointment from the db by id
         /// </summary>
         /// <param name="id">ID of the appointment - appointmentId in db</param>
@@ -84,7 +35,7 @@ namespace C969.Data
 
             var customerAppointmentsDataTable = RetrieveData(emptyAppointment, "customerId", id);
 
-            var appointmentList = ConvertAppointmentDataTableToList(customerAppointmentsDataTable);
+            var appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(customerAppointmentsDataTable);
 
             return appointmentList;
         }
