@@ -50,13 +50,12 @@ namespace C969.Data
             return resultAddress;
         }
         /// <summary>
-        /// Determines whether an address is attached to any customers.
+        /// Determines whether an address is attached to any customers
         /// </summary>
         /// <param name="id">ID of the address</param>
         /// <returns>True if the address is attached to at least one customer, otherwise false</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
         /// <exception cref="DataNotFound">Thrown when address object is not found with provided id</exception>
-        /// <exception cref="Exception"></exception>
         public bool AddressAttachedToCustomers(int id)
         {
             bool addressBeingUsed = false;
