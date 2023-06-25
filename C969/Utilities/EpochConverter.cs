@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace C969.Utilities
 {
-    public class DateTimeConverter
+    public class EpochConverter
     {
         /// <summary>
         /// Returns the epoch time

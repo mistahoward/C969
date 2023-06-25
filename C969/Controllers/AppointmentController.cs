@@ -18,7 +18,7 @@ namespace C969.Controllers
         {
             var appointmentData = new AppointmentData();
             var currentMonth = requestedDate.Month;
-            var epochWeekNumber = DateTimeConverter.GetEpochWeekNumber(requestedDate);
+            var epochWeekNumber = EpochConverter.GetEpochWeekNumber(requestedDate);
 
             _weekAppointments = appointmentData.GetAppointmentsByWeek(epochWeekNumber);
             _monthAppointments = appointmentData.GetAppointmentsByMonth(currentMonth);
