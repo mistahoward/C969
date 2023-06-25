@@ -11,17 +11,18 @@ namespace C969.Controllers
 {
     public class AppointmentController
     {
+        private readonly AppointmentData _appointmentData;
         private readonly List<Appointment> _weekAppointments;
         private readonly List<Appointment> _monthAppointments;
 
         public AppointmentController(DateTime requestedDate)
         {
-            var appointmentData = new AppointmentData();
+            _appointmentData = new AppointmentData();
             var currentMonth = requestedDate.Month;
             var epochWeekNumber = EpochConverter.GetEpochWeekNumber(requestedDate);
 
-            _weekAppointments = appointmentData.GetAppointmentsByWeek(epochWeekNumber);
-            _monthAppointments = appointmentData.GetAppointmentsByMonth(currentMonth);
+            _weekAppointments = _appointmentData.GetAppointmentsByWeek(epochWeekNumber);
+            _monthAppointments = _appointmentData.GetAppointmentsByMonth(currentMonth);
         }
         public List<Appointment> MonthAppointments { get { return _monthAppointments; } }
         public List<Appointment> WeekAppointments { get { return _weekAppointments; } }
