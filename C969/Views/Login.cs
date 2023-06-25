@@ -1,4 +1,6 @@
-﻿using System;
+﻿using C969.Controllers;
+using C969.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,28 +14,31 @@ namespace C969
 {
     public partial class LoginForm : Form
     {
-        Dictionary<string, Dictionary<string, string>> translations = new Dictionary<string, Dictionary<string, string>>
-    {
-        { "en-US", new Dictionary<string, string> {
-            {"login", "Login"},
-            {"username", "Username"},
-            {"password", "Password"},
-            {"username_error", "Username cannot be empty."},
-            {"password_error", "Password cannot be empty." },
-            {"error", "The username and password did not match."}
-        }},
-        { "fr-FR", new Dictionary<string, string> {
-            {"login", "S'identifier"},
-            {"username", "Nom d'utilisateur"},
-            {"password", "Mot de passe"},
-            {"username_error", "Le nom d'utilisateur ne peut pas être vide." },
-            {"password_error", "Le mot de passe ne peut pas être vide." },
-            {"error", "Le nom d'utilisateur et le mot de passe ne correspondent pas."}
-        }}
-    };
+        private readonly UserController _userController;
+        readonly Dictionary<string, Dictionary<string, string>> translations = new Dictionary<string, Dictionary<string, string>>
+        {
+            { "en-US", new Dictionary<string, string> {
+                {"login", "Login"},
+                {"username", "Username"},
+                {"password", "Password"},
+                {"username_error", "Username cannot be empty."},
+                {"password_error", "Password cannot be empty." },
+                {"error", "The username and password did not match."}
+            }},
+            { "fr-FR", new Dictionary<string, string> {
+                {"login", "S'identifier"},
+                {"username", "Nom d'utilisateur"},
+                {"password", "Mot de passe"},
+                {"username_error", "Le nom d'utilisateur ne peut pas être vide." },
+                {"password_error", "Le mot de passe ne peut pas être vide." },
+                {"error", "Le nom d'utilisateur et le mot de passe ne correspondent pas."}
+            }}
+        };
         public LoginForm()
         {
             InitializeComponent();
+
+            _userController = new UserController();
         }
         // Helper function for getting language (locale code)
         private string GetLanguage()
@@ -74,6 +79,17 @@ namespace C969
             if (string.IsNullOrWhiteSpace(PasswordTextBox.Text)) {
                 errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["password_error"]);
             }
+            var userName = UsernameTextBox.Text;
+            var password = PasswordTextBox.Text;
+            bool loginResult = _userController.Login(userName, password);
+            if (!loginResult)
+            {
+                errorProvider.SetError(this, translations[selectedLanguage]["error"]);
+            }
+            var calendarForm = new Calendar(DateTime.Now, ViewType.Week);
+            this.Hide();
+            calendarForm.Show();
+            this.Close();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
