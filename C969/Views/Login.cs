@@ -86,7 +86,7 @@ namespace C969
             bool loginResult = _userController.Login(userName, password);
             if (!loginResult)
             {
-                errorProvider.SetError(this, translations[selectedLanguage]["error"]);
+                errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["error"]);
                 return;
             }
             var calendarForm = new Calendar(DateTime.Now, ViewType.Week);

@@ -24,13 +24,27 @@ namespace C969.Utilities
         /// <returns>The week number of the specified date in the epoch time</returns>
         public static int GetEpochWeekNumber(DateTime requestedDate)
         {
-            var epoch = GetEpoch();
-            var ticksSinceEpoch = requestedDate.Ticks - epoch.Ticks;
-            var secondsSinceEpoch = ticksSinceEpoch / TimeSpan.TicksPerSecond;
-            var daysSinceEpoch = secondsSinceEpoch / 86400;
+            var startOfYear = new DateTime(requestedDate.Year, 1, 1);
 
-            var currentWeekNumber = daysSinceEpoch / 7;
-            return (int)currentWeekNumber;
+            // Adjust startOfYear to the start of first week (Monday)
+            int diff = startOfYear.DayOfWeek - DayOfWeek.Monday;
+            if (diff < 0) diff += 7;
+            startOfYear = startOfYear.AddDays(7 - diff);
+
+            if (requestedDate < startOfYear)
+            {
+                // If requested date is before the start of the first week, consider it as belonging to the last week of the previous year
+                startOfYear = startOfYear.AddDays(-7);
+            }
+
+            var ticksSinceStartOfYear = requestedDate.Ticks - startOfYear.Ticks;
+            var secondsSinceStartOfYear = ticksSinceStartOfYear / TimeSpan.TicksPerSecond;
+            var daysSinceStartOfYear = secondsSinceStartOfYear / 86400;
+
+            var currentWeekNumber = (int)(daysSinceStartOfYear / 7) + 1;
+
+            return currentWeekNumber;
         }
+
     }
 }
