@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace C969.Controllers
 {
-    public class ApointmentController
+    public class AppointmentController
     {
         private readonly List<Appointment> _weekAppointments;
         private readonly List<Appointment> _monthAppointments;
 
-        public ApointmentController(DateTime requestedDate)
+        public AppointmentController(DateTime requestedDate)
         {
             var appointmentData = new AppointmentData();
             var currentMonth = requestedDate.Month;

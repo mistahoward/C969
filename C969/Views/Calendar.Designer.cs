@@ -29,12 +29,33 @@ namespace C969
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.AppointmentDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // AppointmentDataGridView
+            // 
+            this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.AppointmentDataGridView.Location = new System.Drawing.Point(12, 88);
+            this.AppointmentDataGridView.Name = "AppointmentDataGridView";
+            this.AppointmentDataGridView.Size = new System.Drawing.Size(747, 384);
+            this.AppointmentDataGridView.TabIndex = 0;
+            // 
+            // Calendar
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(865, 484);
+            this.Controls.Add(this.AppointmentDataGridView);
+            this.Name = "Calendar";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView AppointmentDataGridView;
     }
 }
