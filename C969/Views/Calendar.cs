@@ -33,6 +33,7 @@ namespace C969
                 default:
                     throw new ArgumentException("Invalid view type specified");
             }
+            AppointmentDataGridView.DataSource = Appointments;
         }
     }
 }
