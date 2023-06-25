@@ -45,6 +45,21 @@ namespace C969.Utilities
 
             return currentWeekNumber;
         }
-
+        /// <summary>
+        /// Returns the start date of the specified week number in the current year
+        /// </summary>
+        /// <param name="weekNumber">The week number for which to calculate the start date</param>
+        /// <returns>The start date of the specified week number</returns>
+        public static DateTime GetStartOfWeek(int weekNumber)
+        {
+            var currentYear = DateTime.Now.Year;
+            var startOfYear = new DateTime(currentYear, 1, 1);
+            while (startOfYear.DayOfWeek != DayOfWeek.Monday)
+            {
+                startOfYear = startOfYear.AddDays(1);
+            }
+            var startOfWeek = startOfYear.AddDays((weekNumber - 1) * 7);
+            return startOfWeek;
+        }
     }
 }

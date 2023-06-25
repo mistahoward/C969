@@ -160,9 +160,7 @@ namespace C969.Data
             {
                 throw new ArgumentOutOfRangeException("WeekNumber cannot be greater than 52");
             }
-
-            var epoch = EpochConverter.GetEpoch();
-            var startOfWeek = epoch.AddSeconds((weekNumber - 1) * 604800).ToLocalTime().Date;
+            var startOfWeek = EpochConverter.GetStartOfWeek(weekNumber);
             var endOfWeek = startOfWeek.AddDays(7);
 
             // Initialize a new list of Appointment objects
@@ -183,9 +181,11 @@ namespace C969.Data
                 .GroupBy(appt => appt.appointmentId)
                 .Select(group => group.First());
 
-            // Add the consolidated list to the appointmentList object
-            appointmentList.AddRange(appointmentsByStartDate);
-            appointmentList.AddRange(appointmentsByEndDate);
+            // Add the consolidated list to the appointmentList object to prevent duplicates
+            var consolidatedAppointments = appointmentsByStartDate
+                .GroupBy(appt => appt.appointmentId)
+                .Select(group => group.First());
+            appointmentList.AddRange(consolidatedAppointments);
 
             // Return the consolidated list
             return appointmentList;
