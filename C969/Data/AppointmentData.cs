@@ -124,24 +124,73 @@ namespace C969.Data
             // Create a default Appointment object
             var emptyAppointment = new Appointment();
 
-            // Retrieve appointments that start within the month, and consolidate the list.
+            // Retrieve appointments that start within the month, and consolidate the list
             var appointmentsByStartDate = DataTableConverter
                 .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", queryDate))
                 .GroupBy(appt => appt.appointmentId)
                 .Select(group => group.First());
 
-            // Retrieve appointments that end within the month.
+            // Retrieve appointments that end within the month
             var appointmentsByEndDate = DataTableConverter
                 .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", queryDate))
                 .GroupBy(appt => appt.appointmentId)
                 .Select(group => group.First());
 
-            // Add the consolidated list to the appointmentList object.
+            // Add the consolidated list to the appointmentList object
             appointmentList.AddRange(appointmentsByStartDate);
             appointmentList.AddRange(appointmentsByEndDate);
 
             // Return the consolidated list.
             return appointmentList;
         }
+        /// <summary>
+        /// Gets the list of appointments that occur in the provided week number
+        /// </summary>
+        /// <param name="weekNumber">The week number for which to retrieve appointments</param>
+        /// <returns>List of appointments if success, exception if fail</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when weekNumber is less than 1 or greater than 52</exception>
+        public List<Appointment> GetAppointmentsByWeek(int weekNumber)
+        {
+            // Check for a valid week number
+            if (weekNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException("WeekNumber cannot be less than or equal to 0");
+            }
+            if (weekNumber > 52)
+            {
+                throw new ArgumentOutOfRangeException("WeekNumber cannot be greater than 52");
+            }
+
+            // Determine the start and end dates of the week
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var startOfWeek = epoch.AddSeconds((weekNumber - 1) * 604800).ToLocalTime().Date;
+
+            // Initialize a new list of Appointment objects
+            var appointmentList = new List<Appointment>();
+
+            // Create a default Appointment object
+            var emptyAppointment = new Appointment();
+
+            // Retrieve appointments that start within the week, and consolidate the list
+            var appointmentsByStartDate = DataTableConverter
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", startOfWeek))
+                .GroupBy(appt => appt.appointmentId)
+                .Select(group => group.First());
+
+            // Retrieve appointments that end within the week
+            var appointmentsByEndDate = DataTableConverter
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", startOfWeek))
+                .GroupBy(appt => appt.appointmentId)
+                .Select(group => group.First());
+
+            // Add the consolidated list to the appointmentList object
+            appointmentList.AddRange(appointmentsByStartDate);
+            appointmentList.AddRange(appointmentsByEndDate);
+
+            // Return the consolidated list
+            return appointmentList;
+        }
+
+
     }
 }
