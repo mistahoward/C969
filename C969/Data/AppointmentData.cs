@@ -161,8 +161,7 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("WeekNumber cannot be greater than 52");
             }
 
-            // Determine the start and end dates of the week
-            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var epoch = DateTimeConverter.GetEpoch();
             var startOfWeek = epoch.AddSeconds((weekNumber - 1) * 604800).ToLocalTime().Date;
 
             // Initialize a new list of Appointment objects

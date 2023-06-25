@@ -99,6 +99,7 @@
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Utilities\DataTableConverter.cs" />
+    <Compile Include="Utilities\DateTimeConverter.cs" />
     <Compile Include="Utilities\Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Utilities\Exceptions\DataNotFound.cs" />
     <Compile Include="Utilities\Exceptions\DuplicateData.cs" />
