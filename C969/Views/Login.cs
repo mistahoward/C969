@@ -91,7 +91,7 @@ namespace C969
             }
             var calendarForm = new Calendar(DateTime.Now, ViewType.Week);
             this.Hide();
-            calendarForm.Show();
+            calendarForm.ShowDialog();
             this.Close();
         }
 
