@@ -94,6 +94,54 @@ namespace C969.Data
             }
         }
         /// <summary>
+        /// Retrieves data from the database for a specified model using a condition column and a start value
+        /// and end value range.
+        /// </summary>
+        /// <typeparam name="T">The data model type</typeparam>
+        /// <param name="model">The model instance used for retrieving dat.</param>
+        /// <param name="conditionColumn">The column name used as a condition for retrieving data</param>
+        /// <param name="startValue">The start value of the range to retrieve data</param>
+        /// <param name="endValue">The end value of the range to retrieve data</param>
+        /// <returns>A DataTable instance containing the retrieved data</returns>
+        protected DataTable RetrieveData<T>(T model, string conditionColumn, object startValue, object endValue) where T : class
+        {
+            using (MySqlConnection connection = OpenConnection())
+            {
+                string tableName = (typeof(T).Name).ToLower();
+                PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                List<string> columnNames = new List<string>();
+
+                foreach (PropertyInfo prop in properties)
+                {
+                    string propName = prop.Name;
+                    columnNames.Add(propName);
+                }
+
+                string columns = string.Join(", ", columnNames);
+                string query = $"SELECT {columns} FROM {tableName} WHERE {conditionColumn} BETWEEN @startValue AND @endValue";
+                MySqlCommand command = new MySqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@startValue", startValue);
+                command.Parameters.AddWithValue("@endValue", endValue);
+
+                try
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        DataTable dt = new DataTable();
+                        dt.Load(reader);
+                        return dt;
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception("An error occurred while executing the query", ex);
+                }
+            }
+        }
+
+        /// <summary>
         /// Retrieves all data of a model type (overload method)
         /// </summary>
         /// <typeparam name="T">the type of the model</typeparam>

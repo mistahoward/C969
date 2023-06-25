@@ -163,6 +163,7 @@ namespace C969.Data
 
             var epoch = EpochConverter.GetEpoch();
             var startOfWeek = epoch.AddSeconds((weekNumber - 1) * 604800).ToLocalTime().Date;
+            var endOfWeek = startOfWeek.AddDays(7);
 
             // Initialize a new list of Appointment objects
             var appointmentList = new List<Appointment>();
@@ -172,13 +173,13 @@ namespace C969.Data
 
             // Retrieve appointments that start within the week, and consolidate the list
             var appointmentsByStartDate = DataTableConverter
-                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", startOfWeek))
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", startOfWeek, endOfWeek))
                 .GroupBy(appt => appt.appointmentId)
                 .Select(group => group.First());
 
             // Retrieve appointments that end within the week
             var appointmentsByEndDate = DataTableConverter
-                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", startOfWeek))
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", startOfWeek, endOfWeek))
                 .GroupBy(appt => appt.appointmentId)
                 .Select(group => group.First());
 
@@ -189,7 +190,5 @@ namespace C969.Data
             // Return the consolidated list
             return appointmentList;
         }
-
-
     }
 }
