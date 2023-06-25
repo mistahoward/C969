@@ -75,9 +75,11 @@ namespace C969
             if(string.IsNullOrWhiteSpace(UsernameTextBox.Text))
             {
                 errorProvider.SetError(UsernameTextBox, translations[selectedLanguage]["username_error"]);
+                return;
             }
             if (string.IsNullOrWhiteSpace(PasswordTextBox.Text)) {
                 errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["password_error"]);
+                return;
             }
             var userName = UsernameTextBox.Text;
             var password = PasswordTextBox.Text;
@@ -85,6 +87,7 @@ namespace C969
             if (!loginResult)
             {
                 errorProvider.SetError(this, translations[selectedLanguage]["error"]);
+                return;
             }
             var calendarForm = new Calendar(DateTime.Now, ViewType.Week);
             this.Hide();
