@@ -96,5 +96,52 @@ namespace C969.Data
 
             return UpdateData(workingAppointment, "appointmentId", workingAppointment.appointmentId);
         }
+
+        ///<summary>
+        ///Gets the list of appointments that occur in the provided month
+        ///</summary>
+        ///<param name="month">The month (1-12) for which to retrieve appointments</param>
+        ///<returns>Returns a list of Appointment objects</returns>
+        ///<exception cref="ArgumentOutOfRangeException">Thrown when month is less than 1 or greater than 12</exception>
+        public List<Appointment> GetAppointmentsByMonth(int month)
+        {
+            // Check for a valid month
+            if (month <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Month cannot be less than or equal to 0");
+            }
+            if (month > 12)
+            {
+                throw new ArgumentOutOfRangeException("Month cannot be greater than 12");
+            }
+
+            // Create a DateTime object for the first day of the provided month
+            DateTime queryDate = new DateTime(DateTime.Now.Year, month, 1);
+
+            // Initialize a new list of Appointment objects
+            var appointmentList = new List<Appointment>();
+
+            // Create a default Appointment object
+            var emptyAppointment = new Appointment();
+
+            // Retrieve appointments that start within the month, and consolidate the list.
+            var appointmentsByStartDate = DataTableConverter
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", queryDate))
+                .GroupBy(appt => appt.appointmentId)
+                .Select(group => group.First());
+
+            // Retrieve appointments that end within the month.
+            var appointmentsByEndDate = DataTableConverter
+                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", queryDate))
+                .GroupBy(appt => appt.appointmentId)
+                .Select(group => group.First());
+
+            // Add the consolidated list to the appointmentList object.
+            appointmentList.AddRange(appointmentsByStartDate);
+            appointmentList.AddRange(appointmentsByEndDate);
+
+            // Return the consolidated list.
+            return appointmentList;
+        }
     }
 }
