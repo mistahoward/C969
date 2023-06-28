@@ -30,23 +30,36 @@ namespace C969
         private void InitializeComponent()
         {
             this.AppointmentDataGridView = new System.Windows.Forms.DataGridView();
+            this.weekMonthComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // AppointmentDataGridView
             // 
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.AppointmentDataGridView.Location = new System.Drawing.Point(12, 88);
+            this.AppointmentDataGridView.Location = new System.Drawing.Point(16, 108);
+            this.AppointmentDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
-            this.AppointmentDataGridView.Size = new System.Drawing.Size(747, 384);
+            this.AppointmentDataGridView.RowHeadersWidth = 51;
+            this.AppointmentDataGridView.Size = new System.Drawing.Size(996, 473);
             this.AppointmentDataGridView.TabIndex = 0;
+            // 
+            // weekMonthComboBox
+            // 
+            this.weekMonthComboBox.FormattingEnabled = true;
+            this.weekMonthComboBox.Location = new System.Drawing.Point(16, 57);
+            this.weekMonthComboBox.Name = "weekMonthComboBox";
+            this.weekMonthComboBox.Size = new System.Drawing.Size(203, 24);
+            this.weekMonthComboBox.TabIndex = 1;
             // 
             // Calendar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 484);
+            this.ClientSize = new System.Drawing.Size(1153, 596);
+            this.Controls.Add(this.weekMonthComboBox);
             this.Controls.Add(this.AppointmentDataGridView);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Calendar";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).EndInit();
@@ -57,5 +70,6 @@ namespace C969
         #endregion
 
         private System.Windows.Forms.DataGridView AppointmentDataGridView;
+        private System.Windows.Forms.ComboBox weekMonthComboBox;
     }
 }
