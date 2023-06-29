@@ -80,6 +80,7 @@ namespace C969
             this.CloseButton.TabIndex = 3;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // CustomersList
             // 

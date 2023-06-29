@@ -43,5 +43,10 @@ namespace C969.Views
             countryTextBox.Text = CustomerCountry.country;
             phoneNumberTextBox.Text = CustomerAddress.phone;
         }
+
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

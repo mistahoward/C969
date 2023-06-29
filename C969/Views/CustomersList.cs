@@ -72,5 +72,10 @@ namespace C969
             var viewCustomer = new CustomerView(SelectedCustomerId);
             viewCustomer.ShowDialog();
         }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
