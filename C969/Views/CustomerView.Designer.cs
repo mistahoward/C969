@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.customerNameLabel = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.customerNameTextBox = new System.Windows.Forms.TextBox();
             this.activeCheckBox = new System.Windows.Forms.CheckBox();
             this.addressLabel = new System.Windows.Forms.Label();
             this.addressTextBox = new System.Windows.Forms.TextBox();
@@ -42,7 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.phoneNumberTextBox = new System.Windows.Forms.TextBox();
             this.countryLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.countryTextBox = new System.Windows.Forms.TextBox();
             this.EditSaveButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -57,14 +57,14 @@
             this.customerNameLabel.TabIndex = 12;
             this.customerNameLabel.Text = "Customer Name";
             // 
-            // textBox2
+            // customerNameTextBox
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox2.Location = new System.Drawing.Point(12, 40);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(205, 26);
-            this.textBox2.TabIndex = 11;
+            this.customerNameTextBox.Enabled = false;
+            this.customerNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.customerNameTextBox.Location = new System.Drawing.Point(12, 40);
+            this.customerNameTextBox.Name = "customerNameTextBox";
+            this.customerNameTextBox.Size = new System.Drawing.Size(205, 26);
+            this.customerNameTextBox.TabIndex = 11;
             // 
             // activeCheckBox
             // 
@@ -184,14 +184,14 @@
             this.countryLabel.TabIndex = 25;
             this.countryLabel.Text = "Country";
             // 
-            // textBox1
+            // countryTextBox
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox1.Location = new System.Drawing.Point(235, 232);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(117, 26);
-            this.textBox1.TabIndex = 24;
+            this.countryTextBox.Enabled = false;
+            this.countryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.countryTextBox.Location = new System.Drawing.Point(235, 232);
+            this.countryTextBox.Name = "countryTextBox";
+            this.countryTextBox.Size = new System.Drawing.Size(117, 26);
+            this.countryTextBox.TabIndex = 24;
             // 
             // EditSaveButton
             // 
@@ -219,7 +219,7 @@
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.EditSaveButton);
             this.Controls.Add(this.countryLabel);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.countryTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.phoneNumberTextBox);
             this.Controls.Add(this.postalCodeLabel);
@@ -232,7 +232,7 @@
             this.Controls.Add(this.addressTextBox);
             this.Controls.Add(this.activeCheckBox);
             this.Controls.Add(this.customerNameLabel);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.customerNameTextBox);
             this.Name = "CustomerView";
             this.Text = "View Customer";
             this.ResumeLayout(false);
@@ -242,7 +242,7 @@
 
         #endregion
         private System.Windows.Forms.Label customerNameLabel;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox customerNameTextBox;
         private System.Windows.Forms.CheckBox activeCheckBox;
         private System.Windows.Forms.Label addressLabel;
         private System.Windows.Forms.TextBox addressTextBox;
@@ -255,7 +255,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox phoneNumberTextBox;
         private System.Windows.Forms.Label countryLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox countryTextBox;
         private System.Windows.Forms.Button EditSaveButton;
         private System.Windows.Forms.Button closeButton;
     }

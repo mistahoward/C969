@@ -27,7 +27,21 @@ namespace C969.Views
                 CustomerId = customerId
             };
             Customer = _customerController.Customer;
-
+            CustomerAddress = _customerController.CustomerAddress;
+            CustomerCity = _customerController.CustomerCity;
+            CustomerCountry = _customerController.CustomerCountry;
+            FillOutFields();
+        }
+        private void FillOutFields()
+        {
+            customerNameTextBox.Text = Customer.customerName;
+            activeCheckBox.Checked = Customer.active;
+            addressTextBox.Text = CustomerAddress.address;
+            address2TextBox.Text = CustomerAddress.address2;
+            postalCodeTextBox.Text = CustomerAddress.postalCode;
+            cityTextBox.Text = CustomerCity.city;
+            countryTextBox.Text = CustomerCountry.country;
+            phoneNumberTextBox.Text = CustomerAddress.phone;
         }
     }
 }
