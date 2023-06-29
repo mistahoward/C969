@@ -54,6 +54,7 @@ namespace C969
             this.weekMonthComboBox.Name = "weekMonthComboBox";
             this.weekMonthComboBox.Size = new System.Drawing.Size(153, 21);
             this.weekMonthComboBox.TabIndex = 1;
+            this.weekMonthComboBox.SelectedIndexChanged += new System.EventHandler(this.weekMonthComboBox_SelectedIndexChanged);
             // 
             // weekMonthLabel
             // 

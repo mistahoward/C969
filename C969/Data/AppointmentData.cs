@@ -115,32 +115,25 @@ namespace C969.Data
                 throw new ArgumentOutOfRangeException("Month cannot be greater than 12");
             }
 
-            // Create a DateTime object for the first day of the provided month
-            DateTime queryDate = new DateTime(DateTime.Now.Year, month, 1);
-
             // Initialize a new list of Appointment objects
             var appointmentList = new List<Appointment>();
 
             // Create a default Appointment object
             var emptyAppointment = new Appointment();
 
-            // Retrieve appointments that start within the month, and consolidate the list
-            var appointmentsByStartDate = DataTableConverter
-                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "start", queryDate))
-                .GroupBy(appt => appt.appointmentId)
-                .Select(group => group.First());
+            // Retrieve appointments that start within the month
+            DataTable appointmentStartDataTable = RetrieveData(emptyAppointment, "MONTH(start)", month);
 
             // Retrieve appointments that end within the month
-            var appointmentsByEndDate = DataTableConverter
-                .ConvertDataTableToList<Appointment>(RetrieveData(emptyAppointment, "end", queryDate))
-                .GroupBy(appt => appt.appointmentId)
-                .Select(group => group.First());
+            DataTable appointmentEndDataTable = RetrieveData(emptyAppointment, "MONTH(end)", month);
 
-            // Add the consolidated list to the appointmentList object
-            appointmentList.AddRange(appointmentsByStartDate);
-            appointmentList.AddRange(appointmentsByEndDate);
+            // Merge both data tables
+            appointmentStartDataTable.Merge(appointmentEndDataTable);
 
-            // Return the consolidated list.
+            // Convert merged data table to a list of appointments
+            appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(appointmentStartDataTable);
+
+            // Return the appointment list
             return appointmentList;
         }
         /// <summary>
