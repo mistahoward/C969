@@ -86,25 +86,6 @@ namespace C969.Data
             return addressBeingUsed;
         }
         /// <summary>
-        /// Retrieves the address attached to a customer id
-        /// </summary>
-        /// <param name="id">ID of the customer</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
-        /// <exception cref="DataNotFound">Thrown if provided customer does not have an address attached to them</exception>
-        public Address GetAddressByCustomerId(int id)
-        {
-            if (id < 0)
-            {
-                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
-            }
-            var emptyAddress = new Address();
-            var addressDataTable = RetrieveSingleRow(emptyAddress, "customerId", id);
-            return addressDataTable == null
-                ? throw new DataNotFound("No addresses attached to provided customer ID")
-                : DataTableConverter.ConvertDataRowToModel<Address>(addressDataTable);
-        }
-        /// <summary>
         /// Retrieves a list of addresses associated with a city id
         /// </summary>
         /// <param name="id">ID of the city</param>

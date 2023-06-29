@@ -30,9 +30,9 @@ namespace C969.Controllers
 
         public List<Customer> Customers => _customers;
         public Customer Customer => _customerData.GetCustomerById(CustomerId);
-        public Address CustomerAddress => _addressData.GetAddressByCustomerId(CustomerId);
-        public City CustomerCity => _cityData.GetCityByAddressId(CustomerAddress.addressId);
-        public Country CustomerCountry => _countryData.GetCountryByCityId(CustomerCity.cityId);
+        public Address CustomerAddress => _addressData.GetAddressById(Customer.addressId);
+        public City CustomerCity => _cityData.GetCityById(CustomerAddress.cityId);
+        public Country CustomerCountry => _countryData.GetCountryById(CustomerCity.countryId);
         public int CustomerId { get => _customerId; set => _customerId = value; }
     }
 }

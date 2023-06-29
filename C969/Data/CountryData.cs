@@ -85,25 +85,6 @@ namespace C969.Data
             return countryBeingUsed;
         }
         /// <summary>
-        /// Retrieves the country attached to a city id
-        /// </summary>
-        /// <param name="id">ID of the city</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when id less than 0</exception>
-        /// <exception cref="DataNotFound">Thrown if provided city iddoes not have a customer attached to them</exception>
-        public Country GetCountryByCityId(int id)
-        {
-            if (id < 0)
-            {
-                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
-            }
-            var emptyCountry = new Country();
-            var countryDataTable = RetrieveSingleRow(emptyCountry, "cityId", id);
-            return countryDataTable == null
-                ? throw new DataNotFound("No country attached to provided city ID")
-                : DataTableConverter.ConvertDataRowToModel<Country>(countryDataTable);
-        }
-        /// <summary>
         /// Checks if a country exists in the database based on name and id
         /// </summary>
         /// <param name="workingCountry">The country instance to check</param>

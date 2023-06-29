@@ -17,7 +17,7 @@ namespace C969
     {
         private readonly CustomerController _customerController;
         private int _selectedCustomerId;
-        public List<CustomerMeta> CustomersList { get; set; }
+        public List<CustomerMeta> CustomersMetaList { get; set; }
         public int SelectedCustomerId => _selectedCustomerId;
 
         public CustomersList()
@@ -26,7 +26,7 @@ namespace C969
 
             _customerController = new CustomerController();
 
-            CustomersList = new List<CustomerMeta>();
+            CustomersMetaList = new List<CustomerMeta>();
 
             InitializeCustomers();
         }
@@ -34,13 +34,13 @@ namespace C969
         {
             var workingCustomers = _customerController.Customers;
             // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code
-            CustomersList = workingCustomers.Select(c =>
+            CustomersMetaList = workingCustomers.Select(c =>
             new CustomerMeta {
                 customerId = c.customerId,
                 customerName = c.customerName,
                 active = c.active
             }).ToList();
-            CustomerDataGridView.DataSource = CustomersList;
+            CustomerDataGridView.DataSource = CustomersMetaList;
         }
         /// <summary>
         /// Handle selection changed event of CustomerDataGridView and set selected customer.
@@ -65,7 +65,11 @@ namespace C969
 
         private void ViewCustomerButton_Click(object sender, EventArgs e)
         {
-            var viewCustomer = new CustomerView();
+            if (CustomerDataGridView.SelectedRows.Count < 0)
+            {
+                throw new Exception("Please select a customer");
+            }
+            var viewCustomer = new CustomerView(SelectedCustomerId);
             viewCustomer.ShowDialog();
         }
     }

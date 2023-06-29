@@ -89,25 +89,6 @@ namespace C969.Data
             return cityBeingUsed;
         }
         /// <summary>
-        /// Retrieves the city attached to an address id
-        /// </summary>
-        /// <param name="id">ID of the address</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
-        /// <exception cref="DataNotFound">Thrown if provided address does not have an city attached to them</exception>
-        public City GetCityByAddressId(int id)
-        {
-            if (id < 0)
-            {
-                throw new ArgumentOutOfRangeException("ID Cannot be a number less than 0");
-            }
-            var emptyCity = new City();
-            var cityDataTable = RetrieveSingleRow(emptyCity, "adressId", id);
-            return cityDataTable == null
-                ? throw new DataNotFound("No city attached to provided address ID")
-                : DataTableConverter.ConvertDataRowToModel<City>(cityDataTable);
-        }
-        /// <summary>
         /// Checks if a city exists in the database based on name and id
         /// </summary>
         /// <param name="workingCity">The city instance to check</param>
