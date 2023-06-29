@@ -68,7 +68,7 @@ namespace C969
             this.DeleteCustomerButton.Name = "DeleteCustomerButton";
             this.DeleteCustomerButton.Size = new System.Drawing.Size(161, 42);
             this.DeleteCustomerButton.TabIndex = 2;
-            this.DeleteCustomerButton.Text = "Delete Customer";
+            this.DeleteCustomerButton.Text = "Archive Customer";
             this.DeleteCustomerButton.UseVisualStyleBackColor = true;
             // 
             // CloseButton
@@ -80,7 +80,7 @@ namespace C969
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
             // 
-            // Customers
+            // CustomersList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -89,7 +89,7 @@ namespace C969
             this.Controls.Add(this.DeleteCustomerButton);
             this.Controls.Add(this.ViewCustomerButton);
             this.Controls.Add(this.CustomerDataGridView);
-            this.Name = "Customers";
+            this.Name = "CustomersList";
             this.Text = "Customers";
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).EndInit();
             this.ResumeLayout(false);
