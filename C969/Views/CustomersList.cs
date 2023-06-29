@@ -1,5 +1,6 @@
 ﻿using C969.Controllers;
 using C969.Models;
+using C969.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,6 +61,12 @@ namespace C969
                     throw ex;
                 }
             }
+        }
+
+        private void ViewCustomerButton_Click(object sender, EventArgs e)
+        {
+            var viewCustomer = new CustomerView();
+            viewCustomer.ShowDialog();
         }
     }
 }

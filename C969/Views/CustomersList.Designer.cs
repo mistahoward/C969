@@ -61,6 +61,7 @@ namespace C969
             this.ViewCustomerButton.TabIndex = 1;
             this.ViewCustomerButton.Text = "View Customer";
             this.ViewCustomerButton.UseVisualStyleBackColor = true;
+            this.ViewCustomerButton.Click += new System.EventHandler(this.ViewCustomerButton_Click);
             // 
             // DeleteCustomerButton
             // 

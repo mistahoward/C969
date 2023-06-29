@@ -1,4 +1,6 @@
-﻿using System;
+﻿using C969.Controllers;
+using C969.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +14,20 @@ namespace C969.Views
 {
     public partial class CustomerView : Form
     {
-        public CustomerView()
+        private readonly CustomerController _customerController;
+        public Customer Customer;
+        public Address CustomerAddress;
+        public City CustomerCity;
+        public Country CustomerCountry;
+        public CustomerView(int customerId)
         {
             InitializeComponent();
+            _customerController = new CustomerController
+            {
+                CustomerId = customerId
+            };
+            Customer = _customerController.Customer;
+
         }
     }
 }
