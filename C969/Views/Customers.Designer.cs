@@ -45,14 +45,14 @@ namespace C969
             this.CustomerDataGridView.RowHeadersWidth = 51;
             this.CustomerDataGridView.RowTemplate.Height = 24;
             this.CustomerDataGridView.ShowEditingIcon = false;
-            this.CustomerDataGridView.Size = new System.Drawing.Size(698, 387);
+            this.CustomerDataGridView.Size = new System.Drawing.Size(437, 387);
             this.CustomerDataGridView.TabIndex = 0;
             // 
             // Customers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 483);
+            this.ClientSize = new System.Drawing.Size(620, 483);
             this.Controls.Add(this.CustomerDataGridView);
             this.Name = "Customers";
             this.Text = "Customers";

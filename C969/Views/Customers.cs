@@ -15,20 +15,27 @@ namespace C969
     public partial class Customers : Form
     {
         private readonly CustomerController _customerController;
-        public List<Customer> CustomersList { get; set; }
+        public List<CustomerMeta> CustomersList { get; set; }
         public Customers()
         {
             InitializeComponent();
 
             _customerController = new CustomerController();
 
-            CustomersList = new List<Customer>();
+            CustomersList = new List<CustomerMeta>();
 
             InitializeCustomers();
         }
         private void InitializeCustomers()
         {
-            CustomersList = _customerController.Customers;
+            var workingCustomers = _customerController.Customers;
+            // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code
+            CustomersList = workingCustomers.Select(c =>
+            new CustomerMeta {
+                customerId = c.customerId,
+                customerName = c.customerName,
+                active = c.active
+            }).ToList();
             CustomerDataGridView.DataSource = CustomersList;
         }
     }
