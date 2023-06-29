@@ -191,7 +191,7 @@ namespace C969
 
         private void customersButton_Click(object sender, EventArgs e)
         {
-            var customersForm = new Customers();
+            var customersForm = new CustomersList();
             customersForm.ShowDialog();
         }
     }

@@ -12,14 +12,14 @@ using System.Windows.Forms;
 
 namespace C969
 {
-    public partial class Customers : Form
+    public partial class CustomersList : Form
     {
         private readonly CustomerController _customerController;
         private int _selectedCustomerId;
         public List<CustomerMeta> CustomersList { get; set; }
         public int SelectedCustomerId => _selectedCustomerId;
 
-        public Customers()
+        public CustomersList()
         {
             InitializeComponent();
 

@@ -1,7 +1,7 @@
 ﻿
 namespace C969
 {
-    partial class Customers
+    partial class CustomersList
     {
         /// <summary>
         /// Required designer variable.
