@@ -30,6 +30,9 @@ namespace C969
         private void InitializeComponent()
         {
             this.CustomerDataGridView = new System.Windows.Forms.DataGridView();
+            this.ViewCustomerButton = new System.Windows.Forms.Button();
+            this.DeleteCustomerButton = new System.Windows.Forms.Button();
+            this.CloseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,11 +53,41 @@ namespace C969
             this.CustomerDataGridView.TabIndex = 0;
             this.CustomerDataGridView.SelectionChanged += new System.EventHandler(this.CustomerDataGridView_SelectionChanged);
             // 
+            // ViewCustomerButton
+            // 
+            this.ViewCustomerButton.Location = new System.Drawing.Point(455, 84);
+            this.ViewCustomerButton.Name = "ViewCustomerButton";
+            this.ViewCustomerButton.Size = new System.Drawing.Size(161, 42);
+            this.ViewCustomerButton.TabIndex = 1;
+            this.ViewCustomerButton.Text = "View Customer";
+            this.ViewCustomerButton.UseVisualStyleBackColor = true;
+            // 
+            // DeleteCustomerButton
+            // 
+            this.DeleteCustomerButton.Location = new System.Drawing.Point(455, 132);
+            this.DeleteCustomerButton.Name = "DeleteCustomerButton";
+            this.DeleteCustomerButton.Size = new System.Drawing.Size(161, 42);
+            this.DeleteCustomerButton.TabIndex = 2;
+            this.DeleteCustomerButton.Text = "Delete Customer";
+            this.DeleteCustomerButton.UseVisualStyleBackColor = true;
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Location = new System.Drawing.Point(455, 429);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(161, 42);
+            this.CloseButton.TabIndex = 3;
+            this.CloseButton.Text = "Close";
+            this.CloseButton.UseVisualStyleBackColor = true;
+            // 
             // Customers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 483);
+            this.Controls.Add(this.CloseButton);
+            this.Controls.Add(this.DeleteCustomerButton);
+            this.Controls.Add(this.ViewCustomerButton);
             this.Controls.Add(this.CustomerDataGridView);
             this.Name = "Customers";
             this.Text = "Customers";
@@ -66,5 +99,8 @@ namespace C969
         #endregion
 
         private System.Windows.Forms.DataGridView CustomerDataGridView;
+        private System.Windows.Forms.Button ViewCustomerButton;
+        private System.Windows.Forms.Button DeleteCustomerButton;
+        private System.Windows.Forms.Button CloseButton;
     }
 }
