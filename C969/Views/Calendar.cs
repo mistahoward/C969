@@ -36,10 +36,12 @@ namespace C969
                 case ViewType.Week:
                     Appointments = _appointmentController.WeekAppointments;
                     weekMonthComboBox.DataSource = Weeks;
+                    weekMonthLabel.Text = "Week Range";
                     break;
                 case ViewType.Month:
                     Appointments = _appointmentController.MonthAppointments;
                     weekMonthComboBox.DataSource = Months;
+                    weekMonthLabel.Text = "Month Range";
                     break;
                 default:
                     throw new ArgumentException("Invalid view type specified");
