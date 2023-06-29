@@ -32,6 +32,8 @@ namespace C969
             this.AppointmentDataGridView = new System.Windows.Forms.DataGridView();
             this.weekMonthComboBox = new System.Windows.Forms.ComboBox();
             this.weekMonthLabel = new System.Windows.Forms.Label();
+            this.weekMonthToggle = new System.Windows.Forms.CheckBox();
+            this.filtersLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +50,7 @@ namespace C969
             // 
             this.weekMonthComboBox.FormattingEnabled = true;
             this.weekMonthComboBox.Location = new System.Drawing.Point(12, 35);
-            this.weekMonthComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.weekMonthComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.weekMonthComboBox.Name = "weekMonthComboBox";
             this.weekMonthComboBox.Size = new System.Drawing.Size(153, 21);
             this.weekMonthComboBox.TabIndex = 1;
@@ -63,11 +65,35 @@ namespace C969
             this.weekMonthLabel.TabIndex = 2;
             this.weekMonthLabel.Text = "Loading...";
             // 
+            // weekMonthToggle
+            // 
+            this.weekMonthToggle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.weekMonthToggle.AutoSize = true;
+            this.weekMonthToggle.Location = new System.Drawing.Point(187, 32);
+            this.weekMonthToggle.Name = "weekMonthToggle";
+            this.weekMonthToggle.Size = new System.Drawing.Size(71, 25);
+            this.weekMonthToggle.TabIndex = 3;
+            this.weekMonthToggle.Text = "Loading...";
+            this.weekMonthToggle.UseVisualStyleBackColor = true;
+            this.weekMonthToggle.CheckedChanged += new System.EventHandler(this.weekMonthToggle_CheckedChanged);
+            // 
+            // filtersLabel
+            // 
+            this.filtersLabel.AutoSize = true;
+            this.filtersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.6F);
+            this.filtersLabel.Location = new System.Drawing.Point(184, 15);
+            this.filtersLabel.Name = "filtersLabel";
+            this.filtersLabel.Size = new System.Drawing.Size(48, 18);
+            this.filtersLabel.TabIndex = 4;
+            this.filtersLabel.Text = "Filters";
+            // 
             // Calendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(865, 460);
+            this.ClientSize = new System.Drawing.Size(771, 460);
+            this.Controls.Add(this.filtersLabel);
+            this.Controls.Add(this.weekMonthToggle);
             this.Controls.Add(this.weekMonthLabel);
             this.Controls.Add(this.weekMonthComboBox);
             this.Controls.Add(this.AppointmentDataGridView);
@@ -84,5 +110,7 @@ namespace C969
         private System.Windows.Forms.DataGridView AppointmentDataGridView;
         private System.Windows.Forms.ComboBox weekMonthComboBox;
         private System.Windows.Forms.Label weekMonthLabel;
+        private System.Windows.Forms.CheckBox weekMonthToggle;
+        private System.Windows.Forms.Label filtersLabel;
     }
 }

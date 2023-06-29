@@ -34,19 +34,36 @@ namespace C969
             switch (requestedView)
             {
                 case ViewType.Week:
-                    Appointments = _appointmentController.WeekAppointments;
-                    weekMonthComboBox.DataSource = Weeks;
-                    weekMonthLabel.Text = "Week Range";
+                    ChangeToWeekView();
                     break;
                 case ViewType.Month:
-                    Appointments = _appointmentController.MonthAppointments;
-                    weekMonthComboBox.DataSource = Months;
-                    weekMonthLabel.Text = "Month Range";
+                    ChangeToMonthView();
                     break;
                 default:
                     throw new ArgumentException("Invalid view type specified");
             }
             AppointmentDataGridView.DataSource = Appointments;
+        }
+        /// <summary>
+        /// Changes the view to a weekly view in the calendar.
+        /// </summary>
+        private void ChangeToWeekView()
+        {
+            Appointments = _appointmentController.WeekAppointments;
+            weekMonthComboBox.DataSource = Weeks;
+            weekMonthLabel.Text = "Week Range";
+            weekMonthToggle.Text = "Weeks";
+            weekMonthToggle.Checked = true;
+        }
+        /// <summary>
+        /// Changes the view to a monthly view in the calendar.
+        /// </summary>
+        private void ChangeToMonthView()
+        {
+            Appointments = _appointmentController.MonthAppointments;
+            weekMonthComboBox.DataSource = Months;
+            weekMonthLabel.Text = "Month Range";
+            weekMonthToggle.Text = "Months";
         }
         /// <summary>
         /// Populates the Weeks BindingList with 52 week entries and sets the weekMonthComboBox.SelectedItem as the requestedDate 
@@ -80,6 +97,16 @@ namespace C969
             {
                 string monthEntry = $"Month #{i}";
                 Months.Add(monthEntry);
+            }
+        }
+        private void weekMonthToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            if (weekMonthToggle.Checked)
+            {
+                ChangeToWeekView();
+            } else
+            {
+                ChangeToMonthView();
             }
         }
     }
