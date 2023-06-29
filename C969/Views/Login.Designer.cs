@@ -62,7 +62,7 @@ namespace C969
             this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.UsernameLabel.Location = new System.Drawing.Point(12, 9);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(73, 17);
+            this.UsernameLabel.Size = new System.Drawing.Size(70, 16);
             this.UsernameLabel.TabIndex = 2;
             this.UsernameLabel.Text = "Username";
             // 
@@ -72,7 +72,7 @@ namespace C969
             this.PasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.PasswordLabel.Location = new System.Drawing.Point(12, 73);
             this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(69, 17);
+            this.PasswordLabel.Size = new System.Drawing.Size(67, 16);
             this.PasswordLabel.TabIndex = 3;
             this.PasswordLabel.Text = "Password";
             // 
@@ -112,7 +112,7 @@ namespace C969
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.UsernameTextBox);
             this.Name = "LoginForm";
-            this.Text = "Form1";
+            this.Text = "Login";
             this.Load += new System.EventHandler(this.LoginForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);

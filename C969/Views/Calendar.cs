@@ -188,5 +188,11 @@ namespace C969
                 UpdateAppointmentsByMonth(weekMonthComboBox.SelectedIndex + 1);
             }
         }
+
+        private void customersButton_Click(object sender, EventArgs e)
+        {
+            var customersForm = new Customers();
+            customersForm.ShowDialog();
+        }
     }
 }

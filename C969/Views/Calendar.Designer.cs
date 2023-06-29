@@ -42,7 +42,7 @@ namespace C969
             // 
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AppointmentDataGridView.Location = new System.Drawing.Point(16, 75);
-            this.AppointmentDataGridView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AppointmentDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
             this.AppointmentDataGridView.RowHeadersWidth = 51;
             this.AppointmentDataGridView.Size = new System.Drawing.Size(996, 473);
@@ -74,7 +74,7 @@ namespace C969
             this.weekMonthToggle.Appearance = System.Windows.Forms.Appearance.Button;
             this.weekMonthToggle.AutoSize = true;
             this.weekMonthToggle.Location = new System.Drawing.Point(249, 39);
-            this.weekMonthToggle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.weekMonthToggle.Margin = new System.Windows.Forms.Padding(4);
             this.weekMonthToggle.Name = "weekMonthToggle";
             this.weekMonthToggle.Size = new System.Drawing.Size(75, 26);
             this.weekMonthToggle.TabIndex = 3;
@@ -101,6 +101,7 @@ namespace C969
             this.customersButton.TabIndex = 5;
             this.customersButton.Text = "View Customers";
             this.customersButton.UseVisualStyleBackColor = true;
+            this.customersButton.Click += new System.EventHandler(this.customersButton_Click);
             // 
             // Calendar
             // 
@@ -113,9 +114,9 @@ namespace C969
             this.Controls.Add(this.weekMonthLabel);
             this.Controls.Add(this.weekMonthComboBox);
             this.Controls.Add(this.AppointmentDataGridView);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Calendar";
-            this.Text = "Form1";
+            this.Text = "Appointments";
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
