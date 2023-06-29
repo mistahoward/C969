@@ -15,7 +15,10 @@ namespace C969
     public partial class Customers : Form
     {
         private readonly CustomerController _customerController;
+        private int _selectedCustomerId;
         public List<CustomerMeta> CustomersList { get; set; }
+        public int SelectedCustomerId => _selectedCustomerId;
+
         public Customers()
         {
             InitializeComponent();
@@ -37,6 +40,26 @@ namespace C969
                 active = c.active
             }).ToList();
             CustomerDataGridView.DataSource = CustomersList;
+        }
+        /// <summary>
+        /// Handle selection changed event of CustomerDataGridView and set selected customer.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">An EventArgs that contains the event data.</param>
+        private void CustomerDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (CustomerDataGridView.SelectedRows.Count > 0)
+            {
+                string selectedCustomerId = CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value.ToString();
+                try
+                {
+                    _selectedCustomerId = Int32.Parse(selectedCustomerId);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

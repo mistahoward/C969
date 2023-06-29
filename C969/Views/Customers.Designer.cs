@@ -44,9 +44,11 @@ namespace C969
             this.CustomerDataGridView.ReadOnly = true;
             this.CustomerDataGridView.RowHeadersWidth = 51;
             this.CustomerDataGridView.RowTemplate.Height = 24;
+            this.CustomerDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CustomerDataGridView.ShowEditingIcon = false;
             this.CustomerDataGridView.Size = new System.Drawing.Size(437, 387);
             this.CustomerDataGridView.TabIndex = 0;
+            this.CustomerDataGridView.SelectionChanged += new System.EventHandler(this.CustomerDataGridView_SelectionChanged);
             // 
             // Customers
             // 
