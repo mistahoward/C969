@@ -43,8 +43,11 @@ namespace C969
             this.AppointmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AppointmentDataGridView.Location = new System.Drawing.Point(16, 75);
             this.AppointmentDataGridView.Margin = new System.Windows.Forms.Padding(4);
+            this.AppointmentDataGridView.MultiSelect = false;
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
+            this.AppointmentDataGridView.ReadOnly = true;
             this.AppointmentDataGridView.RowHeadersWidth = 51;
+            this.AppointmentDataGridView.ShowEditingIcon = false;
             this.AppointmentDataGridView.Size = new System.Drawing.Size(996, 473);
             this.AppointmentDataGridView.TabIndex = 0;
             // 

@@ -29,19 +29,40 @@ namespace C969
         /// </summary>
         private void InitializeComponent()
         {
+            this.CustomerDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
+            // 
+            // CustomerDataGridView
+            // 
+            this.CustomerDataGridView.AllowUserToAddRows = false;
+            this.CustomerDataGridView.AllowUserToDeleteRows = false;
+            this.CustomerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomerDataGridView.Location = new System.Drawing.Point(12, 84);
+            this.CustomerDataGridView.MultiSelect = false;
+            this.CustomerDataGridView.Name = "CustomerDataGridView";
+            this.CustomerDataGridView.ReadOnly = true;
+            this.CustomerDataGridView.RowHeadersWidth = 51;
+            this.CustomerDataGridView.RowTemplate.Height = 24;
+            this.CustomerDataGridView.ShowEditingIcon = false;
+            this.CustomerDataGridView.Size = new System.Drawing.Size(698, 387);
+            this.CustomerDataGridView.TabIndex = 0;
             // 
             // Customers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 483);
+            this.Controls.Add(this.CustomerDataGridView);
             this.Name = "Customers";
             this.Text = "Customers";
+            ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView CustomerDataGridView;
     }
 }

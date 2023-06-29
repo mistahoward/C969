@@ -37,7 +37,7 @@ namespace C969.Controllers
         {
             _monthAppointments = _appointmentData.GetAppointmentsByMonth(monthNum);
         }
-        public List<Appointment> MonthAppointments { get { return _monthAppointments; } }
-        public List<Appointment> WeekAppointments { get { return _weekAppointments; } }
+        public List<Appointment> MonthAppointments => _monthAppointments;
+        public List<Appointment> WeekAppointments => _weekAppointments;
     }
 }
