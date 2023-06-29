@@ -12,6 +12,7 @@ namespace C969.Controllers
     {
         private readonly CustomerData _customerData;
         private readonly List<Customer> _customers;
+        private int _customerId;
         public CustomerController()
         {
             _customerData = new CustomerData();
@@ -21,5 +22,7 @@ namespace C969.Controllers
         }
 
         public List<Customer> Customers => _customers;
+        public Customer Customer => _customerData.GetCustomerById(CustomerId);
+        public int CustomerId { get => _customerId; set => _customerId = value; }
     }
 }
