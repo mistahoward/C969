@@ -131,6 +131,7 @@ namespace C969.Views
             cityTextBox.TextChanged += OnTextChanged;
             countryTextBox.TextChanged += OnTextChanged;
             phoneNumberTextBox.TextChanged += OnTextChanged;
+            activeCheckBox.CheckedChanged += OnCheckChanged;
         }
         /// <summary>
         /// Handles the TextChanged event and updates the appropriate Customer property if its TextBox is changed
@@ -156,6 +157,49 @@ namespace C969.Views
                 }
             }
         }
+        /// <summary>
+        /// Event handler for changing state of a checkbox control
+        /// </summary>
+        /// <param name="sender">The object that triggered the event</param>
+        /// <param name="e">The event arguments</param>
+        private void OnCheckChanged(object sender, EventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                var currentValue = checkBox.Checked;
+                var propertyName = checkBox.Name.Replace("CheckBox", "");
+
+                if (propertySetters.TryGetValue(propertyName, out var propertySetter) &&
+                    propertyGetters.TryGetValue(propertyName, out var propertyGetter))
+                {
+                    var previousValue = propertyGetter();
+                    if (checkBox.Name == "activeCheckBox")
+                    {
+                        if (activeCheckBox.Checked == false)
+                        {
+                            DialogResult result = MessageBox.Show("Are you sure you want to archive this customer? This is effectively 'deleting' them.", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result != DialogResult.Yes)
+                            {
+                                // remove the event handler to prevent retriggering
+                                activeCheckBox.CheckedChanged -= OnCheckChanged;
+                                activeCheckBox.Checked = true;
+                                // readd event handler
+                                activeCheckBox.CheckedChanged += OnCheckChanged;
+                                return;
+                            }
+                        }
+                    }
+                    if (currentValue.ToString() != previousValue)
+                    {
+                        ChangesMade = true;
+                        propertySetter(currentValue.ToString());
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Fills out the customer form fields with the information from the currently selected customer.
+        /// </summary>
         private void FillOutFields()
         {
             customerNameTextBox.Text = Customer.customerName;
@@ -187,17 +231,28 @@ namespace C969.Views
             countryTextBox.Enabled = true;
             phoneNumberTextBox.Enabled = true;
         }
+        /// <summary>
+        /// Event handler called when the ChangesMade property is updated
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The event data</param>
         private void OnChangesMadeChanged(object sender, EventArgs e)
         {
             EditSaveButton.Enabled = ChangesMade;
         }
 
+        /// <summary>
+        /// Handler for the close button click event
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The EventArgs object containing the event data</param>
         private void closeButton_Click(object sender, EventArgs e)
         {
             if (ChangesMade && _editing)
             {
                 DialogResult result = MessageBox.Show("Are you sure you want to close this customer view? You have pending changes that need saved.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
-                if (result != DialogResult.OK) {
+                if (result != DialogResult.OK)
+                {
                     return;
                 }
             }
@@ -212,7 +267,7 @@ namespace C969.Views
             }
             else
             {
-                HandleToggleEdit();
+                HandleToggleEdit(); 
             }
         }
     }
