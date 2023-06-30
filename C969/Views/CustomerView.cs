@@ -305,6 +305,13 @@ namespace C969.Views
                 }
                 if (_cityUpdated) {
                     var response = _customerController.HandleUpdateCity(WorkingCustomerCity);
+                    if (response)
+                    {
+                        MessageBox.Show("Customer city saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else
+                    {
+                        MessageBox.Show("Something went wrong saving the customers city", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 Close();
             }

@@ -119,6 +119,23 @@ namespace C969.Data
             }
         }
         /// <summary>
+        /// Method to check if a duplicate address exists in the database
+        /// </summary>
+        /// <param name="workingAddress">The address to check for duplicates</param>
+        /// <returns>AddressId if duplicate exists, 0 otherwise.</returns>
+        public int DoesDuplicateExist(Address workingAddress)
+        {
+            try
+            {
+                Address addressByNameSearch = GetAddressByName(workingAddress.address);
+                return addressByNameSearch.addressId;
+            }
+            catch (DataNotFound)
+            {
+                return 0;
+            }
+        }
+        /// <summary>
         /// Add address to db
         /// </summary>
         /// <param name="workingAddress">Address object to add</param>
@@ -148,6 +165,7 @@ namespace C969.Data
         /// <param name="workingAddress">Address object to update</param>
         /// <returns>Boolean of success</returns>
         /// <exception cref="DataNotFound">Thrown when the address object cannot be found by ID</exception>
+        /// <exception cref="DuplicateData">Thrown when an address object is found with the same "name" (address.address)</exception>
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool UpdateAddress(Address workingAddress)
         {
@@ -160,6 +178,11 @@ namespace C969.Data
             if (!existingAddress)
             {
                 throw new DataNotFound("Address does not exist");
+            }
+            int duplicateAddress = DoesDuplicateExist(workingAddress);
+            if (duplicateAddress != 0)
+            {
+                throw new DuplicateData($"Address already exists by name - please use {duplicateAddress}.");
             }
 
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);
