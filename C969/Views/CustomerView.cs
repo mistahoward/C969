@@ -49,12 +49,67 @@ namespace C969.Views
             _workingCustomerCity = _customerController.CustomerCity;
             _workingCustomerCountry = _customerController.CustomerCountry;
             FillOutFields();
+            AttachEventHandlers();
             if (_editing)
             {
                 HandleToggleEdit();
-            } else
+            }
+            else
             {
                 EditSaveButton.Text = "Edit";
+            }
+        }
+        /// <summary>
+        /// Attach event handlers to CustomerView's text boxes tracking user's changes
+        /// </summary>
+        private void AttachEventHandlers()
+        {
+            customerNameTextBox.TextChanged += OnTextChanged;
+            addressTextBox.TextChanged += OnTextChanged;
+            address2TextBox.TextChanged += OnTextChanged;
+            postalCodeTextBox.TextChanged += OnTextChanged;
+            cityTextBox.TextChanged += OnTextChanged;
+            countryTextBox.TextChanged += OnTextChanged;
+            phoneNumberTextBox.TextChanged += OnTextChanged;
+        }
+        /// <summary> 
+        /// Event handler for when a text box in the CustomerView is changed
+        /// Updates the working customer object with the changes
+        /// </summary>
+        /// <param name="sender">The text box that raised the event</param> 
+        /// <param name="e">The event arguments</param> 
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                switch (textBox.Name)
+                {
+                    case "customerNameTextBox":
+                        _workingCustomer.customerName = textBox.Text;
+                        break;
+                    case "activeCheckBox":
+                        _workingCustomer.active = activeCheckBox.Checked;
+                        break;
+                    case "addressTextBox":
+                        _workingCustomerAddress.address = addressTextBox.Text;
+                        break;
+                    case "address2TextBox":
+                        _workingCustomerAddress.address2 = address2TextBox.Text;
+                        break;
+                    case "postalCodeTextBox":
+                        _workingCustomerAddress.postalCode = postalCodeTextBox.Text;
+                        break;
+                    case "cityTextBox":
+                        _workingCustomerCity.city = cityTextBox.Text;
+                        break;
+                    case "countryTextBox":
+                        _workingCustomerCountry.country = countryTextBox.Text;
+                        break;
+                    case "phoneNumberTextBox":
+                        _workingCustomerAddress.phone = phoneNumberTextBox.Text;
+                        break;
+                }
+
             }
         }
         private void FillOutFields()
@@ -68,6 +123,12 @@ namespace C969.Views
             countryTextBox.Text = CustomerCountry.country;
             phoneNumberTextBox.Text = CustomerAddress.phone;
         }
+        /// <summary> 
+        /// Enables editing of customer details
+        /// <remarks>
+        /// Changes the "Save/Edit" button text and enabled all customer detail fields for editing
+        /// </remarks>
+        /// </summary>
         private void HandleToggleEdit()
         {
             _editing = true;
@@ -92,7 +153,8 @@ namespace C969.Views
             if (_editing)
             {
                 // save customer function
-            } else
+            }
+            else
             {
                 HandleToggleEdit();
             }
