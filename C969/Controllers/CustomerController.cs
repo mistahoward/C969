@@ -64,6 +64,21 @@ namespace C969.Controllers
                 return false;
             }
         }
+        public bool HandleUpdateCity(City workingCustomerCity)
+        {
+            if (workingCustomerCity.Equals(CustomerCity))
+            {
+                return false;
+            }
+            try
+            {
+                var result = _cityData.UpdateCity(workingCustomerCity);
+                return result;
+            } catch
+            {
+                return false;
+            }
+        }
         public List<Customer> Customers => _customers;
         public Customer Customer => _customerData.GetCustomerById(CustomerId);
         public Address CustomerAddress => _addressData.GetAddressById(Customer.addressId);

@@ -303,6 +303,9 @@ namespace C969.Views
                         MessageBox.Show("Something went wrong saving the customers address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                if (_cityUpdated) {
+                    var response = _customerController.HandleUpdateCity(WorkingCustomerCity);
+                }
                 Close();
             }
             else

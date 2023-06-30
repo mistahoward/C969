@@ -102,7 +102,7 @@ namespace C969.Data
             return DataTableConverter.ConvertDataTableToList<Address>(addressDataTable);
         }
         /// <summary>
-        /// Checks if an address exists in the database based on name and id
+        /// Checks if an address exists in the database based on id
         /// </summary>
         /// <param name="workingAddress">The address instance to check</param>
         /// <returns>true if the address exists, false otherwise</returns>

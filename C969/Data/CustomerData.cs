@@ -50,7 +50,7 @@ namespace C969.Data
             return resultCustomer;
         }
         /// <summary>
-        /// Checks if a customer exists in the database based on name and id
+        /// Checks if a customer exists in the database based on id
         /// </summary>
         /// <param name="workingCustomer">The customer instance to check</param>
         /// <returns>true if the customer exists, false otherwise</returns>

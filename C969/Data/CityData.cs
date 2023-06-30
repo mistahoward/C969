@@ -89,7 +89,7 @@ namespace C969.Data
             return cityBeingUsed;
         }
         /// <summary>
-        /// Checks if a city exists in the database based on name and id
+        /// Checks if a city exists in the database based on id
         /// </summary>
         /// <param name="workingCity">The city instance to check</param>
         /// <returns>true if the city exists, false otherwise</returns>
@@ -97,7 +97,6 @@ namespace C969.Data
         {
             try
             {
-                City cityByNameSearch = GetCityByName(workingCity.city);
                 City cityByIdSearch = GetCityById(workingCity.cityId);
                 return true;
             }
@@ -152,7 +151,7 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCity">City object to update</param>
         /// <returns>Boolean of success</returns>
-        /// <exception cref="DuplicateData">Thrown when the city already exists</exception>
+        /// <exception cref="DataNotFound">Thrown when the city cannot be found by it's ID</exception>
         /// <exception cref="InvalidObject">Thrown when the city object is not valid</exception>
         public bool UpdateCity(City workingCity)
         {
@@ -165,9 +164,9 @@ namespace C969.Data
 
             bool existingCity = DoesCityExist(workingCity);
 
-            if (existingCity)
+            if (!existingCity)
             {
-                throw new DuplicateData("City already exists");
+                throw new DataNotFound("City does not exist");
             }
 
             return UpdateData(workingCity, "cityId", workingCity.cityId);
