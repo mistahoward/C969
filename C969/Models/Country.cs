@@ -1,4 +1,5 @@
-﻿using System;
+﻿using C969.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace C969.Models
 {
     public class Country
     {
+        public Country()
+        {
+            this.createdBy = ApplicationState.CurrentUser.userName;
+            this.createDate = DateTime.Now;
+            this.lastUpdateBy = ApplicationState.CurrentUser.userName;
+            this.lastUpdate = DateTime.Now;
+        }
         [Required]
         public int countryId { get; set; }
         [Required]
@@ -21,5 +29,10 @@ namespace C969.Models
         public DateTime lastUpdate { get; set; }
         [Required]
         public string lastUpdateBy { get; set; }
+        public void UpdateCountry()
+        {
+            this.lastUpdate = DateTime.Now;
+            this.lastUpdateBy = ApplicationState.CurrentUser.userName;
+        }
     }
 }
