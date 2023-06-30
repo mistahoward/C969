@@ -148,18 +148,26 @@ namespace C969
                 return;
             }
 
+            string successMessage = (SelectedFilter == CustomerFilters.Active) ?
+                "Customer archived successfully" :
+                "Customer reactived successfully";
+            string errorMessage = (SelectedFilter == CustomerFilters.Active) ?
+                "Customer failed to archive" :
+                "Customer failed to reactive";
             if (SelectedFilter == CustomerFilters.Active)
             {
                 if (ConfirmAction("Are you sure you want to archive this customer?", "Confirm Archive"))
                 {
-                    ChangeCustomerStatus(false);
+                   var result = ChangeCustomerStatus(false);
+                    MessageBox.Show(result ? successMessage : errorMessage, result ? "Success" : "Error", MessageBoxButtons.OK, result ? MessageBoxIcon.Information : MessageBoxIcon.Error);
                 }
             }
             else if (SelectedFilter == CustomerFilters.Inactive)
             {
                 if (ConfirmAction("Are you sure you want to reactivate this customer?", "Confirm Reactivation"))
                 {
-                    ChangeCustomerStatus(true);
+                    var result = ChangeCustomerStatus(true);
+                    MessageBox.Show(result ? successMessage : errorMessage, result ? "Success" : "Error", MessageBoxButtons.OK, result ? MessageBoxIcon.Information : MessageBoxIcon.Error);
                 }
             }
         }
@@ -170,12 +178,13 @@ namespace C969
             return response == DialogResult.Yes;
         }
 
-        private void ChangeCustomerStatus(bool status)
+        private bool ChangeCustomerStatus(bool status)
         {
             Customer updatedCustomer = _customerController.Customer;
             updatedCustomer.active = status;
-            _customerController.HandleUpdateCustomer(updatedCustomer);
+            var result = _customerController.HandleUpdateCustomer(updatedCustomer);
             InitializeCustomers();
+            return result;
         }
 
         private void addCustomerButton_Click(object sender, EventArgs e)
