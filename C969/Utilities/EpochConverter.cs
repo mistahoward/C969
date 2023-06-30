@@ -61,5 +61,18 @@ namespace C969.Utilities
             var startOfWeek = startOfYear.AddDays((weekNumber - 1) * 7);
             return startOfWeek;
         }
+        /// <summary>
+        /// Converts a UTC date time to user's local time using the user's local time zone from the ApplicationState
+        /// </summary>
+        /// <param name="utcDateTime">The UTC DateTime to convert</param>
+        /// <returns>The local DateTime in the user's local time zone</returns>
+        public DateTime ConvertUtcToUserTime(DateTime utcDateTime)
+        {
+            TimeZoneInfo localTimeZone = ApplicationState.UserTimeZone;
+
+            DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
+
+            return localDateTime;
+        }
     }
 }
