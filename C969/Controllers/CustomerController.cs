@@ -48,6 +48,7 @@ namespace C969.Controllers
             }
             try
             {
+                workingCustomer.UpdateCustomer();
                 var result = _customerData.UpdateCustomer(workingCustomer);
                 if (result)
                 {
@@ -81,6 +82,7 @@ namespace C969.Controllers
             }    
             try
             {
+                workingCustomerAddress.UpdateAddress();
                 var result = _addressData.UpdateAddress(workingCustomerAddress);
                 return result;
             }
@@ -116,6 +118,7 @@ namespace C969.Controllers
             }
             try
             {
+                workingCustomerCity.UpdateCity();
                 var result = _cityData.UpdateCity(workingCustomerCity);
                 return result;
             }
@@ -152,6 +155,7 @@ namespace C969.Controllers
             }
             try
             {
+                workingCustomerCountry.UpdateCountry();    
                 var result = _countryData.UpdateCountry(workingCustomerCountry);
                 return result;
             }
