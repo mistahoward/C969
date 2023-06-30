@@ -102,12 +102,14 @@ namespace C969.Controllers
             catch (DuplicateData ex)
             {
                 City duplicateCity = _cityData.GetCityById(ex.DuplicateId);
-                CustomerAddress.cityId = duplicateCity.cityId;
-                var result = _addressData.UpdateAddress(CustomerAddress);
+                Address updatedAddress = CustomerAddress;
+                updatedAddress.cityId = duplicateCity.cityId;
+                var result = _addressData.UpdateAddress(updatedAddress);
                 return result;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }
