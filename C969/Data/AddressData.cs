@@ -48,6 +48,17 @@ namespace C969.Data
             Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow);
             return resultAddress;
         }
+        public Address GetAddressByPhoneNumber(string addressPhoneNumber)
+        {
+            if (string.IsNullOrWhiteSpace(addressPhoneNumber))
+            {
+                throw new ArgumentException($"'{nameof(addressPhoneNumber)}' cannot be null or whitespace", nameof(addressPhoneNumber));
+            }
+            Address emptyAddress = new Address();
+            DataRow addressRow = RetrieveSingleRow(emptyAddress, "phone", addressPhoneNumber) ?? throw new DataNotFound("No address found with provided number");
+            Address resultAddress = DataTableConverter.ConvertDataRowToModel<Address>(addressRow);
+            return resultAddress;
+        }
         /// <summary>
         /// Determines whether an address is attached to any customers
         /// </summary>
@@ -127,7 +138,7 @@ namespace C969.Data
         {
             try
             {
-                Address addressByNameSearch = GetAddressByName(workingAddress.address);
+                Address addressByNameSearch = GetAddressByPhoneNumber(workingAddress.phone);
                 return addressByNameSearch.addressId;
             }
             catch (DataNotFound)
