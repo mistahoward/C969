@@ -38,6 +38,11 @@ namespace C969
             Activated += new EventHandler(CustomersList_Activated);
             SelectedFilter = selectedFilter;
         }
+        /// <summary>
+        /// Filters customer view based on active status
+        /// </summary>
+        /// <param name="workingCustomers">List of Customer objects to filter</param>
+        /// <param name="activeStatus">Filter for active customers if true; inactive if false</param>
         private void FilterCustomerView(List<Customer> workingCustomers, bool activeStatus)
         {
             // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code, allowing us to filter off of active as well
@@ -55,12 +60,16 @@ namespace C969
             {
                 activeInactiveToggle.Text = "Active";
                 DeleteCustomerButton.Text = "Archive Customer";
-            } else
+            }
+            else
             {
                 activeInactiveToggle.Text = "Inactive";
                 DeleteCustomerButton.Text = "Activate Customer";
             }
         }
+        ///<summary>
+        ///Initializes the customer list based on active status selected by user
+        ///</summary>
         private void InitializeCustomers()
         {
             var workingCustomers = _customerController.Customers;
@@ -74,7 +83,7 @@ namespace C969
             CustomerDataGridView.DataSource = CustomersMetaList;
         }
         /// <summary>
-        /// Handle selection changed event of CustomerDataGridView and set selected customer.
+        /// Handle selection changed event of CustomerDataGridView and set selected customer
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
