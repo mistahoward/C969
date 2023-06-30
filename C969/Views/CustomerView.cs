@@ -19,10 +19,10 @@ namespace C969.Views
         private readonly Dictionary<string, Func<string>> propertyGetters;
         private bool _editing = false;
         private bool _changesMade = false;
-        private Customer _workingCustomer;
-        private Address _workingCustomerAddress;
-        private City _workingCustomerCity;
-        private Country _workingCustomerCountry;
+        private readonly Customer _workingCustomer;
+        private readonly Address _workingCustomerAddress;
+        private readonly City _workingCustomerCity;
+        private readonly Country _workingCustomerCountry;
         private readonly Customer _customer;
         private readonly Address _customerAddress;
         private readonly City _customerCity;
