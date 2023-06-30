@@ -75,10 +75,10 @@ namespace C969.Utilities
             return localDateTime;
         }
         /// <summary>
-        /// Converts a UTC date time to user's local time using the user's local time zone from the ApplicationState.
+        /// Converts a UTC date time to user's local time using the user's local time zone from the ApplicationState
         /// </summary>
-        /// <param name="utcDateTime">The UTC DateTime to convert.</param>
-        /// <returns>The local DateTime in the user's local time zone with the time zone name.</returns>
+        /// <param name="utcDateTime">The UTC DateTime to convert</param>
+        /// <returns>The local DateTime in the user's local time zone with the time zone name</returns>
         public static string ConvertUtcToUserTimeWithTimeZone(DateTime utcDateTime)
         {
             TimeZoneInfo localTimeZone = ApplicationState.UserTimeZone;

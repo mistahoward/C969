@@ -21,18 +21,18 @@ namespace C969.Controllers
         }
 
         /// <summary>
-        /// Set week appointments for the given epoch week number.
+        /// Set week appointments for the given epoch week number
         /// </summary>
-        /// <param name="weekNum">The epoch week number.</param>
+        /// <param name="weekNum">The epoch week number</param>
         public void SetWeekAppointments(int weekNum = -1)
         {
             _weekAppointments = _appointmentData.GetAppointmentsByWeek(weekNum);
         }
 
         /// <summary>
-        /// Set month appointments for the given month of the year.
+        /// Set month appointments for the given month of the year
         /// </summary>
-        /// <param name="monthNum">The month of the year.</param>
+        /// <param name="monthNum">The month of the year</param>
         public void SetMonthAppointments(int monthNum = -1)
         {
             _monthAppointments = _appointmentData.GetAppointmentsByMonth(monthNum);
