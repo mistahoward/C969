@@ -147,6 +147,23 @@ namespace C969.Data
             return DataTableConverter.ConvertDataTableToList<City>(cityDataTable);
         }
         /// <summary>
+        /// Method to check if a duplicate city exists in the database
+        /// </summary>
+        /// <param name="workingCity">The city to check for duplicates</param>
+        /// <returns>CityId if duplicate exists, 0 otherwise</returns>
+        public int DoesDuplicateExist(City workingCity)
+        {
+            try
+            {
+                City cityByNameSearch = GetCityByName(workingCity.city);
+                return cityByNameSearch.cityId;
+            }
+            catch (DataNotFound)
+            {
+                return 0;
+            }
+        }
+        /// <summary>
         /// Update customer in db
         /// </summary>
         /// <param name="workingCity">City object to update</param>
@@ -167,6 +184,13 @@ namespace C969.Data
             if (!existingCity)
             {
                 throw new DataNotFound("City does not exist");
+            }
+
+            int duplicateCity = DoesDuplicateExist(workingCity);
+
+            if (duplicateCity != 0)
+            {
+                throw new DuplicateData($"City already exists by name - please use {duplicateCity}.", duplicateCity);
             }
 
             return UpdateData(workingCity, "cityId", workingCity.cityId);

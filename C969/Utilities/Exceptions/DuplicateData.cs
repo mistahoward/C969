@@ -8,7 +8,7 @@ namespace C969.Exceptions
 {
     public class DuplicateData : Exception
     {
-        public int DuplicateAddressId { get; }
+        public int DuplicateId { get; }
         public DuplicateData() { }
 
         public DuplicateData(string message) : base(message) { }
@@ -17,10 +17,10 @@ namespace C969.Exceptions
             message, innerException)
         {
         }
-        public DuplicateData(string message, int duplicateAddressId) : base (
+        public DuplicateData(string message, int DuplicateId) : base (
             message)
         {
-            this.DuplicateAddressId = duplicateAddressId;
+            this.DuplicateId = DuplicateId;
         }
     }
 }

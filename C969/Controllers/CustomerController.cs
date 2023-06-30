@@ -73,8 +73,9 @@ namespace C969.Controllers
             }
             catch (DuplicateData ex)
             {
-                Address duplicateAddress = _addressData.GetAddressById(ex.DuplicateAddressId);
-                var result = _addressData.UpdateAddress(duplicateAddress);
+                Address duplicateAddress = _addressData.GetAddressById(ex.DuplicateId);
+                Customer.addressId = duplicateAddress.addressId;
+                var result = _customerData.UpdateCustomer(Customer);
                 return result;
             }
             catch
@@ -82,6 +83,11 @@ namespace C969.Controllers
                 return false;
             }
         }
+        /// <summary>
+        /// Updates the city of a customer in the database
+        /// </summary>
+        /// <param name="workingCustomerCity">The updated City object</param>
+        /// <returns>True, if operation was successful. False, if not</returns>
         public bool HandleUpdateCity(City workingCustomerCity)
         {
             if (workingCustomerCity.Equals(CustomerCity))
@@ -92,7 +98,15 @@ namespace C969.Controllers
             {
                 var result = _cityData.UpdateCity(workingCustomerCity);
                 return result;
-            } catch
+            }
+            catch (DuplicateData ex)
+            {
+                City duplicateCity = _cityData.GetCityById(ex.DuplicateId);
+                CustomerAddress.cityId = duplicateCity.cityId;
+                var result = _addressData.UpdateAddress(CustomerAddress);
+                return result;
+            }
+            catch
             {
                 return false;
             }

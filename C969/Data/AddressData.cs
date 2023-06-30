@@ -122,7 +122,7 @@ namespace C969.Data
         /// Method to check if a duplicate address exists in the database
         /// </summary>
         /// <param name="workingAddress">The address to check for duplicates</param>
-        /// <returns>AddressId if duplicate exists, 0 otherwise.</returns>
+        /// <returns>AddressId if duplicate exists, 0 otherwise</returns>
         public int DoesDuplicateExist(Address workingAddress)
         {
             try
@@ -170,16 +170,21 @@ namespace C969.Data
         public bool UpdateAddress(Address workingAddress)
         {
             bool validAddress = ModelValidator.ValidateModel(workingAddress);
+
             if (!validAddress)
             {
                 throw new InvalidObject("Address isn't valid");
             }
+
             bool existingAddress = DoesAddressExist(workingAddress);
+
             if (!existingAddress)
             {
                 throw new DataNotFound("Address does not exist");
             }
+
             int duplicateAddress = DoesDuplicateExist(workingAddress);
+
             if (duplicateAddress != 0)
             {
                 throw new DuplicateData($"Address already exists by name - please use {duplicateAddress}.", duplicateAddress);
