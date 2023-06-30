@@ -68,13 +68,11 @@ namespace C969.Views
         /// Initializes a new instance of the CustomerView class
         /// </summary>
         /// <param name="customerId">The ID of the customer to display</param>
-        public CustomerView(int customerId)
+        public CustomerView(int customerId, CustomerController customerController)
         {
             InitializeComponent();
-            _customerController = new CustomerController
-            {
-                CustomerId = customerId
-            };
+            customerController.CustomerId = customerId;
+            _customerController = customerController;
             _customer = _customerController.Customer;
             _customerAddress = _customerController.CustomerAddress;
             _customerCity = _customerController.CustomerCity;
@@ -263,7 +261,15 @@ namespace C969.Views
         {
             if (_editing)
             {
-                // save customer function
+                var response = _customerController.HandleUpdateCustomer(WorkingCustomer);
+                if (response)
+                {
+                    MessageBox.Show("Customer saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } else
+                {
+                    MessageBox.Show("Something went wrong saving the customer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                Close();
             }
             else
             {

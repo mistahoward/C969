@@ -58,7 +58,6 @@ namespace C969.Data
         {
             try
             {
-                Customer customerByNameSearch = GetCustomerByName(workingCustomer.customerName);
                 Customer customerByIdSearch = GetCustomerById(workingCustomer.customerId);
                 return true;
             }

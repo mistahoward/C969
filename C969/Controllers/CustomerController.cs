@@ -1,4 +1,5 @@
 ﻿using C969.Data;
+using C969.Exceptions;
 using C969.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,27 @@ namespace C969.Controllers
             _customers = new List<Customer>();
 
             _customers = _customerData.GetCustomers();
+        }
+        public bool HandleUpdateCustomer(Customer workingCustomer)
+        {
+            if (workingCustomer.Equals(Customer))
+            {
+               return false;
+            }
+            try
+            {
+                var result = _customerData.UpdateCustomer(workingCustomer);
+                if (result)
+                {
+                    int index = _customers.FindIndex(x => x.customerId == workingCustomer.customerId);
+                    _customers[index] = workingCustomer;
+                    return true;
+                }
+                return false;
+            } catch
+            {
+                return false;
+            }
         }
 
         public List<Customer> Customers => _customers;

@@ -93,6 +93,7 @@ namespace C969
             this.Controls.Add(this.CustomerDataGridView);
             this.Name = "CustomersList";
             this.Text = "Customers";
+            this.Activated += new System.EventHandler(this.CustomersList_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).EndInit();
             this.ResumeLayout(false);
 

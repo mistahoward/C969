@@ -29,6 +29,7 @@ namespace C969
             CustomersMetaList = new List<CustomerMeta>();
 
             InitializeCustomers();
+            Activated += new EventHandler(CustomersList_Activated);
         }
         private void InitializeCustomers()
         {
@@ -69,13 +70,18 @@ namespace C969
             {
                 throw new Exception("Please select a customer");
             }
-            var viewCustomer = new CustomerView(SelectedCustomerId);
+            var viewCustomer = new CustomerView(SelectedCustomerId, _customerController);
             viewCustomer.ShowDialog();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void CustomersList_Activated(object sender, EventArgs e)
+        {
+            InitializeCustomers();
         }
     }
 }

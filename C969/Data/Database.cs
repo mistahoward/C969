@@ -259,11 +259,6 @@ namespace C969.Data
         /// <exception cref="Exception"></exception>
         protected bool UpdateData<T>(T model, string identifierName, object identifierValue) where T : class
         {
-            if (identifierName.ToLower().Contains("id"))
-            {
-                throw new ChangeNotPermitted("ID is not an updatable field.");
-            }
-
             using (MySqlConnection connection = OpenConnection())
             {
                 // Getting the table name from the type of model, lower casing it to match db ERD
