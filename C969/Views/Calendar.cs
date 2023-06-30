@@ -16,7 +16,7 @@ namespace C969
     public partial class Calendar : Form
     {
         private readonly AppointmentController _appointmentController;
-        public List<Appointment> Appointments { get; set; }
+        public List<AppointmentMeta> Appointments { get; set; }
         public BindingList<string> Weeks { get; set; }
         public BindingList<string> Months { get; set;  }
         public int RequestedWeekNumber { get; set; }
@@ -57,7 +57,7 @@ namespace C969
         {
             RequestedWeekNumber = workingWeekNumber;
             _appointmentController.SetWeekAppointments(workingWeekNumber);
-            Appointments = _appointmentController.WeekAppointments;
+            Appointments = _appointmentController.ConvertAppointmentsToAppointmentMeta(_appointmentController.WeekAppointments);
             AppointmentDataGridView.DataSource = Appointments;
             weekMonthComboBox.DataSource = Weeks;
         }
@@ -79,7 +79,7 @@ namespace C969
         {
             RequestedMonthNumber = workingMonthNumber;
             _appointmentController.SetMonthAppointments(workingMonthNumber);
-            Appointments = _appointmentController.MonthAppointments;
+            Appointments = _appointmentController.ConvertAppointmentsToAppointmentMeta(_appointmentController.MonthAppointments);
             AppointmentDataGridView.DataSource = Appointments;
             weekMonthComboBox.DataSource = Months;
         }

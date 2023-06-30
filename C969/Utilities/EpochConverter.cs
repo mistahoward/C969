@@ -66,7 +66,7 @@ namespace C969.Utilities
         /// </summary>
         /// <param name="utcDateTime">The UTC DateTime to convert</param>
         /// <returns>The local DateTime in the user's local time zone</returns>
-        public DateTime ConvertUtcToUserTime(DateTime utcDateTime)
+        public static DateTime ConvertUtcToUserTime(DateTime utcDateTime)
         {
             TimeZoneInfo localTimeZone = ApplicationState.UserTimeZone;
 

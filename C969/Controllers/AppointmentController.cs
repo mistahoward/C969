@@ -37,6 +37,24 @@ namespace C969.Controllers
         {
             _monthAppointments = _appointmentData.GetAppointmentsByMonth(monthNum);
         }
+        public List<AppointmentMeta> ConvertAppointmentsToAppointmentMeta(List<Appointment> workingAppointments)
+        {
+            var appointmentMetas = new List<AppointmentMeta>();
+            foreach (var appointment in workingAppointments)
+            {
+                var appointmentMeta = new AppointmentMeta
+                {
+                    title = appointment.title,
+                    description = appointment.description,
+                    location = appointment.location,
+                    type = appointment.type,
+                    start = EpochConverter.ConvertUtcToUserTime(appointment.start),
+                    end = EpochConverter.ConvertUtcToUserTime(appointment.end),
+                };
+                appointmentMetas.Add(appointmentMeta);
+            }
+            return appointmentMetas;
+        }
         public List<Appointment> MonthAppointments => _monthAppointments;
         public List<Appointment> WeekAppointments => _weekAppointments;
     }
