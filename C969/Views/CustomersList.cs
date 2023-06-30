@@ -52,9 +52,11 @@ namespace C969
             if (active)
             {
                 activeInactiveToggle.Text = "Active";
+                DeleteCustomerButton.Text = "Archive Customer";
             } else
             {
                 activeInactiveToggle.Text = "Inactive";
+                DeleteCustomerButton.Text = "Activate Customer";
             }
         }
         private void InitializeCustomers()
@@ -82,6 +84,7 @@ namespace C969
                 try
                 {
                     _selectedCustomerId = Int32.Parse(selectedCustomerId);
+                    _customerController.CustomerId = _selectedCustomerId;
                 }
                 catch (Exception ex)
                 {
@@ -122,5 +125,47 @@ namespace C969
                 InitializeCustomers();
             }
         }
+
+        private void DeleteCustomerButton_Click(object sender, EventArgs e)
+        {
+            if (CustomerDataGridView.SelectedRows.Count < 0)
+            {
+                string message = (SelectedFilter == CustomerFilters.Active) ?
+                    "Please select a customer before attempting to archive one" :
+                    "Please select a customer before attempting to reactivate one";
+                MessageBox.Show(message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (SelectedFilter == CustomerFilters.Active)
+            {
+                if (ConfirmAction("Are you sure you want to archive this customer?", "Confirm Archive"))
+                {
+                    ChangeCustomerStatus(false);
+                }
+            }
+            else if (SelectedFilter == CustomerFilters.Inactive)
+            {
+                if (ConfirmAction("Are you sure you want to reactivate this customer?", "Confirm Reactivation"))
+                {
+                    ChangeCustomerStatus(true);
+                }
+            }
+        }
+
+        private bool ConfirmAction(string message, string title)
+        {
+            DialogResult response = MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            return response == DialogResult.Yes;
+        }
+
+        private void ChangeCustomerStatus(bool status)
+        {
+            Customer updatedCustomer = _customerController.Customer;
+            updatedCustomer.active = status;
+            _customerController.HandleUpdateCustomer(updatedCustomer);
+            InitializeCustomers();
+        }
+
     }
 }

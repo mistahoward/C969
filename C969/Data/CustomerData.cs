@@ -151,9 +151,9 @@ namespace C969.Data
         }
 
         /// <summary>
-        /// Get a list of active customers
+        /// Get a list of customers
         /// </summary>
-        /// <returns>List of active customers</returns>
+        /// <returns>List of customers</returns>
         public List<Customer> GetCustomers()
         {
             var customerDataTable = RetrieveData<Customer>();
@@ -161,7 +161,7 @@ namespace C969.Data
             var customerList = DataTableConverter.ConvertDataTableToList<Customer>(customerDataTable);
 
             // lambda for readability and concisesness
-            var activeCustomers = customerList.Where(c => c.active).ToList();
+            var activeCustomers = customerList.ToList();
 
             return activeCustomers;
         }

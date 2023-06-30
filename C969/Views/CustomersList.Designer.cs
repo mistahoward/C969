@@ -73,6 +73,7 @@ namespace C969
             this.DeleteCustomerButton.TabIndex = 2;
             this.DeleteCustomerButton.Text = "Archive Customer";
             this.DeleteCustomerButton.UseVisualStyleBackColor = true;
+            this.DeleteCustomerButton.Click += new System.EventHandler(this.DeleteCustomerButton_Click);
             // 
             // CloseButton
             // 
