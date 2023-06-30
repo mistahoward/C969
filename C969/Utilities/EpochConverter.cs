@@ -79,7 +79,7 @@ namespace C969.Utilities
         /// </summary>
         /// <param name="utcDateTime">The UTC DateTime to convert.</param>
         /// <returns>The local DateTime in the user's local time zone with the time zone name.</returns>
-        public string ConvertUtcToUserTimeWithTimeZone(DateTime utcDateTime)
+        public static string ConvertUtcToUserTimeWithTimeZone(DateTime utcDateTime)
         {
             TimeZoneInfo localTimeZone = ApplicationState.UserTimeZone;
 

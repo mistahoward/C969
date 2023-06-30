@@ -48,8 +48,8 @@ namespace C969.Controllers
                     description = appointment.description,
                     location = appointment.location,
                     type = appointment.type,
-                    start = EpochConverter.ConvertUtcToUserTime(appointment.start),
-                    end = EpochConverter.ConvertUtcToUserTime(appointment.end),
+                    start = EpochConverter.ConvertUtcToUserTimeWithTimeZone(appointment.start),
+                    end = EpochConverter.ConvertUtcToUserTimeWithTimeZone(appointment.end),
                 };
                 appointmentMetas.Add(appointmentMeta);
             }

@@ -20,8 +20,8 @@ namespace C969.Models
         [Required]
         public string contact { get; set; }
         [Required]
-        public DateTime start { get; set; }
+        public string start { get; set; }
         [Required]
-        public DateTime end { get; set; }
+        public string end { get; set; }
     }
 }
