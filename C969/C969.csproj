@@ -101,6 +101,7 @@
     <Compile Include="Models\CustomerMeta.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Utilities\DataTableConverter.cs" />
+    <Compile Include="Utilities\Debouncer.cs" />
     <Compile Include="Utilities\EpochConverter.cs" />
     <Compile Include="Utilities\Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Utilities\Exceptions\DataNotFound.cs" />
