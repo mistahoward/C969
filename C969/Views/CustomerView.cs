@@ -19,6 +19,7 @@ namespace C969.Views
         private readonly Dictionary<string, Action<string>> propertySetters;
         private readonly Dictionary<string, Func<string>> propertyGetters;
         private bool _editing = false;
+        private bool _adding = false;
         private bool _changesMade = false;
         private bool _customerUpdated = false;
         private bool _addressUpdated = false;
@@ -77,6 +78,10 @@ namespace C969.Views
         {
             InitializeComponent();
             _editing = editing;
+            if (editing)
+            {
+                _adding = true;
+            }
             customerController.CustomerId = customerId;
             _customerController = customerController;
             _customer = _customerController.Customer;
@@ -292,16 +297,19 @@ namespace C969.Views
                     };
 
                 // Check which updates we need to perform
-                var updatesToPerform = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
-                    {
-                        _customerUpdated ? updates[0] : default,
-                        _addressUpdated ? updates[1] : default,
-                        _cityUpdated ? updates[2] : default,
-                        _countryUpdated ? updates[3] : default,
-                    }.Where(x => x.Action != null).ToList();
+                var updatesToPerform = _adding ? updates :
+                new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                {
+                    _customerUpdated ? updates[0] : default,
+                    _addressUpdated ? updates[1] : default,
+                    _cityUpdated ? updates[2] : default,
+                    _countryUpdated ? updates[3] : default,
+                }.Where(x => x.Action != null).ToList();
+
 
                 // Gather all the results and messages
                 var results = new List<(bool Success, string Message)>();
+                bool cancelClose = false;
                 foreach (var update in updatesToPerform)
                 {
                     try
@@ -312,6 +320,7 @@ namespace C969.Views
                     }
                     catch (InvalidObject ex)
                     {
+                        cancelClose = true;
                         results.Add((false, ex.Message));
                     }
                     catch (Exception ex)
@@ -337,7 +346,9 @@ namespace C969.Views
                     MessageBox.Show(string.Join("\n", errorMessages), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                Close();
+                if (!cancelClose) {
+                    Close();
+                }
             }
             else
             {
