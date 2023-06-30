@@ -16,15 +16,14 @@ namespace C969.Views
     {
         private readonly CustomerController _customerController;
         private bool _editing = false;
-        private readonly Customer _workingCustomer;
-        private readonly Address _workingCustomerAddress;
-        private readonly City _workingCustomerCity;
-        private readonly Country _workingCustomerCountry;
+        private Customer _workingCustomer;
+        private Address _workingCustomerAddress;
+        private City _workingCustomerCity;
+        private Country _workingCustomerCountry;
         private readonly Customer _customer;
         private readonly Address _customerAddress;
         private readonly City _customerCity;
         private readonly Country _customerCountry;
-        public bool Editing => _editing;
         public Customer WorkingCustomer => _workingCustomer;
         public Address WorkingCustomerAddress => _workingCustomerAddress;
         public City WorkingCustomerCity => _workingCustomerCity;
