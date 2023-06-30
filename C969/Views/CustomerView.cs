@@ -1,4 +1,5 @@
 ﻿using C969.Controllers;
+using C969.Exceptions;
 using C969.Models;
 using System;
 using System.Collections.Generic;
@@ -312,10 +313,24 @@ namespace C969.Views
                 var results = new List<(bool Success, string Message)>();
                 foreach (var update in updatesToPerform)
                 {
-                    var result = update.Action();
-                    var message = result ? update.SuccessMessage : update.ErrorMessage;
-                    results.Add((result, message));
+                    try
+                    {
+                        var result = update.Action();
+                        var message = result ? update.SuccessMessage : update.ErrorMessage;
+                        results.Add((result, message));
+                    }
+                    catch (InvalidObject ex)
+                    {
+                        results.Add((false, ex.Message));
+                    }
+                    catch (Exception ex)
+                    {
+                        // Catch all other exceptions
+                        Console.WriteLine(ex.Message); // replace this with your preferred logging method
+                        results.Add((false, "An unexpected error occurred."));
+                    }
                 }
+
 
                 // Now prepare and show the final message, batching the messages together
                 var successMessages = results.Where(r => r.Success).Select(r => r.Message);
