@@ -182,7 +182,7 @@ namespace C969.Data
             int duplicateAddress = DoesDuplicateExist(workingAddress);
             if (duplicateAddress != 0)
             {
-                throw new DuplicateData($"Address already exists by name - please use {duplicateAddress}.");
+                throw new DuplicateData($"Address already exists by name - please use {duplicateAddress}.", duplicateAddress);
             }
 
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);

@@ -28,11 +28,16 @@ namespace C969.Controllers
 
             _customers = _customerData.GetCustomers();
         }
+        /// <summary>
+        /// Updates the customer information in the database
+        /// </summary>
+        /// <param name="workingCustomer">The updated Customer object</param>
+        /// <returns>A boolean indicating whether the operation was successful or not</returns>
         public bool HandleUpdateCustomer(Customer workingCustomer)
         {
             if (workingCustomer.Equals(Customer))
             {
-               return false;
+                return false;
             }
             try
             {
@@ -44,11 +49,17 @@ namespace C969.Controllers
                     return true;
                 }
                 return false;
-            } catch
+            }
+            catch
             {
                 return false;
             }
         }
+        /// <summary>
+        /// Updates customer address in the database.
+        /// </summary>
+        /// <param name="workingCustomerAddress">The updated Address object.</param>
+        /// <returns>True, if operation was successful. False, if not.</returns>
         public bool HandleUpdateAddress(Address workingCustomerAddress)
         {
             if (workingCustomerAddress.Equals(CustomerAddress))
@@ -59,7 +70,14 @@ namespace C969.Controllers
             {
                 var result = _addressData.UpdateAddress(workingCustomerAddress);
                 return result;
-            } catch
+            }
+            catch (DuplicateData ex)
+            {
+                Address duplicateAddress = _addressData.GetAddressById(ex.DuplicateAddressId);
+                var result = _addressData.UpdateAddress(duplicateAddress);
+                return result;
+            }
+            catch
             {
                 return false;
             }
