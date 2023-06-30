@@ -49,7 +49,7 @@ namespace C969.Views
             _workingCustomerCity = _customerController.CustomerCity;
             _workingCustomerCountry = _customerController.CustomerCountry;
             FillOutFields();
-            if (Editing)
+            if (_editing)
             {
                 HandleToggleEdit();
             } else
@@ -89,7 +89,7 @@ namespace C969.Views
 
         private void EditSaveButton_Click(object sender, EventArgs e)
         {
-            if (Editing)
+            if (_editing)
             {
                 // save customer function
             } else
