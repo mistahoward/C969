@@ -125,9 +125,9 @@ namespace C969.Data
 
             bool existingCustomer = DoesCustomerExist(workingCustomer);
 
-            if (existingCustomer)
+            if (!existingCustomer)
             {
-                throw new DuplicateData("Customer already exists");
+                throw new DuplicateData("Customer does not exist");
             }
 
             return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);
