@@ -13,7 +13,6 @@ namespace C969.Models
         public int addressId { get; set; }
         [Required]
         public string address { get; set; }
-        [Required]
         public string address2 { get; set; }
         [Required]
         public int cityId { get; set; }

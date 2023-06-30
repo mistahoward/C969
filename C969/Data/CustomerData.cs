@@ -111,7 +111,7 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCustomer">Customer object to update</param>
         /// <returns>Boolean of success</returns>
-        /// <exception cref="DuplicateData">Thrown when the customer already exists</exception>
+        /// <exception cref="DuplicateData">Thrown when the customer object cannot be found by ID/exception>
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
         public bool UpdateCustomer(Customer workingCustomer)
         {
@@ -126,7 +126,7 @@ namespace C969.Data
 
             if (!existingCustomer)
             {
-                throw new DuplicateData("Customer does not exist");
+                throw new DataNotFound("Customer does not exist");
             }
 
             return UpdateData(workingCustomer, "customerId", workingCustomer.customerId);

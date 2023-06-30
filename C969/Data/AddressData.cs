@@ -110,7 +110,6 @@ namespace C969.Data
         {
             try
             {
-                Address addressByNameSearch = GetAddressByName(workingAddress.address);
                 Address addressByIdSearch = GetAddressById(workingAddress.addressId);
                 return true;
             }
@@ -148,7 +147,7 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingAddress">Address object to update</param>
         /// <returns>Boolean of success</returns>
-        /// <exception cref="DuplicateData">Thrown when the address already exists</exception>
+        /// <exception cref="DataNotFound">Thrown when the address object cannot be found by ID</exception>
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
         public bool UpdateAddress(Address workingAddress)
         {
@@ -158,9 +157,9 @@ namespace C969.Data
                 throw new InvalidObject("Address isn't valid");
             }
             bool existingAddress = DoesAddressExist(workingAddress);
-            if (existingAddress)
+            if (!existingAddress)
             {
-                throw new DuplicateData("Address already exists");
+                throw new DataNotFound("Address does not exist");
             }
 
             return UpdateData(workingAddress, "addressId", workingAddress.addressId);
