@@ -68,7 +68,7 @@ namespace C969
         {
             if (CustomerDataGridView.SelectedRows.Count < 0)
             {
-                throw new Exception("Please select a customer");
+                MessageBox.Show("Please select a customer before attempting to view one", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             var viewCustomer = new CustomerView(SelectedCustomerId, _customerController);
             viewCustomer.ShowDialog();

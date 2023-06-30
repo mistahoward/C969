@@ -49,7 +49,21 @@ namespace C969.Controllers
                 return false;
             }
         }
-
+        public bool HandleUpdateAddress(Address workingCustomerAddress)
+        {
+            if (workingCustomerAddress.Equals(CustomerAddress))
+            {
+                return false;
+            }
+            try
+            {
+                var result = _addressData.UpdateAddress(workingCustomerAddress);
+                return result;
+            } catch
+            {
+                return false;
+            }
+        }
         public List<Customer> Customers => _customers;
         public Customer Customer => _customerData.GetCustomerById(CustomerId);
         public Address CustomerAddress => _addressData.GetAddressById(Customer.addressId);

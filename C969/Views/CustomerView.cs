@@ -19,6 +19,10 @@ namespace C969.Views
         private readonly Dictionary<string, Func<string>> propertyGetters;
         private bool _editing = false;
         private bool _changesMade = false;
+        private bool _customerUpdated = false;
+        private bool _addressUpdated = false;
+        private bool _cityUpdated = false;
+        private bool _countryUpdated = false;
         private readonly Customer _workingCustomer;
         private readonly Address _workingCustomerAddress;
         private readonly City _workingCustomerCity;
@@ -151,6 +155,21 @@ namespace C969.Views
                     {
                         ChangesMade = true;
                         propertySetter(currentValue);
+                        switch (propertyName)
+                        {
+                            case "address": case "address2": case "postalCode": case "phoneNumber":
+                                _addressUpdated = true;
+                                break;
+                            case "city":
+                                _cityUpdated = true;
+                                break;
+                            case "country":
+                                _countryUpdated = true;
+                                break;
+                            default:
+                                _customerUpdated = true;
+                                break;
+                        }
                     }
                 }
             }
@@ -261,13 +280,28 @@ namespace C969.Views
         {
             if (_editing)
             {
-                var response = _customerController.HandleUpdateCustomer(WorkingCustomer);
-                if (response)
+                if (_customerUpdated)
                 {
-                    MessageBox.Show("Customer saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } else
+                    var response = _customerController.HandleUpdateCustomer(WorkingCustomer);
+                    if (response)
+                    {
+                        MessageBox.Show("Customer saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong saving the customer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                if (_addressUpdated)
                 {
-                    MessageBox.Show("Something went wrong saving the customer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    var response = _customerController.HandleUpdateAddress(WorkingCustomerAddress);
+                    if (response)
+                    {
+                        MessageBox.Show("Customer address saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else
+                    {
+                        MessageBox.Show("Something went wrong saving the customers address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 Close();
             }
