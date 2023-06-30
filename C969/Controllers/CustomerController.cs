@@ -111,6 +111,34 @@ namespace C969.Controllers
                 return false;
             }
         }
+        /// <summary>
+        /// Updates the country of a customer in the database
+        /// </summary>
+        /// <param name="workingCustomerCountry">The updated Country object</param>
+        /// <returns>True, if operation was successful. False, if not.</returns>
+        public bool HandleUpdateCountry(Country workingCustomerCountry)
+        {
+            if (workingCustomerCountry.Equals(CustomerCountry))
+            {
+                return false;
+            }
+            try
+            {
+                var result = _countryData.UpdateCountry(workingCustomerCountry);
+                return result;
+            }
+            catch (DuplicateData ex)
+            {
+                Country duplicateCountry = _countryData.GetCountryById(ex.DuplicateId);
+                CustomerCity.countryId = duplicateCountry.countryId;
+                var result = _cityData.UpdateCity(CustomerCity);
+                return result;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public List<Customer> Customers => _customers;
         public Customer Customer => _customerData.GetCustomerById(CustomerId);
         public Address CustomerAddress => _addressData.GetAddressById(Customer.addressId);

@@ -313,6 +313,17 @@ namespace C969.Views
                         MessageBox.Show("Something went wrong saving the customers city", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                if (_countryUpdated)
+                {
+                    var response = _customerController.HandleUpdateCountry(WorkingCustomerCountry);
+                    if (response)
+                    {
+                        MessageBox.Show("Customer country saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else
+                    {
+                        MessageBox.Show("Something went wrong saving the customers country", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
                 Close();
             }
             else

@@ -85,7 +85,7 @@ namespace C969.Data
             return countryBeingUsed;
         }
         /// <summary>
-        /// Checks if a country exists in the database based on name and id
+        /// Checks if a country exists in the database based id
         /// </summary>
         /// <param name="workingCountry">The country instance to check</param>
         /// <returns>true if the country exists, false otherwise</returns>
@@ -93,13 +93,28 @@ namespace C969.Data
         {
             try
             {
-                Country countryByNameSearch = GetCountryByName(workingCountry.country);
                 Country countryByIdSearch = GetCountryById(workingCountry.countryId);
                 return true;
             } 
             catch (DataNotFound)
             {
                 return false;
+            }
+        }
+        /// <summary>
+        /// Method to check if a duplicate country exists in the database
+        /// </summary>
+        /// <param name="workingCountry">The country to check for duplicates</param>
+        /// <returns>CountryId if duplicate exists, 0 otherwise</returns>
+        public int DoesDuplicateExist(Country workingCountry)
+        {
+            try
+            {
+                Country countryByNameSearch = GetCountryByName(workingCountry.country);
+                return countryByNameSearch.countryId;
+            } catch (DataNotFound)
+            {
+                return 0;
             }
         }
         /// <summary>
@@ -132,7 +147,8 @@ namespace C969.Data
         /// </summary>
         /// <param name="workingCountry">Country object to update</param>
         /// <returns>Boolean of success</returns>
-        /// <exception cref="DuplicateData">Thrown when the country already exists</exception>
+        /// <exception cref="DataNotFound">Thrown when the country object cannot be found by ID</exception>
+        /// <exception cref="DuplicateData">Thrown when an country object is found with the same "name" (country.country)</exception>
         /// <exception cref="InvalidObject">Thrown when the country object is not valid</exception>
         public bool UpdateCountry(Country workingCountry)
         {
@@ -145,9 +161,16 @@ namespace C969.Data
 
             bool existingCountry = DoesCountryExist(workingCountry);
 
-            if (existingCountry)
+            if (!existingCountry)
             {
-                throw new DuplicateData("Country already exists");
+                throw new DataNotFound("Country cannot be found with provided ID");
+            }
+
+            int duplicateCountry = DoesDuplicateExist(workingCountry);
+
+            if (duplicateCountry != 0)
+            {
+                throw new DuplicateData($"Country already exists by name - please use {duplicateCountry}.", duplicateCountry);
             }
 
             return UpdateData(workingCountry, "countryId", workingCountry.countryId);
