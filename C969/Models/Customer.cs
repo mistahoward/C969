@@ -16,6 +16,7 @@ namespace C969.Models
             this.createDate = DateTime.Now;
             this.lastUpdateBy = ApplicationState.CurrentUser.userName;
             this.lastUpdate = DateTime.Now;
+            this.active = true;
         }
         [Required]
         public int customerId { get; set; }

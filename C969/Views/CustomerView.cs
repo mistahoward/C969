@@ -81,6 +81,7 @@ namespace C969.Views
             if (editing)
             {
                 _adding = true;
+                activeCheckBox.Checked = true;
             }
             customerController.CustomerId = customerId;
             _customerController = customerController;
