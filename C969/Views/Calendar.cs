@@ -21,7 +21,7 @@ namespace C969
         public BindingList<string> Months { get; set;  }
         public int RequestedWeekNumber { get; set; }
         public int RequestedMonthNumber { get; set; }
-        public Calendar(DateTime requestedDate, ViewType requestedView)
+        public Calendar(DateTime requestedDate, CalendarViewType requestedView)
         {
             InitializeComponent();
 
@@ -36,11 +36,11 @@ namespace C969
 
             switch (requestedView)
             {
-                case ViewType.Week:
+                case CalendarViewType.Week:
                     ChangeToWeekView(currentWeekNumber);
                     PopulateWeeks();
                     break;
-                case ViewType.Month:
+                case CalendarViewType.Month:
                     ChangeToMonthView(requestedDate.Month);
                     PopulateMonths();
                     break;

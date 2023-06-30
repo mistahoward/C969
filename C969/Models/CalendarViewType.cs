@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace C969.Models
 {
-    public enum ViewType
+    public enum CalendarViewType
     {
         Week,
         Month

@@ -18,9 +18,10 @@ namespace C969
         private readonly CustomerController _customerController;
         private int _selectedCustomerId;
         public List<CustomerMeta> CustomersMetaList { get; set; }
+        public CustomerFilters SelectedFilter { get; set; }
         public int SelectedCustomerId => _selectedCustomerId;
 
-        public CustomersList()
+        public CustomersList(CustomerFilters selectedFilter = CustomerFilters.Active)
         {
             InitializeComponent();
 
@@ -29,18 +30,43 @@ namespace C969
             CustomersMetaList = new List<CustomerMeta>();
 
             InitializeCustomers();
+            if (selectedFilter == CustomerFilters.Active)
+            {
+                activeInactiveToggle.Checked = true;
+                activeInactiveToggle.Text = "Active";
+            }
             Activated += new EventHandler(CustomersList_Activated);
+            SelectedFilter = selectedFilter;
+        }
+        private void FilterCustomerView(List<Customer> workingCustomers, bool active)
+        {
+            // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code, allowing us to filter off of active as well
+            CustomersMetaList = workingCustomers.Select(c =>
+            new CustomerMeta
+            {
+                customerId = c.customerId,
+                customerName = c.customerName,
+                active = c.active
+            }).Where(c => c.active = active).ToList();
+            activeInactiveToggle.Checked = active;
+            if (active)
+            {
+                activeInactiveToggle.Text = "Active";
+            } else
+            {
+                activeInactiveToggle.Text = "Inactive";
+            }
         }
         private void InitializeCustomers()
         {
             var workingCustomers = _customerController.Customers;
-            // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code
-            CustomersMetaList = workingCustomers.Select(c =>
-            new CustomerMeta {
-                customerId = c.customerId,
-                customerName = c.customerName,
-                active = c.active
-            }).ToList();
+            bool active = true;
+            if (SelectedFilter == CustomerFilters.Inactive)
+            {
+                active = false;
+            }
+            FilterCustomerView(workingCustomers, active);
+
             CustomerDataGridView.DataSource = CustomersMetaList;
         }
         /// <summary>
@@ -82,6 +108,19 @@ namespace C969
         private void CustomersList_Activated(object sender, EventArgs e)
         {
             InitializeCustomers();
+        }
+
+        private void activeInactiveToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            if (activeInactiveToggle.Checked)
+            {
+                SelectedFilter = CustomerFilters.Active;
+                InitializeCustomers();
+            } else
+            {
+                SelectedFilter = CustomerFilters.Inactive;
+                InitializeCustomers();
+            }
         }
     }
 }

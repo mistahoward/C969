@@ -89,7 +89,7 @@ namespace C969
                 errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["error"]);
                 return;
             }
-            var calendarForm = new Calendar(DateTime.Now, ViewType.Week);
+            var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week);
             this.Hide();
             calendarForm.ShowDialog();
             this.Close();

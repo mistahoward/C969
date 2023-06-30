@@ -33,6 +33,8 @@ namespace C969
             this.ViewCustomerButton = new System.Windows.Forms.Button();
             this.DeleteCustomerButton = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.activeInactiveToggle = new System.Windows.Forms.CheckBox();
+            this.sortByLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,11 +84,34 @@ namespace C969
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // activeInactiveToggle
+            // 
+            this.activeInactiveToggle.Appearance = System.Windows.Forms.Appearance.Button;
+            this.activeInactiveToggle.AutoSize = true;
+            this.activeInactiveToggle.Location = new System.Drawing.Point(12, 46);
+            this.activeInactiveToggle.Name = "activeInactiveToggle";
+            this.activeInactiveToggle.Size = new System.Drawing.Size(75, 26);
+            this.activeInactiveToggle.TabIndex = 4;
+            this.activeInactiveToggle.Text = "Loading...";
+            this.activeInactiveToggle.UseVisualStyleBackColor = true;
+            this.activeInactiveToggle.CheckedChanged += new System.EventHandler(this.activeInactiveToggle_CheckedChanged);
+            // 
+            // sortByLabel
+            // 
+            this.sortByLabel.AutoSize = true;
+            this.sortByLabel.Location = new System.Drawing.Point(12, 27);
+            this.sortByLabel.Name = "sortByLabel";
+            this.sortByLabel.Size = new System.Drawing.Size(53, 16);
+            this.sortByLabel.TabIndex = 5;
+            this.sortByLabel.Text = "Sort By:";
+            // 
             // CustomersList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(620, 483);
+            this.Controls.Add(this.sortByLabel);
+            this.Controls.Add(this.activeInactiveToggle);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.DeleteCustomerButton);
             this.Controls.Add(this.ViewCustomerButton);
@@ -96,6 +121,7 @@ namespace C969
             this.Activated += new System.EventHandler(this.CustomersList_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -105,5 +131,7 @@ namespace C969
         private System.Windows.Forms.Button ViewCustomerButton;
         private System.Windows.Forms.Button DeleteCustomerButton;
         private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.CheckBox activeInactiveToggle;
+        private System.Windows.Forms.Label sortByLabel;
     }
 }
