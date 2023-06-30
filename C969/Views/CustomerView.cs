@@ -72,15 +72,25 @@ namespace C969.Views
         /// Initializes a new instance of the CustomerView class
         /// </summary>
         /// <param name="customerId">The ID of the customer to display</param>
-        public CustomerView(int customerId, CustomerController customerController)
+        public CustomerView(CustomerController customerController, int customerId = 0, bool editing = false)
         {
             InitializeComponent();
-            customerController.CustomerId = customerId;
+            if (customerId != 0)
+            {
+                customerController.CustomerId = customerId;
+                _customer = _customerController.Customer;
+                _customerAddress = _customerController.CustomerAddress;
+                _customerCity = _customerController.CustomerCity;
+                _customerCountry = _customerController.CustomerCountry;
+            } else
+            {
+                _customer = new Customer();
+                _customerAddress = new Address();
+                _customerCity = new City();
+                _customerCountry = new Country();
+            }
+            _editing = editing;
             _customerController = customerController;
-            _customer = _customerController.Customer;
-            _customerAddress = _customerController.CustomerAddress;
-            _customerCity = _customerController.CustomerCity;
-            _customerCountry = _customerController.CustomerCountry;
             _workingCustomer = _customerController.Customer;
             _workingCustomerAddress = _customerController.CustomerAddress;
             _workingCustomerCity = _customerController.CustomerCity;
@@ -120,6 +130,7 @@ namespace C969.Views
                 { "country", () => _workingCustomerCountry.country },
                 { "phoneNumber", () => _workingCustomerAddress.phone }
             };
+            _editing = editing;
         }
         /// <summary>
         /// Attach event handlers to CustomerView's text boxes tracking user's changes
@@ -274,18 +285,6 @@ namespace C969.Views
                 }
             }
             Close();
-        }
-        private void HandleUpdate(Func<bool> updateHandler, string successMessage, string errorMessage)
-        {
-            var response = updateHandler();
-            if (response)
-            {
-                MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
         private void EditSaveButton_Click(object sender, EventArgs e)
         {

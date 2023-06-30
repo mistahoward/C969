@@ -110,7 +110,7 @@ namespace C969
             {
                 MessageBox.Show("Please select a customer before attempting to view one", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            var viewCustomer = new CustomerView(SelectedCustomerId, _customerController);
+            var viewCustomer = new CustomerView(_customerController, customerId: SelectedCustomerId);
             viewCustomer.ShowDialog();
         }
 
@@ -178,5 +178,10 @@ namespace C969
             InitializeCustomers();
         }
 
+        private void addCustomerButton_Click(object sender, EventArgs e)
+        {
+            var addCustomer = new CustomerView(_customerController, editing:true);
+            addCustomer.ShowDialog();
+        }
     }
 }

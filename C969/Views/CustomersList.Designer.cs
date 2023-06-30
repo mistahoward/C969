@@ -35,6 +35,7 @@ namespace C969
             this.CloseButton = new System.Windows.Forms.Button();
             this.activeInactiveToggle = new System.Windows.Forms.CheckBox();
             this.sortByLabel = new System.Windows.Forms.Label();
+            this.addCustomerButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,7 +44,8 @@ namespace C969
             this.CustomerDataGridView.AllowUserToAddRows = false;
             this.CustomerDataGridView.AllowUserToDeleteRows = false;
             this.CustomerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CustomerDataGridView.Location = new System.Drawing.Point(12, 84);
+            this.CustomerDataGridView.Location = new System.Drawing.Point(9, 68);
+            this.CustomerDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CustomerDataGridView.MultiSelect = false;
             this.CustomerDataGridView.Name = "CustomerDataGridView";
             this.CustomerDataGridView.ReadOnly = true;
@@ -51,15 +53,16 @@ namespace C969
             this.CustomerDataGridView.RowTemplate.Height = 24;
             this.CustomerDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CustomerDataGridView.ShowEditingIcon = false;
-            this.CustomerDataGridView.Size = new System.Drawing.Size(437, 387);
+            this.CustomerDataGridView.Size = new System.Drawing.Size(328, 314);
             this.CustomerDataGridView.TabIndex = 0;
             this.CustomerDataGridView.SelectionChanged += new System.EventHandler(this.CustomerDataGridView_SelectionChanged);
             // 
             // ViewCustomerButton
             // 
-            this.ViewCustomerButton.Location = new System.Drawing.Point(455, 84);
+            this.ViewCustomerButton.Location = new System.Drawing.Point(341, 106);
+            this.ViewCustomerButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ViewCustomerButton.Name = "ViewCustomerButton";
-            this.ViewCustomerButton.Size = new System.Drawing.Size(161, 42);
+            this.ViewCustomerButton.Size = new System.Drawing.Size(121, 34);
             this.ViewCustomerButton.TabIndex = 1;
             this.ViewCustomerButton.Text = "View Customer";
             this.ViewCustomerButton.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@ namespace C969
             // 
             // DeleteCustomerButton
             // 
-            this.DeleteCustomerButton.Location = new System.Drawing.Point(455, 132);
+            this.DeleteCustomerButton.Location = new System.Drawing.Point(341, 144);
+            this.DeleteCustomerButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DeleteCustomerButton.Name = "DeleteCustomerButton";
-            this.DeleteCustomerButton.Size = new System.Drawing.Size(161, 42);
+            this.DeleteCustomerButton.Size = new System.Drawing.Size(121, 34);
             this.DeleteCustomerButton.TabIndex = 2;
             this.DeleteCustomerButton.Text = "Archive Customer";
             this.DeleteCustomerButton.UseVisualStyleBackColor = true;
@@ -77,9 +81,10 @@ namespace C969
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(455, 429);
+            this.CloseButton.Location = new System.Drawing.Point(341, 349);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(161, 42);
+            this.CloseButton.Size = new System.Drawing.Size(121, 34);
             this.CloseButton.TabIndex = 3;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -89,9 +94,10 @@ namespace C969
             // 
             this.activeInactiveToggle.Appearance = System.Windows.Forms.Appearance.Button;
             this.activeInactiveToggle.AutoSize = true;
-            this.activeInactiveToggle.Location = new System.Drawing.Point(12, 46);
+            this.activeInactiveToggle.Location = new System.Drawing.Point(9, 37);
+            this.activeInactiveToggle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.activeInactiveToggle.Name = "activeInactiveToggle";
-            this.activeInactiveToggle.Size = new System.Drawing.Size(75, 26);
+            this.activeInactiveToggle.Size = new System.Drawing.Size(64, 23);
             this.activeInactiveToggle.TabIndex = 4;
             this.activeInactiveToggle.Text = "Loading...";
             this.activeInactiveToggle.UseVisualStyleBackColor = true;
@@ -100,23 +106,37 @@ namespace C969
             // sortByLabel
             // 
             this.sortByLabel.AutoSize = true;
-            this.sortByLabel.Location = new System.Drawing.Point(12, 27);
+            this.sortByLabel.Location = new System.Drawing.Point(9, 22);
+            this.sortByLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.sortByLabel.Name = "sortByLabel";
-            this.sortByLabel.Size = new System.Drawing.Size(53, 16);
+            this.sortByLabel.Size = new System.Drawing.Size(44, 13);
             this.sortByLabel.TabIndex = 5;
             this.sortByLabel.Text = "Sort By:";
             // 
+            // addCustomerButton
+            // 
+            this.addCustomerButton.Location = new System.Drawing.Point(341, 68);
+            this.addCustomerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.addCustomerButton.Name = "addCustomerButton";
+            this.addCustomerButton.Size = new System.Drawing.Size(121, 34);
+            this.addCustomerButton.TabIndex = 6;
+            this.addCustomerButton.Text = "Add Customer";
+            this.addCustomerButton.UseVisualStyleBackColor = true;
+            this.addCustomerButton.Click += new System.EventHandler(this.addCustomerButton_Click);
+            // 
             // CustomersList
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 483);
+            this.ClientSize = new System.Drawing.Size(465, 392);
+            this.Controls.Add(this.addCustomerButton);
             this.Controls.Add(this.sortByLabel);
             this.Controls.Add(this.activeInactiveToggle);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.DeleteCustomerButton);
             this.Controls.Add(this.ViewCustomerButton);
             this.Controls.Add(this.CustomerDataGridView);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "CustomersList";
             this.Text = "Customers";
             this.Activated += new System.EventHandler(this.CustomersList_Activated);
@@ -134,5 +154,6 @@ namespace C969
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.CheckBox activeInactiveToggle;
         private System.Windows.Forms.Label sortByLabel;
+        private System.Windows.Forms.Button addCustomerButton;
     }
 }

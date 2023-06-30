@@ -1,6 +1,7 @@
 ﻿using C969.Data;
 using C969.Exceptions;
 using C969.Models;
+using C969.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,18 @@ namespace C969.Controllers
         /// Updates the customer information in the database
         /// </summary>
         /// <param name="workingCustomer">The updated Customer object</param>
+        /// <exception cref="InvalidObject">Thrown if workingCustomer is incomplete</exception>
         /// <returns>A boolean indicating whether the operation was successful or not</returns>
         public bool HandleUpdateCustomer(Customer workingCustomer)
         {
             if (workingCustomer.Equals(Customer))
             {
                 return false;
+            }
+            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
+            if (!validCustomer)
+            {
+                throw new InvalidObject("Customer is missing required data");
             }
             try
             {
@@ -59,6 +66,7 @@ namespace C969.Controllers
         /// Updates customer address in the database.
         /// </summary>
         /// <param name="workingCustomerAddress">The updated Address object.</param>
+        /// <exception cref="InvalidObject">Thrown if workingCustomerAddress is incomplete</exception>
         /// <returns>True, if operation was successful. False, if not.</returns>
         public bool HandleUpdateAddress(Address workingCustomerAddress)
         {
@@ -66,6 +74,11 @@ namespace C969.Controllers
             {
                 return false;
             }
+            var validAddress = ModelValidator.ValidateModel(workingCustomerAddress);
+            if (!validAddress)
+            {
+                throw new InvalidObject("Address is missing required data");
+            }    
             try
             {
                 var result = _addressData.UpdateAddress(workingCustomerAddress);
@@ -88,12 +101,18 @@ namespace C969.Controllers
         /// Updates the city of a customer in the database
         /// </summary>
         /// <param name="workingCustomerCity">The updated City object</param>
+        /// <exception cref="InvalidObject">Thrown if workingCustomerCity is incomplete</exception>
         /// <returns>True, if operation was successful. False, if not</returns>
         public bool HandleUpdateCity(City workingCustomerCity)
         {
             if (workingCustomerCity.Equals(CustomerCity))
             {
                 return false;
+            }
+            var validCity = ModelValidator.ValidateModel(workingCustomerCity);
+            if (!validCity)
+            {
+                throw new InvalidObject("City is missing required data");
             }
             try
             {
@@ -118,12 +137,18 @@ namespace C969.Controllers
         /// Updates the country of a customer in the database
         /// </summary>
         /// <param name="workingCustomerCountry">The updated Country object</param>
+        /// <exception cref="InvalidObject">Thrown if workingCustomerCountry is incomplete</exception>
         /// <returns>True, if operation was successful. False, if not.</returns>
         public bool HandleUpdateCountry(Country workingCustomerCountry)
         {
             if (workingCustomerCountry.Equals(CustomerCountry))
             {
                 return false;
+            }
+            var validCountry = ModelValidator.ValidateModel(workingCustomerCountry);
+            if (!validCountry)
+            {
+                throw new InvalidObject("Country is missing required data");
             }
             try
             {
