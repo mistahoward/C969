@@ -76,22 +76,13 @@ namespace C969.Views
         public CustomerView(CustomerController customerController, int customerId = 0, bool editing = false)
         {
             InitializeComponent();
-            if (customerId != 0)
-            {
-                customerController.CustomerId = customerId;
-                _customer = _customerController.Customer;
-                _customerAddress = _customerController.CustomerAddress;
-                _customerCity = _customerController.CustomerCity;
-                _customerCountry = _customerController.CustomerCountry;
-            } else
-            {
-                _customer = new Customer();
-                _customerAddress = new Address();
-                _customerCity = new City();
-                _customerCountry = new Country();
-            }
             _editing = editing;
+            customerController.CustomerId = customerId;
             _customerController = customerController;
+            _customer = _customerController.Customer;
+            _customerAddress = _customerController.CustomerAddress;
+            _customerCity = _customerController.CustomerCity;
+            _customerCountry = _customerController.CustomerCountry;
             _workingCustomer = _customerController.Customer;
             _workingCustomerAddress = _customerController.CustomerAddress;
             _workingCustomerCity = _customerController.CustomerCity;

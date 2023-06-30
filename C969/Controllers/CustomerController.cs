@@ -169,10 +169,10 @@ namespace C969.Controllers
             }
         }
         public List<Customer> Customers => _customers;
-        public Customer Customer => _customerData.GetCustomerById(CustomerId);
-        public Address CustomerAddress => _addressData.GetAddressById(Customer.addressId);
-        public City CustomerCity => _cityData.GetCityById(CustomerAddress.cityId);
-        public Country CustomerCountry => _countryData.GetCountryById(CustomerCity.countryId);
+        public Customer Customer => CustomerId == 0 ? new Customer() : _customerData.GetCustomerById(CustomerId);
+        public Address CustomerAddress => Customer.addressId == 0 ? new Address() : _addressData.GetAddressById(Customer.addressId);
+        public City CustomerCity => CustomerAddress.cityId == 0 ? new City() : _cityData.GetCityById(CustomerAddress.cityId);
+        public Country CustomerCountry => CustomerCity.countryId == 0 ? new Country() : _countryData.GetCountryById(CustomerCity.countryId);
         public int CustomerId { get => _customerId; set => _customerId = value; }
     }
 }
