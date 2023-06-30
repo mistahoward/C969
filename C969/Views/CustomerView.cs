@@ -275,55 +275,63 @@ namespace C969.Views
             }
             Close();
         }
-
+        private void HandleUpdate(Func<bool> updateHandler, string successMessage, string errorMessage)
+        {
+            var response = updateHandler();
+            if (response)
+            {
+                MessageBox.Show(successMessage, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show(errorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void EditSaveButton_Click(object sender, EventArgs e)
         {
             if (_editing)
             {
-                if (_customerUpdated)
+                // Prepare updates and their corresponding messages
+                var updates = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                    {
+                        (() => _customerController.HandleUpdateCustomer(WorkingCustomer), "Customer saved successfully", "Something went wrong saving the customer"),
+                        (() => _customerController.HandleUpdateAddress(WorkingCustomerAddress), "Customer address saved successfully", "Something went wrong saving the customers address"),
+                        (() => _customerController.HandleUpdateCity(WorkingCustomerCity), "Customer city saved successfully", "Something went wrong saving the customers city"),
+                        (() => _customerController.HandleUpdateCountry(WorkingCustomerCountry), "Customer country saved successfully", "Something went wrong saving the customers country")
+                    };
+
+                // Check which updates we need to perform
+                var updatesToPerform = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                    {
+                        _customerUpdated ? updates[0] : default,
+                        _addressUpdated ? updates[1] : default,
+                        _cityUpdated ? updates[2] : default,
+                        _countryUpdated ? updates[3] : default,
+                    }.Where(x => x.Action != null).ToList();
+
+                // Gather all the results and messages
+                var results = new List<(bool Success, string Message)>();
+                foreach (var update in updatesToPerform)
                 {
-                    var response = _customerController.HandleUpdateCustomer(WorkingCustomer);
-                    if (response)
-                    {
-                        MessageBox.Show("Customer saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Something went wrong saving the customer", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    var result = update.Action();
+                    var message = result ? update.SuccessMessage : update.ErrorMessage;
+                    results.Add((result, message));
                 }
-                if (_addressUpdated)
+
+                // Now prepare and show the final message, batching the messages together
+                var successMessages = results.Where(r => r.Success).Select(r => r.Message);
+                var errorMessages = results.Where(r => !r.Success).Select(r => r.Message);
+
+                if (successMessages.Any())
                 {
-                    var response = _customerController.HandleUpdateAddress(WorkingCustomerAddress);
-                    if (response)
-                    {
-                        MessageBox.Show("Customer address saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else
-                    {
-                        MessageBox.Show("Something went wrong saving the customers address", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show(string.Join("\n", successMessages), "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                if (_cityUpdated) {
-                    var response = _customerController.HandleUpdateCity(WorkingCustomerCity);
-                    if (response)
-                    {
-                        MessageBox.Show("Customer city saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else
-                    {
-                        MessageBox.Show("Something went wrong saving the customers city", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                if (_countryUpdated)
+
+                if (errorMessages.Any())
                 {
-                    var response = _customerController.HandleUpdateCountry(WorkingCustomerCountry);
-                    if (response)
-                    {
-                        MessageBox.Show("Customer country saved successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else
-                    {
-                        MessageBox.Show("Something went wrong saving the customers country", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show(string.Join("\n", errorMessages), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
                 Close();
             }
             else
