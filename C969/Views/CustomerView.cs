@@ -15,10 +15,25 @@ namespace C969.Views
     public partial class CustomerView : Form
     {
         private readonly CustomerController _customerController;
-        public Customer Customer;
-        public Address CustomerAddress;
-        public City CustomerCity;
-        public Country CustomerCountry;
+        private bool _editing = false;
+        private readonly Customer _workingCustomer;
+        private readonly Address _workingCustomerAddress;
+        private readonly City _workingCustomerCity;
+        private readonly Country _workingCustomerCountry;
+        private readonly Customer _customer;
+        private readonly Address _customerAddress;
+        private readonly City _customerCity;
+        private readonly Country _customerCountry;
+        public bool Editing => _editing;
+        public Customer WorkingCustomer => _workingCustomer;
+        public Address WorkingCustomerAddress => _workingCustomerAddress;
+        public City WorkingCustomerCity => _workingCustomerCity;
+        public Country WorkingCustomerCountry => _workingCustomerCountry;
+        public Customer Customer => _customer;
+        public Address CustomerAddress => _customerAddress;
+        public City CustomerCity => _customerCity;
+        public Country CustomerCountry => _customerCountry;
+
         public CustomerView(int customerId)
         {
             InitializeComponent();
@@ -26,11 +41,22 @@ namespace C969.Views
             {
                 CustomerId = customerId
             };
-            Customer = _customerController.Customer;
-            CustomerAddress = _customerController.CustomerAddress;
-            CustomerCity = _customerController.CustomerCity;
-            CustomerCountry = _customerController.CustomerCountry;
+            _customer = _customerController.Customer;
+            _customerAddress = _customerController.CustomerAddress;
+            _customerCity = _customerController.CustomerCity;
+            _customerCountry = _customerController.CustomerCountry;
+            _workingCustomer = _customerController.Customer;
+            _workingCustomerAddress = _customerController.CustomerAddress;
+            _workingCustomerCity = _customerController.CustomerCity;
+            _workingCustomerCountry = _customerController.CustomerCountry;
             FillOutFields();
+            if (Editing)
+            {
+                HandleToggleEdit();
+            } else
+            {
+                EditSaveButton.Text = "Edit";
+            }
         }
         private void FillOutFields()
         {
@@ -43,10 +69,34 @@ namespace C969.Views
             countryTextBox.Text = CustomerCountry.country;
             phoneNumberTextBox.Text = CustomerAddress.phone;
         }
+        private void HandleToggleEdit()
+        {
+            _editing = true;
+            EditSaveButton.Text = "Save";
+            customerNameTextBox.Enabled = true;
+            activeCheckBox.Enabled = true;
+            addressTextBox.Enabled = true;
+            address2TextBox.Enabled = true;
+            postalCodeTextBox.Enabled = true;
+            cityTextBox.Enabled = true;
+            countryTextBox.Enabled = true;
+            phoneNumberTextBox.Enabled = true;
+        }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void EditSaveButton_Click(object sender, EventArgs e)
+        {
+            if (Editing)
+            {
+                // save customer function
+            } else
+            {
+                HandleToggleEdit();
+            }
         }
     }
 }

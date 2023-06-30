@@ -53,7 +53,7 @@
             this.customerNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.customerNameLabel.Location = new System.Drawing.Point(9, 17);
             this.customerNameLabel.Name = "customerNameLabel";
-            this.customerNameLabel.Size = new System.Drawing.Size(131, 20);
+            this.customerNameLabel.Size = new System.Drawing.Size(109, 17);
             this.customerNameLabel.TabIndex = 12;
             this.customerNameLabel.Text = "Customer Name";
             // 
@@ -63,7 +63,7 @@
             this.customerNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.customerNameTextBox.Location = new System.Drawing.Point(12, 40);
             this.customerNameTextBox.Name = "customerNameTextBox";
-            this.customerNameTextBox.Size = new System.Drawing.Size(205, 26);
+            this.customerNameTextBox.Size = new System.Drawing.Size(205, 23);
             this.customerNameTextBox.TabIndex = 11;
             // 
             // activeCheckBox
@@ -74,7 +74,7 @@
             this.activeCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.activeCheckBox.Location = new System.Drawing.Point(258, 17);
             this.activeCheckBox.Name = "activeCheckBox";
-            this.activeCheckBox.Size = new System.Drawing.Size(59, 41);
+            this.activeCheckBox.Size = new System.Drawing.Size(50, 35);
             this.activeCheckBox.TabIndex = 13;
             this.activeCheckBox.Text = "Active";
             this.activeCheckBox.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             this.addressLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.addressLabel.Location = new System.Drawing.Point(9, 84);
             this.addressLabel.Name = "addressLabel";
-            this.addressLabel.Size = new System.Drawing.Size(71, 20);
+            this.addressLabel.Size = new System.Drawing.Size(60, 17);
             this.addressLabel.TabIndex = 15;
             this.addressLabel.Text = "Address";
             // 
@@ -95,7 +95,7 @@
             this.addressTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.addressTextBox.Location = new System.Drawing.Point(12, 107);
             this.addressTextBox.Name = "addressTextBox";
-            this.addressTextBox.Size = new System.Drawing.Size(205, 26);
+            this.addressTextBox.Size = new System.Drawing.Size(205, 23);
             this.addressTextBox.TabIndex = 14;
             // 
             // address2Label
@@ -104,7 +104,7 @@
             this.address2Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.address2Label.Location = new System.Drawing.Point(232, 84);
             this.address2Label.Name = "address2Label";
-            this.address2Label.Size = new System.Drawing.Size(85, 20);
+            this.address2Label.Size = new System.Drawing.Size(72, 17);
             this.address2Label.TabIndex = 17;
             this.address2Label.Text = "Address 2";
             // 
@@ -114,7 +114,7 @@
             this.address2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.address2TextBox.Location = new System.Drawing.Point(235, 107);
             this.address2TextBox.Name = "address2TextBox";
-            this.address2TextBox.Size = new System.Drawing.Size(117, 26);
+            this.address2TextBox.Size = new System.Drawing.Size(117, 23);
             this.address2TextBox.TabIndex = 16;
             // 
             // postalCodeLabel
@@ -123,7 +123,7 @@
             this.postalCodeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.postalCodeLabel.Location = new System.Drawing.Point(232, 146);
             this.postalCodeLabel.Name = "postalCodeLabel";
-            this.postalCodeLabel.Size = new System.Drawing.Size(100, 20);
+            this.postalCodeLabel.Size = new System.Drawing.Size(84, 17);
             this.postalCodeLabel.TabIndex = 21;
             this.postalCodeLabel.Text = "Postal Code";
             // 
@@ -133,7 +133,7 @@
             this.postalCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.postalCodeTextBox.Location = new System.Drawing.Point(235, 169);
             this.postalCodeTextBox.Name = "postalCodeTextBox";
-            this.postalCodeTextBox.Size = new System.Drawing.Size(117, 26);
+            this.postalCodeTextBox.Size = new System.Drawing.Size(117, 23);
             this.postalCodeTextBox.TabIndex = 20;
             // 
             // cityLabel
@@ -142,7 +142,7 @@
             this.cityLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.cityLabel.Location = new System.Drawing.Point(9, 146);
             this.cityLabel.Name = "cityLabel";
-            this.cityLabel.Size = new System.Drawing.Size(38, 20);
+            this.cityLabel.Size = new System.Drawing.Size(31, 17);
             this.cityLabel.TabIndex = 19;
             this.cityLabel.Text = "City";
             // 
@@ -152,7 +152,7 @@
             this.cityTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.cityTextBox.Location = new System.Drawing.Point(12, 169);
             this.cityTextBox.Name = "cityTextBox";
-            this.cityTextBox.Size = new System.Drawing.Size(205, 26);
+            this.cityTextBox.Size = new System.Drawing.Size(205, 23);
             this.cityTextBox.TabIndex = 18;
             // 
             // label1
@@ -161,7 +161,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label1.Location = new System.Drawing.Point(10, 209);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(120, 20);
+            this.label1.Size = new System.Drawing.Size(103, 17);
             this.label1.TabIndex = 23;
             this.label1.Text = "Phone Number";
             // 
@@ -171,7 +171,7 @@
             this.phoneNumberTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.phoneNumberTextBox.Location = new System.Drawing.Point(13, 232);
             this.phoneNumberTextBox.Name = "phoneNumberTextBox";
-            this.phoneNumberTextBox.Size = new System.Drawing.Size(205, 26);
+            this.phoneNumberTextBox.Size = new System.Drawing.Size(205, 23);
             this.phoneNumberTextBox.TabIndex = 22;
             // 
             // countryLabel
@@ -180,7 +180,7 @@
             this.countryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.countryLabel.Location = new System.Drawing.Point(232, 209);
             this.countryLabel.Name = "countryLabel";
-            this.countryLabel.Size = new System.Drawing.Size(67, 20);
+            this.countryLabel.Size = new System.Drawing.Size(57, 17);
             this.countryLabel.TabIndex = 25;
             this.countryLabel.Text = "Country";
             // 
@@ -190,7 +190,7 @@
             this.countryTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.countryTextBox.Location = new System.Drawing.Point(235, 232);
             this.countryTextBox.Name = "countryTextBox";
-            this.countryTextBox.Size = new System.Drawing.Size(117, 26);
+            this.countryTextBox.Size = new System.Drawing.Size(117, 23);
             this.countryTextBox.TabIndex = 24;
             // 
             // EditSaveButton
@@ -201,6 +201,7 @@
             this.EditSaveButton.TabIndex = 26;
             this.EditSaveButton.Text = "Loading...";
             this.EditSaveButton.UseVisualStyleBackColor = true;
+            this.EditSaveButton.Click += new System.EventHandler(this.EditSaveButton_Click);
             // 
             // closeButton
             // 
