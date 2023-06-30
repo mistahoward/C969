@@ -20,11 +20,11 @@ namespace C969.Controllers
         /// <param name="username">The username to use</param>
         /// <param name="password">The password to use</param>
         /// <returns>Returns true if the user is logged in, otherwise false.</returns>
-        public bool Login(string username, string password)
+        public User Login(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                return false;
+                return null;
             }
 
             try
@@ -32,14 +32,14 @@ namespace C969.Controllers
                 User claimedUser = _userData.GetUserByName(username);
                 if (claimedUser.password == password)
                 {
-                    return true;
+                    return claimedUser;
                 }
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
-            return false;
+            return null;
         }
     }
 }

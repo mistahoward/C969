@@ -1,5 +1,6 @@
 ﻿using C969.Controllers;
 using C969.Models;
+using C969.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -83,12 +84,13 @@ namespace C969
             }
             var userName = UsernameTextBox.Text;
             var password = PasswordTextBox.Text;
-            bool loginResult = _userController.Login(userName, password);
-            if (!loginResult)
+            User loginResult = _userController.Login(userName, password);
+            if (loginResult == null)
             {
                 errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["error"]);
                 return;
             }
+            ApplicationState.CurrentUser = loginResult;
             var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week);
             this.Hide();
             calendarForm.ShowDialog();

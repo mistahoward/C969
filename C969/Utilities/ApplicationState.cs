@@ -1,0 +1,14 @@
+﻿using C969.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace C969.Utilities
+{
+    public static class ApplicationState
+    {
+        public static User CurrentUser { get; set; }
+    }
+}

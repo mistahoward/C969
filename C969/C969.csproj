@@ -101,6 +101,7 @@
     <Compile Include="Models\CustomerFilters.cs" />
     <Compile Include="Models\CustomerMeta.cs" />
     <Compile Include="Models\CalendarViewType.cs" />
+    <Compile Include="Utilities\ApplicationState.cs" />
     <Compile Include="Utilities\DataTableConverter.cs" />
     <Compile Include="Utilities\Debouncer.cs" />
     <Compile Include="Utilities\EpochConverter.cs" />
