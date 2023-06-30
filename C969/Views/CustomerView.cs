@@ -33,6 +33,35 @@ namespace C969.Views
         public Address CustomerAddress => _customerAddress;
         public City CustomerCity => _customerCity;
         public Country CustomerCountry => _customerCountry;
+        public event EventHandler ChangesMadeChanged;
+        /// <summary>
+        /// Gets or sets a value indicating whether changes have been made.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if changes have been made; otherwise, <c>false</c>.
+        /// </value>
+        public bool ChangesMade
+        {
+            get { return _changesMade; }
+            /// <summary>
+            /// Sets the value indicating whether changes have been made and triggers an event if it has changed
+            /// </summary>
+            /// <value>
+            ///   <c>true</c> if changes have been made; otherwise, <c>false</c>.
+            /// </value>
+            /// <remarks>
+            /// Adding changes that have been made to the form.
+            /// </remarks>
+            set
+            {
+                if (_changesMade != value)
+                {
+                    _changesMade = value;
+                    ChangesMadeChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
 
         public CustomerView(int customerId)
         {
