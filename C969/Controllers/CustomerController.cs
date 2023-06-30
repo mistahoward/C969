@@ -74,8 +74,9 @@ namespace C969.Controllers
             catch (DuplicateData ex)
             {
                 Address duplicateAddress = _addressData.GetAddressById(ex.DuplicateId);
-                Customer.addressId = duplicateAddress.addressId;
-                var result = _customerData.UpdateCustomer(Customer);
+                Customer updatedCustomer = Customer;
+                updatedCustomer.addressId = duplicateAddress.addressId;
+                var result = _customerData.UpdateCustomer(updatedCustomer);
                 return result;
             }
             catch
@@ -132,8 +133,9 @@ namespace C969.Controllers
             catch (DuplicateData ex)
             {
                 Country duplicateCountry = _countryData.GetCountryById(ex.DuplicateId);
-                CustomerCity.countryId = duplicateCountry.countryId;
-                var result = _cityData.UpdateCity(CustomerCity);
+                City updatedCity = CustomerCity;
+                updatedCity.countryId = duplicateCountry.countryId;
+                var result = _cityData.UpdateCity(updatedCity);
                 return result;
             }
             catch

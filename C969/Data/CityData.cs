@@ -188,7 +188,7 @@ namespace C969.Data
 
             int duplicateCity = DoesDuplicateExist(workingCity);
 
-            if (duplicateCity != 0)
+            if (duplicateCity != 0 && workingCity.cityId != duplicateCity)
             {
                 throw new DuplicateData($"City already exists by name - please use {duplicateCity}.", duplicateCity);
             }

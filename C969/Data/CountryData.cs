@@ -168,7 +168,7 @@ namespace C969.Data
 
             int duplicateCountry = DoesDuplicateExist(workingCountry);
 
-            if (duplicateCountry != 0)
+            if (duplicateCountry != 0 && workingCountry.countryId != duplicateCountry)
             {
                 throw new DuplicateData($"Country already exists by name - please use {duplicateCountry}.", duplicateCountry);
             }
