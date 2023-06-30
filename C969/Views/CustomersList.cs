@@ -38,18 +38,20 @@ namespace C969
             Activated += new EventHandler(CustomersList_Activated);
             SelectedFilter = selectedFilter;
         }
-        private void FilterCustomerView(List<Customer> workingCustomers, bool active)
+        private void FilterCustomerView(List<Customer> workingCustomers, bool activeStatus)
         {
             // lambda here to convert a full customer to a meta customer - do this for much shorter and more concise code, allowing us to filter off of active as well
-            CustomersMetaList = workingCustomers.Select(c =>
-            new CustomerMeta
-            {
-                customerId = c.customerId,
-                customerName = c.customerName,
-                active = c.active
-            }).Where(c => c.active = active).ToList();
-            activeInactiveToggle.Checked = active;
-            if (active)
+            CustomersMetaList = workingCustomers
+                .Where(c => c.active == activeStatus)
+                .Select(c =>
+                new CustomerMeta
+                {
+                    customerId = c.customerId,
+                    customerName = c.customerName,
+                    active = c.active
+                }).ToList();
+            activeInactiveToggle.Checked = activeStatus;
+            if (activeStatus)
             {
                 activeInactiveToggle.Text = "Active";
                 DeleteCustomerButton.Text = "Archive Customer";
