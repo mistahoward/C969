@@ -194,6 +194,13 @@ namespace C969.Views
 
         private void closeButton_Click(object sender, EventArgs e)
         {
+            if (ChangesMade && _editing)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to close this customer view? You have pending changes that need saved.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (result != DialogResult.OK) {
+                    return;
+                }
+            }
             Close();
         }
 
