@@ -15,6 +15,8 @@ namespace C969.Views
     public partial class CustomerView : Form
     {
         private readonly CustomerController _customerController;
+        private readonly Dictionary<string, Action<string>> propertySetters;
+        private readonly Dictionary<string, Func<string>> propertyGetters;
         private bool _editing = false;
         private bool _changesMade = false;
         private Customer _workingCustomer;
@@ -62,7 +64,10 @@ namespace C969.Views
             }
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the CustomerView class
+        /// </summary>
+        /// <param name="customerId">The ID of the customer to display</param>
         public CustomerView(int customerId)
         {
             InitializeComponent();
@@ -80,6 +85,7 @@ namespace C969.Views
             _workingCustomerCountry = _customerController.CustomerCountry;
             FillOutFields();
             AttachEventHandlers();
+            ChangesMadeChanged += OnChangesMadeChanged;
             if (_editing)
             {
                 HandleToggleEdit();
@@ -88,6 +94,30 @@ namespace C969.Views
             {
                 EditSaveButton.Text = "Edit";
             }
+            // Initializing property setters and getters on workingCustomer to allow for "change tracking" and removing the needs for verbose switch statements
+            propertySetters = new Dictionary<string, Action<string>>
+            {
+                { "customerName", (value) => _workingCustomer.customerName = value },
+                { "active", (value) => _workingCustomer.active = value == "1" },
+                { "address", (value) => _workingCustomerAddress.address = value },
+                { "address2", (value) => _workingCustomerAddress.address2 = value },
+                { "postalCode", (value) => _workingCustomerAddress.postalCode = value },
+                { "city", (value) => _workingCustomerCity.city = value },
+                { "country", (value) => _workingCustomerCountry.country = value },
+                { "phoneNumber", (value) => _workingCustomerAddress.phone = value }
+            };
+
+            propertyGetters = new Dictionary<string, Func<string>>
+            {
+                { "customerName", () => _workingCustomer.customerName },
+                { "active", () => _workingCustomer.active ? "1" : "0" },
+                { "address", () => _workingCustomerAddress.address },
+                { "address2", () => _workingCustomerAddress.address2 },
+                { "postalCode", () => _workingCustomerAddress.postalCode },
+                { "city", () => _workingCustomerCity.city },
+                { "country", () => _workingCustomerCountry.country },
+                { "phoneNumber", () => _workingCustomerAddress.phone }
+            };
         }
         /// <summary>
         /// Attach event handlers to CustomerView's text boxes tracking user's changes
@@ -102,52 +132,27 @@ namespace C969.Views
             countryTextBox.TextChanged += OnTextChanged;
             phoneNumberTextBox.TextChanged += OnTextChanged;
         }
-        /// <summary> 
-        /// Event handler for when a text box in the CustomerView is changed
-        /// Updates the working customer object with the changes
-        /// Evaluates if workingCustomer is different than customer
+        /// <summary>
+        /// Handles the TextChanged event and updates the appropriate Customer property if its TextBox is changed
         /// </summary>
-        /// <param name="sender">The text box that raised the event</param> 
-        /// <param name="e">The event arguments</param> 
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The event arguments</param>
         private void OnTextChanged(object sender, EventArgs e)
         {
             if (sender is TextBox textBox)
             {
                 var currentValue = textBox.Text;
                 var propertyName = textBox.Name.Replace("TextBox", "");
-                var property = typeof(Customer).GetProperty(propertyName).GetValue(_workingCustomer, null).ToString();
 
-                if (currentValue != property)
+                if (propertySetters.TryGetValue(propertyName, out var propertySetter) &&
+                    propertyGetters.TryGetValue(propertyName, out var propertyGetter))
                 {
-                    _changesMade = true;
-                }
-
-                switch (propertyName)
-                {
-                    case "customerName":
-                        _workingCustomer.customerName = currentValue;
-                        break;
-                    case "active":
-                        _workingCustomer.active = activeCheckBox.Checked;
-                        break;
-                    case "address":
-                        _workingCustomerAddress.address = currentValue;
-                        break;
-                    case "address2":
-                        _workingCustomerAddress.address2 = currentValue;
-                        break;
-                    case "postalCode":
-                        _workingCustomerAddress.postalCode = currentValue;
-                        break;
-                    case "city":
-                        _workingCustomerCity.city = currentValue;
-                        break;
-                    case "country":
-                        _workingCustomerCountry.country = currentValue;
-                        break;
-                    case "phoneNumber":
-                        _workingCustomerAddress.phone = currentValue;
-                        break;
+                    var previousValue = propertyGetter();
+                    if (currentValue != previousValue)
+                    {
+                        ChangesMade = true;
+                        propertySetter(currentValue);
+                    }
                 }
             }
         }
@@ -172,6 +177,7 @@ namespace C969.Views
         {
             _editing = true;
             EditSaveButton.Text = "Save";
+            EditSaveButton.Enabled = false;
             customerNameTextBox.Enabled = true;
             activeCheckBox.Enabled = true;
             addressTextBox.Enabled = true;
@@ -180,6 +186,10 @@ namespace C969.Views
             cityTextBox.Enabled = true;
             countryTextBox.Enabled = true;
             phoneNumberTextBox.Enabled = true;
+        }
+        private void OnChangesMadeChanged(object sender, EventArgs e)
+        {
+            EditSaveButton.Enabled = ChangesMade;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
