@@ -16,6 +16,7 @@ namespace C969.Views
     {
         private readonly CustomerController _customerController;
         private bool _editing = false;
+        private bool _changesMade = false;
         private Customer _workingCustomer;
         private Address _workingCustomerAddress;
         private City _workingCustomerCity;
@@ -75,6 +76,7 @@ namespace C969.Views
         /// <summary> 
         /// Event handler for when a text box in the CustomerView is changed
         /// Updates the working customer object with the changes
+        /// Evaluates if workingCustomer is different than customer
         /// </summary>
         /// <param name="sender">The text box that raised the event</param> 
         /// <param name="e">The event arguments</param> 
@@ -82,34 +84,42 @@ namespace C969.Views
         {
             if (sender is TextBox textBox)
             {
-                switch (textBox.Name)
+                var currentValue = textBox.Text;
+                var propertyName = textBox.Name.Replace("TextBox", "");
+                var property = typeof(Customer).GetProperty(propertyName).GetValue(_workingCustomer, null).ToString();
+
+                if (currentValue != property)
                 {
-                    case "customerNameTextBox":
-                        _workingCustomer.customerName = textBox.Text;
-                        break;
-                    case "activeCheckBox":
-                        _workingCustomer.active = activeCheckBox.Checked;
-                        break;
-                    case "addressTextBox":
-                        _workingCustomerAddress.address = addressTextBox.Text;
-                        break;
-                    case "address2TextBox":
-                        _workingCustomerAddress.address2 = address2TextBox.Text;
-                        break;
-                    case "postalCodeTextBox":
-                        _workingCustomerAddress.postalCode = postalCodeTextBox.Text;
-                        break;
-                    case "cityTextBox":
-                        _workingCustomerCity.city = cityTextBox.Text;
-                        break;
-                    case "countryTextBox":
-                        _workingCustomerCountry.country = countryTextBox.Text;
-                        break;
-                    case "phoneNumberTextBox":
-                        _workingCustomerAddress.phone = phoneNumberTextBox.Text;
-                        break;
+                    _changesMade = true;
                 }
 
+                switch (propertyName)
+                {
+                    case "customerName":
+                        _workingCustomer.customerName = currentValue;
+                        break;
+                    case "active":
+                        _workingCustomer.active = activeCheckBox.Checked;
+                        break;
+                    case "address":
+                        _workingCustomerAddress.address = currentValue;
+                        break;
+                    case "address2":
+                        _workingCustomerAddress.address2 = currentValue;
+                        break;
+                    case "postalCode":
+                        _workingCustomerAddress.postalCode = currentValue;
+                        break;
+                    case "city":
+                        _workingCustomerCity.city = currentValue;
+                        break;
+                    case "country":
+                        _workingCustomerCountry.country = currentValue;
+                        break;
+                    case "phoneNumber":
+                        _workingCustomerAddress.phone = currentValue;
+                        break;
+                }
             }
         }
         private void FillOutFields()
