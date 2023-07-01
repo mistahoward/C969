@@ -58,6 +58,11 @@ namespace C969.Controllers
             }
             return appointmentMetas;
         }
+        /// <summary>
+        /// Updates an appointment in the week appointments list with the given appointment
+        /// </summary>
+        /// <param name="workingAppointment">The appointment to update</param>
+        /// <returns>Returns true if the specified appointment was updated successfully; otherwise, false</returns>
         private bool UpdateAppointmentInWeek(Appointment workingAppointment)
         {
             if (WeekAppointments == null) return false;
@@ -73,6 +78,11 @@ namespace C969.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Updates appointment in the month list
+        /// </summary>
+        /// <param name="workingAppointment">The appointment object to be updated</param>
+        /// <returns>True if the update is successful, false otherwise</returns>
         private bool UpdateAppointmentInMonth(Appointment workingAppointment)
         {
             if (MonthAppointments == null) return false;
@@ -87,6 +97,11 @@ namespace C969.Controllers
 
             return false;
         }
+        /// <summary>
+        /// Adds an appointment to the list of appointments for the current week
+        /// </summary>
+        /// <param name="workingAppointment">The appointment to add</param>
+        /// <returns>True if the appointment was added successfully and false otherwise</returns>
         private bool AddAppointmentToWeek(Appointment workingAppointment)
         {
             if (WeekAppointments == null) return false;
@@ -99,6 +114,11 @@ namespace C969.Controllers
 
             return false;
         }
+        /// <summary>
+        /// Adds a given appointment to the month's list of appointments
+        /// </summary>
+        /// <param name="workingAppointment">The appointment to add</param>
+        /// <returns>True if the given appointment was successfully added to the month's list of appointments</returns>
         private bool AddAppointmentToMonth(Appointment workingAppointment)
         {
             if (MonthAppointments == null) return false;
@@ -111,7 +131,6 @@ namespace C969.Controllers
 
             return false;
         }
-
 
         /// <summary>
         /// Updates an appointment
@@ -150,6 +169,11 @@ namespace C969.Controllers
                 return false;
             }
         }
+        /// <summary>
+        /// Adds a new appointment to the system
+        /// </summary>
+        /// <param name="workingAppointment">The new appointment to be added</param>
+        /// <returns>True if the appointment was added to the system, false otherwise</returns>
         public bool HandleAddAppointment(Appointment workingAppointment)
         {
             var validAppointment = ModelValidator.ValidateModel(workingAppointment);
@@ -181,6 +205,11 @@ namespace C969.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Deletes the appointment with the given ID, removes it from both the month and week appointments lists, and returns true when successful
+        /// </summary>
+        /// <param name="appointmentId">The ID of the appointment to delete</param>
+        /// <returns>A boolean representing whether the deletion was successful</returns>
         public bool HandleDeleteAppointment(int appointmentId)
         {
             try
@@ -198,11 +227,17 @@ namespace C969.Controllers
                     }
                 }
                 return false;
-            } catch (DataNotFound ex)
+            }
+            catch (DataNotFound ex)
             {
                 throw ex;
             }
         }
+        /// <summary>
+        /// Retrieves a list of appointments for a given user ID.
+        /// </summary>
+        /// <param name="userId">The ID of the user.</param>
+        /// <returns>A list of Appointment objects.</returns>
         public List<Appointment> GetUserAppointments(int userId)
         {
             return _appointmentData.GetAppointmentsByUserId(userId);
