@@ -14,6 +14,7 @@ namespace C969.Controllers
         private readonly AppointmentData _appointmentData;
         private List<Appointment> _weekAppointments;
         private List<Appointment> _monthAppointments;
+        private int _appointmentId;
 
         public AppointmentController()
         {
@@ -57,5 +58,7 @@ namespace C969.Controllers
         }
         public List<Appointment> MonthAppointments => _monthAppointments;
         public List<Appointment> WeekAppointments => _weekAppointments;
+        public Appointment Appointment => AppointmentId == 0 ? new Appointment() : _appointmentData.GetAppointmentById(AppointmentId);
+        public int AppointmentId { get => _appointmentId; set => _appointmentId = value; }
     }
 }

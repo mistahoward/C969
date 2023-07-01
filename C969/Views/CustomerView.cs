@@ -128,7 +128,6 @@ namespace C969.Views
                 { "country", () => _workingCustomerCountry.country },
                 { "phoneNumber", () => _workingCustomerAddress.phone }
             };
-            _editing = editing;
         }
         /// <summary>
         /// Attach event handlers to CustomerView's text boxes tracking user's changes

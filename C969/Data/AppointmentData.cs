@@ -47,13 +47,33 @@ namespace C969.Data
             }
             var emptyAppointment = new Appointment();
 
-            var userAppointmentsDataTable = RetrieveData(emptyAppointment, "userId", "id");
+            var userAppointmentsDataTable = RetrieveData(emptyAppointment, "userId", id);
 
             var appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(userAppointmentsDataTable);
 
             return appointmentList;
         }
         /// <summary>
+        /// Get an appointment by its ID
+        /// </summary>
+        /// <param name="id">The ID of the appointment</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when id is less than 0</exception>
+        /// <exception cref="DataNotFound">Thrown when appointment object is not found with provided id</exception>
+        /// <returns>The appointment details</returns>
+        public Appointment GetAppointmentById(int id)
+        {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException("ID cannot be a number less than zero");
+            }
+            var emptyAppointment = new Appointment();
+
+            var appointmentById = RetrieveSingleRow(emptyAppointment, "appointmentId", id)
+                ?? throw new DataNotFound("No appointment found with the provided ID");
+
+            return DataTableConverter.ConvertDataRowToModel<Appointment>(appointmentById);
+        }
+            /// <summary>
         /// Add Appointment to db
         /// </summary>
         /// <param name="workingAppointment">Appointment to add</param>
