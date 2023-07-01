@@ -1,4 +1,5 @@
 ﻿using C969.Controllers;
+using C969.Exceptions;
 using C969.Models;
 using C969.Utilities;
 using C969.Views;
@@ -60,6 +61,12 @@ namespace C969
                 }
             }
         }
+        /// <summary>
+        /// AppointmentView constructor
+        /// </summary>
+        /// <param name="appointmentController">An instance of AppointmentController</param>
+        /// <param name="appointmentId">Appointment id (optional, defaults to 0)</param>
+        /// <param name="editing">If true, start the view in edit mode</param>
         public AppointmentView(AppointmentController appointmentController, int appointmentId = 0, bool editing = false)
         {
             InitializeComponent();
@@ -89,7 +96,8 @@ namespace C969
             if (_editing)
             {
                 HandleToggleEdit();
-            } else
+            }
+            else
             {
                 EditSaveButton.Text = "Edit";
             }
@@ -124,6 +132,9 @@ namespace C969
                 { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
             };
         }
+        /// <summary>
+        /// Populates the CustomerDataGridView with active customer data and sets the DataSource as CustomersMetaList. If a customer is already selected, filters out its data.
+        /// </summary>
         private void HandleCustomers()
         {
             CustomersMetaList = new List<CustomerMeta>();
@@ -141,6 +152,9 @@ namespace C969
             }
             CustomerDataGridView.DataSource = CustomersMetaList;
         }
+        /// <summary>
+        /// Handles toggling editing mode for the appointment view
+        /// </summary>
         private void HandleToggleEdit()
         {
             _editing = true;
@@ -185,6 +199,9 @@ namespace C969
             startDateTimePicker.ValueChanged+= OnDateChange;
             endDateTimePicker.ValueChanged += OnDateChange;
         }
+        /// <summary>
+        /// Fills out the fields of the appointment view based on the appointment data.
+        /// </summary>
         private void FillOutFields()
         {
             titleTextBox.Text = Appointment.title;
@@ -247,6 +264,11 @@ namespace C969
             }
         }
  
+       /// <summary>
+        /// Handles the Click event of the closeButton control. Closes the form after validating if there are any unsaved changes
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The EventArgs instance containing the event data</param>
         private void closeButton_Click(object sender, EventArgs e)
         {
             if (ChangesMade && _editing)
@@ -260,17 +282,11 @@ namespace C969
             Close();
         }
 
-        private void EditSaveButton_Click(object sender, EventArgs e)
-        {
-            if (_editing)
-            {
-                // do stuff
-            } else
-            {
-                HandleToggleEdit();
-            }
-        }
-
+        /// <summary>
+        /// Handles the selection change event for the customer data grid view
+        /// </summary>
+        /// <param name="sender">The object that raised the selection changed event</param>
+        /// <param name="e">The event data.</param>
         private void CustomerDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (CustomerDataGridView.SelectedRows.Count > 0)
@@ -286,6 +302,12 @@ namespace C969
                 }
             }
         }
+        /// <summary>
+        /// Handle selecting a customer from the DataGridView and updating the appointment 
+        /// with the newly selected Customer
+        /// </summary>
+        /// <param name="sender">The object raising the event</param>
+        /// <param name="e">The EventArgs associated with the event</param>
         private void selectCustomerButton_Click(object sender, EventArgs e)
         {
             if (CustomerDataGridView.SelectedRows.Count > 0 && _customerController.Customer != null)
@@ -296,15 +318,58 @@ namespace C969
                 removeCustomerButton.Enabled = true;
             }
         }
-
+        /// <summary>
+        /// Handles the click event for the Remove Customer button.
+        /// Removes the selected customer from the appointment. 
+        /// </summary>
+        /// <param name="sender">The button that triggered the event</param>
+        /// <param name="e">The event arguments</param>
         private void removeCustomerButton_Click(object sender, EventArgs e)
         {
-            if (_selectedCustomer.customerId != 0) 
+            if (_selectedCustomer.customerId != 0)
             {
                 ChangesMade = true;
                 _customerController.CustomerId = 0;
                 removeCustomerButton.Enabled = false;
                 selectedCustomerNameTextBox.Text = "";
+            }
+        }
+        private void EditSaveButton_Click(object sender, EventArgs e)
+        {
+            if (_editing)
+            {
+                bool cancelClose = false;
+                if (_workingAppointment.customerId == 0)
+                {
+                    cancelClose = true;
+                    MessageBox.Show("Please add a customer before continuing", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                try
+                {
+                    var result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
+                    if (result)
+                    {
+                        MessageBox.Show("Appointment Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Appointment failed to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (InvalidObject)
+                {
+                    cancelClose = true;
+                    MessageBox.Show("Appointment is missing required data - please fill out all fields before proceeding", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                if (!cancelClose)
+                {
+                    Close();
+                }
+            }
+            else
+            {
+                HandleToggleEdit();
             }
         }
     }

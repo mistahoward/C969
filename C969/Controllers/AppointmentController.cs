@@ -1,4 +1,5 @@
 ﻿using C969.Data;
+using C969.Exceptions;
 using C969.Models;
 using C969.Utilities;
 using System;
@@ -56,6 +57,65 @@ namespace C969.Controllers
                 appointmentMetas.Add(appointmentMeta);
             }
             return appointmentMetas;
+        }
+        /// <summary>
+        /// Updates an appointment
+        /// </summary>
+        /// <param name="workingAppointment">The appointment to update</param>
+        /// <returns>True if the update is successful; false otherwise</returns>
+        public bool HandleUpdateAppointment(Appointment workingAppointment)
+        {
+            if (workingAppointment.Equals(Appointment))
+            {
+                return false;
+            }
+            var validAppointment = ModelValidator.ValidateModel(workingAppointment);
+            if (!validAppointment)
+            {
+                throw new InvalidObject("Appointment is missing required data");
+            }
+            try
+            {
+                workingAppointment.UpdateAppointment();
+                var result = _appointmentData.UpdateAppointment(workingAppointment);
+                if (result)
+                {
+                    bool inWeekAppointments = WeekAppointments != null && WeekAppointments.Any(app => app.appointmentId == workingAppointment.appointmentId);
+                    bool inMonthAppointments = MonthAppointments != null && MonthAppointments.Any(app => app.appointmentId == workingAppointment.appointmentId);
+                    if (inWeekAppointments || inMonthAppointments)
+                    {
+                        // Find the current appointment index
+                        int currentIndex = -1;
+                        if (inWeekAppointments)
+                        {
+                            currentIndex = WeekAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
+                        }
+                        if (inMonthAppointments)
+                        {
+                            currentIndex = MonthAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
+                        }
+                        // Update the appointment at the current index
+                        if (currentIndex >= 0)
+                        {
+                            if (inWeekAppointments)
+                            {
+                                WeekAppointments[currentIndex] = workingAppointment;
+                            }
+                            if (inMonthAppointments)
+                            {
+                                MonthAppointments[currentIndex] = workingAppointment;
+                            }
+                            return true;
+                        }
+                    }
+                }
+                return false;
+
+            }
+            catch
+            {
+                return false;
+            }
         }
         public List<Appointment> MonthAppointments => _monthAppointments;
         public List<Appointment> WeekAppointments => _weekAppointments;
