@@ -210,6 +210,9 @@ namespace C969.Data
                 // Getting the table name from the type of model, lower casing it to match db ERD
                 string tableName = (typeof(T).Name).ToLower();
 
+                // Constructing the primary key name for the table based on the table name
+                string primaryKeyName = tableName + "Id";
+
                 // Extract property names and values from the model
                 PropertyInfo[] properties = model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
@@ -218,8 +221,11 @@ namespace C969.Data
                 foreach (PropertyInfo prop in properties)
                 {
                     string propName = prop.Name;
-                    columnNames.Add(propName);
-                    paramNames.Add("@" + propName);
+                    if (!propName.Equals(primaryKeyName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        columnNames.Add(propName);
+                        paramNames.Add("@" + propName);
+                    }
                 }
 
                 // Construct the SQL query
@@ -244,7 +250,7 @@ namespace C969.Data
                 }
                 catch (MySqlException ex)
                 {
-                    throw new Exception("An error occurred while executing the query", ex);
+                    throw new Exception($"An error occurred while executing the query. Error Code: {ex.ErrorCode}, SQL State: {ex.SqlState}, Error Message: {ex.Message}", ex);
                 }
             }
         }

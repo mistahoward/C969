@@ -102,5 +102,26 @@ namespace C969.Utilities
             // Return a string with the date, time, and time zone name
             return $"{userDateTime:G} {timeZoneName}";
         }
+        /// <summary>
+        /// Determines if a given date falls within the current week
+        /// </summary>
+        /// <param name="date">The date to check</param>
+        /// <returns>True if the date falls within the current week, otherwise false</returns>
+        public static bool IsInCurrentWeek(DateTime date)
+        {
+            DateTime now = DateTime.Now;
+            int delta = DayOfWeek.Monday - now.DayOfWeek;
+            DateTime monday = now.AddDays(delta);
+            return date >= monday && date < monday.AddDays(7);
+        }
+        /// <summary>
+        /// Determines if a given date falls within the current month
+        /// </summary>
+        /// <param name="date">The date to check</param>
+        /// <returns>True if the date falls within the current month, otherwise false</returns>
+        public static bool IsInCurrentMonth(DateTime date)
+        {
+            return date.Month == DateTime.Now.Month && date.Year == DateTime.Now.Year;
+        }
     }
 }

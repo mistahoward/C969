@@ -18,7 +18,10 @@ namespace C969.Models
             this.end = DateTime.Now;
             this.lastUpdateBy = ApplicationState.CurrentUser.userName;
             this.lastUpdate = DateTime.Now;
+            this.userId = ApplicationState.CurrentUser.userId;
         }
+        [Required]
+        public int userId { get; set; }
         [Required]
         public int appointmentId { get; set; }
         [Required]

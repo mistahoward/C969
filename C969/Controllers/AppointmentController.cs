@@ -58,6 +58,61 @@ namespace C969.Controllers
             }
             return appointmentMetas;
         }
+        private bool UpdateAppointmentInWeek(Appointment workingAppointment)
+        {
+            if (WeekAppointments == null) return false;
+
+            var currentIndex = WeekAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
+
+            if (currentIndex >= 0)
+            {
+                WeekAppointments[currentIndex] = workingAppointment;
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool UpdateAppointmentInMonth(Appointment workingAppointment)
+        {
+            if (MonthAppointments == null) return false;
+
+            var currentIndex = MonthAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
+
+            if (currentIndex >= 0)
+            {
+                MonthAppointments[currentIndex] = workingAppointment;
+                return true;
+            }
+
+            return false;
+        }
+        private bool AddAppointmentToWeek(Appointment workingAppointment)
+        {
+            if (WeekAppointments == null) return false;
+
+            if (EpochConverter.IsInCurrentWeek(workingAppointment.start) || EpochConverter.IsInCurrentWeek(workingAppointment.end))
+            {
+                WeekAppointments.Add(workingAppointment);
+                return true;
+            }
+
+            return false;
+        }
+        private bool AddAppointmentToMonth(Appointment workingAppointment)
+        {
+            if (MonthAppointments == null) return false;
+
+            if (EpochConverter.IsInCurrentMonth(workingAppointment.start) || EpochConverter.IsInCurrentMonth(workingAppointment.end))
+            {
+                MonthAppointments.Add(workingAppointment);
+                return true;
+            }
+
+            return false;
+        }
+
+
         /// <summary>
         /// Updates an appointment
         /// </summary>
@@ -80,43 +135,52 @@ namespace C969.Controllers
                 var result = _appointmentData.UpdateAppointment(workingAppointment);
                 if (result)
                 {
-                    bool inWeekAppointments = WeekAppointments != null && WeekAppointments.Any(app => app.appointmentId == workingAppointment.appointmentId);
-                    bool inMonthAppointments = MonthAppointments != null && MonthAppointments.Any(app => app.appointmentId == workingAppointment.appointmentId);
-                    if (inWeekAppointments || inMonthAppointments)
+                    bool updatedInWeek = UpdateAppointmentInWeek(workingAppointment);
+                    bool updatedInMonth = UpdateAppointmentInMonth(workingAppointment);
+
+                    if (updatedInWeek || updatedInMonth)
                     {
-                        // Find the current appointment index
-                        int currentIndex = -1;
-                        if (inWeekAppointments)
-                        {
-                            currentIndex = WeekAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
-                        }
-                        if (inMonthAppointments)
-                        {
-                            currentIndex = MonthAppointments.FindIndex(x => x.appointmentId == workingAppointment.appointmentId);
-                        }
-                        // Update the appointment at the current index
-                        if (currentIndex >= 0)
-                        {
-                            if (inWeekAppointments)
-                            {
-                                WeekAppointments[currentIndex] = workingAppointment;
-                            }
-                            if (inMonthAppointments)
-                            {
-                                MonthAppointments[currentIndex] = workingAppointment;
-                            }
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 return false;
-
             }
             catch
             {
                 return false;
             }
         }
+        public bool HandleAddAppointment(Appointment workingAppointment)
+        {
+            var validAppointment = ModelValidator.ValidateModel(workingAppointment);
+            if (!validAppointment)
+            {
+                throw new InvalidObject("Appointment is missing required data");
+            }
+            try
+            {
+                workingAppointment.UpdateAppointment();
+                var result = _appointmentData.AddAppointment(workingAppointment);
+                if (result)
+                {
+                    bool addedToWeek = AddAppointmentToWeek(workingAppointment);
+                    bool addedToMonth = AddAppointmentToMonth(workingAppointment);
+                    if (addedToWeek || addedToMonth)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors that may occur during the update
+                Console.WriteLine("An error occurred: " + ex.Message);
+                return false;
+            }
+
+            return false;
+        }
+
         public bool HandleDeleteAppointment(int appointmentId)
         {
             try

@@ -29,6 +29,7 @@ namespace C969
         private List<CustomerMeta> CustomersMetaList { get; set; }
         private Customer _selectedCustomer => _customerController.Customer;
         private bool _editing = false;
+        private bool _adding = false;
         private bool _changesMade = false;
         public Appointment Appointment => _appointment;
         public Customer Customer => _selectedCustomer;
@@ -90,6 +91,7 @@ namespace C969
 
             if (_editing)
             {
+                _adding = true;
                 HandleToggleEdit();
             }
             else
@@ -331,40 +333,52 @@ namespace C969
         }
         private void EditSaveButton_Click(object sender, EventArgs e)
         {
-            if (_editing)
+            bool cancelClose = false;
+            if (_workingAppointment.customerId == 0)
             {
-                bool cancelClose = false;
-                if (_workingAppointment.customerId == 0)
+                MessageBox.Show("Please add a customer before continuing", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                bool result;
+                if (_adding)
                 {
-                    MessageBox.Show("Please add a customer before continuing", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    result = _appointmentController.HandleAddAppointment(_workingAppointment);
+                }
+                else if (_editing)
+                {
+                    result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Neither adding nor editing is currently active");
                 }
 
-                try
+                if (result)
                 {
-                    var result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
-                    if (result)
-                    {
-                        MessageBox.Show("Appointment Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Appointment failed to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    MessageBox.Show("Appointment Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (InvalidObject)
+                else
                 {
-                    cancelClose = true;
-                    MessageBox.Show("Appointment is missing required data - please fill out all fields before proceeding", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (!cancelClose)
-                {
-                    Close();
+                    MessageBox.Show("Appointment failed to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            catch (InvalidObject)
             {
-                HandleToggleEdit();
+                cancelClose = true;
+                MessageBox.Show("Appointment is missing required data - please fill out all fields before proceeding", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (InvalidOperationException ex)
+            {
+                cancelClose = true;
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (!cancelClose)
+            {
+                Close();
             }
         }
     }
