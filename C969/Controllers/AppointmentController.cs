@@ -117,6 +117,22 @@ namespace C969.Controllers
                 return false;
             }
         }
+        public bool HandleDeleteAppointment(int appointmentId)
+        {
+            try
+            {
+                var claimedAppointment = _appointmentData.GetAppointmentById(appointmentId);
+                var result = _appointmentData.DeleteAppointmentById(claimedAppointment.appointmentId);
+                if (result)
+                {
+                    return true;
+                }
+                return false;
+            } catch (DataNotFound ex)
+            {
+                throw ex;
+            }
+        }
         public List<Appointment> MonthAppointments => _monthAppointments;
         public List<Appointment> WeekAppointments => _weekAppointments;
         public Appointment Appointment => AppointmentId == 0 ? new Appointment() : _appointmentData.GetAppointmentById(AppointmentId);

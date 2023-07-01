@@ -123,8 +123,8 @@ namespace C969
             };
             dateTimePropertyGetters = new Dictionary<string, Func<DateTime>>
             {
-                { "start", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.start) },
-                { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
+                { "start", () => DateTime.SpecifyKind(EpochConverter.ConvertUtcToUserTime(_workingAppointment.start), DateTimeKind.Local) },
+                { "end", () => DateTime.SpecifyKind(EpochConverter.ConvertUtcToUserTime(_workingAppointment.end), DateTimeKind.Local) },
             };
         }
         /// <summary>

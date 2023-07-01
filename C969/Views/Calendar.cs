@@ -246,5 +246,15 @@ namespace C969
         {
             PopulateAppointments();
         }
+
+        private void deleteAppointmentButton_Click(object sender, EventArgs e)
+        {
+            if (AppointmentDataGridView.SelectedRows.Count < 0 || SelectedAppointmentId == 0)
+            {
+                MessageBox.Show("Please select an appointment before trying to delete one", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            _appointmentController.HandleDeleteAppointment(SelectedAppointmentId);
+        }
     }
 }

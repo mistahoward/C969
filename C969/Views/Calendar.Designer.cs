@@ -128,6 +128,7 @@ namespace C969
             this.deleteAppointmentButton.TabIndex = 7;
             this.deleteAppointmentButton.Text = "Delete Appointment";
             this.deleteAppointmentButton.UseVisualStyleBackColor = true;
+            this.deleteAppointmentButton.Click += new System.EventHandler(this.deleteAppointmentButton_Click);
             // 
             // viewAppointmentButton
             // 
