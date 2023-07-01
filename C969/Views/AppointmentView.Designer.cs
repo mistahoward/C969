@@ -47,6 +47,12 @@ namespace C969
             this.endLabel = new System.Windows.Forms.Label();
             this.EditSaveButton = new System.Windows.Forms.Button();
             this.closeButton = new System.Windows.Forms.Button();
+            this.selectedCustomerLabel = new System.Windows.Forms.Label();
+            this.selectedCustomerNameTextBox = new System.Windows.Forms.TextBox();
+            this.removeCustomerButton = new System.Windows.Forms.Button();
+            this.selectCustomerButton = new System.Windows.Forms.Button();
+            this.CustomerDataGridView = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -236,11 +242,82 @@ namespace C969
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // selectedCustomerLabel
+            // 
+            this.selectedCustomerLabel.AutoSize = true;
+            this.selectedCustomerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.selectedCustomerLabel.Location = new System.Drawing.Point(395, 9);
+            this.selectedCustomerLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.selectedCustomerLabel.Name = "selectedCustomerLabel";
+            this.selectedCustomerLabel.Size = new System.Drawing.Size(127, 17);
+            this.selectedCustomerLabel.TabIndex = 32;
+            this.selectedCustomerLabel.Text = "Selected Customer";
+            // 
+            // selectedCustomerNameTextBox
+            // 
+            this.selectedCustomerNameTextBox.Enabled = false;
+            this.selectedCustomerNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.selectedCustomerNameTextBox.Location = new System.Drawing.Point(397, 27);
+            this.selectedCustomerNameTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.selectedCustomerNameTextBox.Name = "selectedCustomerNameTextBox";
+            this.selectedCustomerNameTextBox.Size = new System.Drawing.Size(146, 23);
+            this.selectedCustomerNameTextBox.TabIndex = 31;
+            // 
+            // removeCustomerButton
+            // 
+            this.removeCustomerButton.Enabled = false;
+            this.removeCustomerButton.Location = new System.Drawing.Point(581, 16);
+            this.removeCustomerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.removeCustomerButton.Name = "removeCustomerButton";
+            this.removeCustomerButton.Size = new System.Drawing.Size(93, 34);
+            this.removeCustomerButton.TabIndex = 34;
+            this.removeCustomerButton.Text = "Remove Customer";
+            this.removeCustomerButton.UseVisualStyleBackColor = true;
+            this.removeCustomerButton.Click += new System.EventHandler(this.removeCustomerButton_Click);
+            // 
+            // selectCustomerButton
+            // 
+            this.selectCustomerButton.Enabled = false;
+            this.selectCustomerButton.Location = new System.Drawing.Point(678, 16);
+            this.selectCustomerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.selectCustomerButton.Name = "selectCustomerButton";
+            this.selectCustomerButton.Size = new System.Drawing.Size(98, 34);
+            this.selectCustomerButton.TabIndex = 35;
+            this.selectCustomerButton.Text = "Select Customer";
+            this.selectCustomerButton.UseVisualStyleBackColor = true;
+            this.selectCustomerButton.Click += new System.EventHandler(this.selectCustomerButton_Click);
+            // 
+            // CustomerDataGridView
+            // 
+            this.CustomerDataGridView.AllowUserToAddRows = false;
+            this.CustomerDataGridView.AllowUserToDeleteRows = false;
+            this.CustomerDataGridView.CausesValidation = false;
+            this.CustomerDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.CustomerDataGridView.Cursor = System.Windows.Forms.Cursors.No;
+            this.CustomerDataGridView.Enabled = false;
+            this.CustomerDataGridView.Location = new System.Drawing.Point(398, 80);
+            this.CustomerDataGridView.Margin = new System.Windows.Forms.Padding(2);
+            this.CustomerDataGridView.MultiSelect = false;
+            this.CustomerDataGridView.Name = "CustomerDataGridView";
+            this.CustomerDataGridView.ReadOnly = true;
+            this.CustomerDataGridView.RowHeadersWidth = 51;
+            this.CustomerDataGridView.RowTemplate.Height = 24;
+            this.CustomerDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.CustomerDataGridView.ShowEditingIcon = false;
+            this.CustomerDataGridView.Size = new System.Drawing.Size(378, 261);
+            this.CustomerDataGridView.TabIndex = 36;
+            this.CustomerDataGridView.SelectionChanged += new System.EventHandler(this.CustomerDataGridView_SelectionChanged);
+            // 
             // AppointmentView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 408);
+            this.Controls.Add(this.CustomerDataGridView);
+            this.Controls.Add(this.selectCustomerButton);
+            this.Controls.Add(this.removeCustomerButton);
+            this.Controls.Add(this.selectedCustomerLabel);
+            this.Controls.Add(this.selectedCustomerNameTextBox);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.EditSaveButton);
             this.Controls.Add(this.endLabel);
@@ -261,6 +338,7 @@ namespace C969
             this.Controls.Add(this.titleTextBox);
             this.Name = "AppointmentView";
             this.Text = "View Appointment";
+            ((System.ComponentModel.ISupportInitialize)(this.CustomerDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,5 +364,10 @@ namespace C969
         private System.Windows.Forms.Label endLabel;
         private System.Windows.Forms.Button EditSaveButton;
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.Label selectedCustomerLabel;
+        private System.Windows.Forms.TextBox selectedCustomerNameTextBox;
+        private System.Windows.Forms.Button removeCustomerButton;
+        private System.Windows.Forms.Button selectCustomerButton;
+        private System.Windows.Forms.DataGridView CustomerDataGridView;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using C969.Controllers;
 using C969.Models;
 using C969.Utilities;
+using C969.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,13 +18,15 @@ namespace C969
     public partial class AppointmentView : Form
     {
         private readonly AppointmentController _appointmentController;
+        private readonly CustomerController _customerController;
         private readonly Dictionary<string, Action<string>> propertySetters;
         private readonly Dictionary<string, Func<string>> propertyGetters;
         private readonly Dictionary<string, Action<DateTime>> dateTimePropertySetters;
         private readonly Dictionary<string, Func<DateTime>> dateTimePropertyGetters;
         private readonly Appointment _workingAppointment;
         private readonly Appointment _appointment;
-        private Customer _selectedCustomer;
+        private List<CustomerMeta> CustomersMetaList { get; set; }
+        private Customer _selectedCustomer => _customerController.Customer;
         private bool _editing = false;
         private bool _adding = false;
         private bool _changesMade = false;
@@ -67,16 +70,22 @@ namespace C969
             }
             appointmentController.AppointmentId = appointmentId;
             _appointmentController = appointmentController;
+            _customerController = new CustomerController();
             _appointment = _appointmentController.Appointment;
             _workingAppointment = _appointmentController.Appointment;
             startDateTimePicker.Format = DateTimePickerFormat.Custom;
             startDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             endDateTimePicker.Format = DateTimePickerFormat.Custom;
             endDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
+            if (Appointment.customerId != 0)
+            {
+                _customerController.CustomerId = Appointment.customerId;
+            }
             FillOutFields();
             AttachEventHandlers();
             ChangesMadeChanged += OnChangesMadeChanged;
-            
+            HandleCustomers();
+
             if (_editing)
             {
                 HandleToggleEdit();
@@ -115,6 +124,23 @@ namespace C969
                 { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
             };
         }
+        private void HandleCustomers()
+        {
+            CustomersMetaList = new List<CustomerMeta>();
+            CustomersMetaList = _customerController.Customers.Where(c => c.active)
+                .Select(c =>
+                new CustomerMeta
+                {
+                    customerId = c.customerId,
+                    customerName = c.customerName,
+                    active = c.active
+                }).ToList();
+            if (_selectedCustomer != null)
+            {
+                CustomersMetaList.Where(c => c.customerId != _selectedCustomer.customerId).ToList();
+            }
+            CustomerDataGridView.DataSource = CustomersMetaList;
+        }
         private void HandleToggleEdit()
         {
             _editing = true;
@@ -128,6 +154,13 @@ namespace C969
             urlTextBox.Enabled = true;
             startDateTimePicker.Enabled = true;
             endDateTimePicker.Enabled = true;
+            CustomerDataGridView.Enabled = true;
+            CustomerDataGridView.Cursor = Cursors.Arrow;
+            selectCustomerButton.Enabled = true;
+            if (_selectedCustomer.customerId != 0)
+            {
+                removeCustomerButton.Enabled = true;
+            }
         }
         /// <summary>
         /// Event handler called when the ChangesMade property is updated
@@ -162,6 +195,10 @@ namespace C969
             urlTextBox.Text = Appointment.url;
             startDateTimePicker.Value = Appointment.start;
             endDateTimePicker.Value = Appointment.end;
+            if (_selectedCustomer.customerId != 0)
+            {
+                selectedCustomerNameTextBox.Text = _selectedCustomer.customerName;
+            }
         }
         /// <summary>
         /// Handles the TextChanged event and updates the appropriate appointment property if its TextBox is changed
@@ -231,6 +268,43 @@ namespace C969
             } else
             {
                 HandleToggleEdit();
+            }
+        }
+
+        private void CustomerDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (CustomerDataGridView.SelectedRows.Count > 0)
+            {
+                string selectedCustomerId = CustomerDataGridView.SelectedRows[0].Cells["customerId"].Value.ToString();
+                try
+                {
+                    _customerController.CustomerId = Int32.Parse(selectedCustomerId);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+        private void selectCustomerButton_Click(object sender, EventArgs e)
+        {
+            if (CustomerDataGridView.SelectedRows.Count > 0 && _customerController.Customer != null)
+            {
+                ChangesMade = true;
+                _workingAppointment.customerId = _selectedCustomer.customerId;
+                selectedCustomerNameTextBox.Text = _selectedCustomer.customerName;
+                removeCustomerButton.Enabled = true;
+            }
+        }
+
+        private void removeCustomerButton_Click(object sender, EventArgs e)
+        {
+            if (_selectedCustomer.customerId != 0) 
+            {
+                ChangesMade = true;
+                _customerController.CustomerId = 0;
+                removeCustomerButton.Enabled = false;
+                selectedCustomerNameTextBox.Text = "";
             }
         }
     }
