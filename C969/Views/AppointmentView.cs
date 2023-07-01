@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace C969
 {
-    public partial class Appointments : Form
+    public partial class AppointmentView : Form
     {
-        public Appointments()
+        public AppointmentView()
         {
             InitializeComponent();
         }

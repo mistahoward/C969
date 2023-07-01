@@ -1,7 +1,7 @@
 ﻿
 namespace C969
 {
-    partial class Appointments
+    partial class AppointmentView
     {
         /// <summary>
         /// Required designer variable.
