@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace C969
         private readonly AppointmentController _appointmentController;
         private readonly Dictionary<string, Action<string>> propertySetters;
         private readonly Dictionary<string, Func<string>> propertyGetters;
+        private readonly Dictionary<string, Action<DateTime>> dateTimePropertySetters;
+        private readonly Dictionary<string, Func<DateTime>> dateTimePropertyGetters;
         private readonly Appointment _workingAppointment;
         private readonly Appointment _appointment;
         private Customer _selectedCustomer;
@@ -66,6 +69,10 @@ namespace C969
             _appointmentController = appointmentController;
             _appointment = _appointmentController.Appointment;
             _workingAppointment = _appointmentController.Appointment;
+            startDateTimePicker.Format = DateTimePickerFormat.Custom;
+            startDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
+            endDateTimePicker.Format = DateTimePickerFormat.Custom;
+            endDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             FillOutFields();
             AttachEventHandlers();
             propertySetters = new Dictionary<string, Action<string>>
@@ -76,8 +83,6 @@ namespace C969
                 { "contact", (value) => _workingAppointment.contact = value },
                 { "type", (value) => _workingAppointment.type = value },
                 { "url", (value) => _workingAppointment.url = value },
-                { "start", (value) => _workingAppointment.start = EpochConverter.ConvertUtcToUserTime((DateTime.Parse(value)))},
-                { "end", (value) => _workingAppointment.end = EpochConverter.ConvertUtcToUserTime((DateTime.Parse(value)))},
             };
             propertyGetters = new Dictionary<string, Func<string>>
             {
@@ -87,9 +92,17 @@ namespace C969
                 { "contact", () => _workingAppointment.contact },
                 { "type", () => _workingAppointment.type },
                 { "url", () => _workingAppointment.url },
-                { "start", () => EpochConverter.ConvertUtcToUserTimeWithTimeZone(_workingAppointment.start) },
-                { "end", () => EpochConverter.ConvertUtcToUserTimeWithTimeZone(_workingAppointment.end) },
                 { "customerId", () => _selectedCustomer.customerId.ToString() }
+            };
+            dateTimePropertySetters = new Dictionary<string, Action<DateTime>>
+            {
+                { "start", (value) => _workingAppointment.start = value.ToUniversalTime() },
+                { "end", (value) => _workingAppointment.end = value.ToUniversalTime() },
+            };
+            dateTimePropertyGetters = new Dictionary<string, Func<DateTime>>
+            {
+                { "start", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.start) },
+                { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
             };
         }
         /// <summary>
@@ -103,6 +116,8 @@ namespace C969
             contactTextBox.TextChanged += OnTextChange;
             typeTextBox.TextChanged += OnTextChange;
             urlTextBox.TextChanged += OnTextChange;
+            startDateTimePicker.ValueChanged+= OnDateChange;
+            endDateTimePicker.ValueChanged += OnDateChange;
         }
         private void FillOutFields()
         {
@@ -112,6 +127,8 @@ namespace C969
             contactTextBox.Text = Appointment.contact;
             typeTextBox.Text = Appointment.type;
             urlTextBox.Text = Appointment.url;
+            startDateTimePicker.Value = Appointment.start;
+            endDateTimePicker.Value = Appointment.end;
         }
         /// <summary>
         /// Handles the TextChanged event and updates the appropriate appointment property if its TextBox is changed
@@ -135,6 +152,36 @@ namespace C969
                     }
                 }
             }
+        }
+        private void OnDateChange(object sender, EventArgs e)
+        {
+            if (sender is DateTimePicker dateTimePicker)
+            {
+                var currentValue = dateTimePicker.Value;
+                var propertyName = dateTimePicker.Name.Replace("DateTimePicker", "");
+                if (dateTimePropertySetters.TryGetValue(propertyName, out var propertySetter) &&
+                    dateTimePropertyGetters.TryGetValue(propertyName, out var propertyGetter))
+                {
+                    var previousValue = propertyGetter();
+                    if (currentValue != previousValue)
+                    {
+                        ChangesMade = true;
+                        propertySetter(currentValue);
+                    }
+                }
+            }
+        }
+        private void closeButton_Click(object sender, EventArgs e)
+        {
+            if (ChangesMade && _editing)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to close this customer view? You have pending changes that need saved.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                if (result != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+            Close();
         }
     }
 }

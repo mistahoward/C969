@@ -10,6 +10,8 @@ namespace C969.Models
     public class AppointmentMeta
     {
         [Required]
+        public int appointmentId { get; set; }
+        [Required]
         public string title { get; set; }
         [Required]
         public string description { get; set; }

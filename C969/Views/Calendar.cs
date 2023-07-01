@@ -16,11 +16,13 @@ namespace C969
     public partial class Calendar : Form
     {
         private readonly AppointmentController _appointmentController;
+        private int _selectedAppointmentId;
         public List<AppointmentMeta> Appointments { get; set; }
         public BindingList<string> Weeks { get; set; }
         public BindingList<string> Months { get; set;  }
         public int RequestedWeekNumber { get; set; }
         public int RequestedMonthNumber { get; set; }
+        public int SelectedAppointmentId => _selectedAppointmentId;
         public Calendar(DateTime requestedDate, CalendarViewType requestedView)
         {
             InitializeComponent();
@@ -193,6 +195,34 @@ namespace C969
         {
             var customersForm = new CustomersList();
             customersForm.ShowDialog();
+        }
+
+        private void viewAppointmentButton_Click(object sender, EventArgs e)
+        {
+            if (AppointmentDataGridView.SelectedRows.Count <= 0)
+            {
+                MessageBox.Show("Please select an appointment before attempting to view one", "Info", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            var viewAppointment = new AppointmentView(_appointmentController, appointmentId: SelectedAppointmentId);
+            viewAppointment.ShowDialog();
+        }
+
+        private void AppointmentDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            if (AppointmentDataGridView.SelectedRows.Count > 0)
+            {
+                string selectedAppointmentId = AppointmentDataGridView.SelectedRows[0].Cells["appointmentId"].Value.ToString();
+                try
+                {
+                    _selectedAppointmentId = Int32.Parse(selectedAppointmentId);
+                    _appointmentController.AppointmentId = _selectedAppointmentId;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }

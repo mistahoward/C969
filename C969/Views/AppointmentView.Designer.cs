@@ -45,6 +45,8 @@ namespace C969
             this.endDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.startLabel = new System.Windows.Forms.Label();
             this.endLabel = new System.Windows.Forms.Label();
+            this.EditSaveButton = new System.Windows.Forms.Button();
+            this.closeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -70,6 +72,7 @@ namespace C969
             // 
             // descriptionTextBox
             // 
+            this.descriptionTextBox.Enabled = false;
             this.descriptionTextBox.Location = new System.Drawing.Point(11, 80);
             this.descriptionTextBox.Multiline = true;
             this.descriptionTextBox.Name = "descriptionTextBox";
@@ -173,6 +176,8 @@ namespace C969
             // 
             // startDateTimePicker
             // 
+            this.startDateTimePicker.Enabled = false;
+            this.startDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.startDateTimePicker.Location = new System.Drawing.Point(10, 321);
             this.startDateTimePicker.Name = "startDateTimePicker";
             this.startDateTimePicker.Size = new System.Drawing.Size(156, 20);
@@ -180,7 +185,9 @@ namespace C969
             // 
             // endDateTimePicker
             // 
-            this.endDateTimePicker.Location = new System.Drawing.Point(204, 321);
+            this.endDateTimePicker.Enabled = false;
+            this.endDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.endDateTimePicker.Location = new System.Drawing.Point(202, 321);
             this.endDateTimePicker.Name = "endDateTimePicker";
             this.endDateTimePicker.Size = new System.Drawing.Size(153, 20);
             this.endDateTimePicker.TabIndex = 26;
@@ -207,11 +214,34 @@ namespace C969
             this.endLabel.TabIndex = 28;
             this.endLabel.Text = "End";
             // 
+            // EditSaveButton
+            // 
+            this.EditSaveButton.Location = new System.Drawing.Point(691, 363);
+            this.EditSaveButton.Margin = new System.Windows.Forms.Padding(2);
+            this.EditSaveButton.Name = "EditSaveButton";
+            this.EditSaveButton.Size = new System.Drawing.Size(98, 34);
+            this.EditSaveButton.TabIndex = 29;
+            this.EditSaveButton.Text = "Loading...";
+            this.EditSaveButton.UseVisualStyleBackColor = true;
+            // 
+            // closeButton
+            // 
+            this.closeButton.Location = new System.Drawing.Point(10, 363);
+            this.closeButton.Margin = new System.Windows.Forms.Padding(2);
+            this.closeButton.Name = "closeButton";
+            this.closeButton.Size = new System.Drawing.Size(98, 34);
+            this.closeButton.TabIndex = 30;
+            this.closeButton.Text = "Close";
+            this.closeButton.UseVisualStyleBackColor = true;
+            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            // 
             // AppointmentView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 381);
+            this.ClientSize = new System.Drawing.Size(800, 408);
+            this.Controls.Add(this.closeButton);
+            this.Controls.Add(this.EditSaveButton);
             this.Controls.Add(this.endLabel);
             this.Controls.Add(this.startLabel);
             this.Controls.Add(this.endDateTimePicker);
@@ -253,5 +283,7 @@ namespace C969
         private System.Windows.Forms.DateTimePicker endDateTimePicker;
         private System.Windows.Forms.Label startLabel;
         private System.Windows.Forms.Label endLabel;
+        private System.Windows.Forms.Button EditSaveButton;
+        private System.Windows.Forms.Button closeButton;
     }
 }

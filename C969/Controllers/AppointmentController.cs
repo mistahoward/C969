@@ -45,6 +45,7 @@ namespace C969.Controllers
             {
                 var appointmentMeta = new AppointmentMeta
                 {
+                    appointmentId = appointment.appointmentId,
                     title = appointment.title,
                     description = appointment.description,
                     location = appointment.location,

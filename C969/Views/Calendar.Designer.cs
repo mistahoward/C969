@@ -37,6 +37,7 @@ namespace C969
             this.customersButton = new System.Windows.Forms.Button();
             this.addAppointmentButton = new System.Windows.Forms.Button();
             this.deleteAppointmentButton = new System.Windows.Forms.Button();
+            this.viewAppointmentButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,15 +49,17 @@ namespace C969
             this.AppointmentDataGridView.Name = "AppointmentDataGridView";
             this.AppointmentDataGridView.ReadOnly = true;
             this.AppointmentDataGridView.RowHeadersWidth = 51;
+            this.AppointmentDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.AppointmentDataGridView.ShowEditingIcon = false;
             this.AppointmentDataGridView.Size = new System.Drawing.Size(747, 384);
             this.AppointmentDataGridView.TabIndex = 0;
+            this.AppointmentDataGridView.SelectionChanged += new System.EventHandler(this.AppointmentDataGridView_SelectionChanged);
             // 
             // weekMonthComboBox
             // 
             this.weekMonthComboBox.FormattingEnabled = true;
             this.weekMonthComboBox.Location = new System.Drawing.Point(12, 35);
-            this.weekMonthComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.weekMonthComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.weekMonthComboBox.Name = "weekMonthComboBox";
             this.weekMonthComboBox.Size = new System.Drawing.Size(153, 21);
             this.weekMonthComboBox.TabIndex = 1;
@@ -96,8 +99,8 @@ namespace C969
             // 
             // customersButton
             // 
-            this.customersButton.Location = new System.Drawing.Point(764, 129);
-            this.customersButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.customersButton.Location = new System.Drawing.Point(764, 163);
+            this.customersButton.Margin = new System.Windows.Forms.Padding(2);
             this.customersButton.Name = "customersButton";
             this.customersButton.Size = new System.Drawing.Size(118, 30);
             this.customersButton.TabIndex = 5;
@@ -117,7 +120,7 @@ namespace C969
             // 
             // deleteAppointmentButton
             // 
-            this.deleteAppointmentButton.Location = new System.Drawing.Point(764, 95);
+            this.deleteAppointmentButton.Location = new System.Drawing.Point(764, 129);
             this.deleteAppointmentButton.Margin = new System.Windows.Forms.Padding(2);
             this.deleteAppointmentButton.Name = "deleteAppointmentButton";
             this.deleteAppointmentButton.Size = new System.Drawing.Size(118, 30);
@@ -125,11 +128,23 @@ namespace C969
             this.deleteAppointmentButton.Text = "Delete Appointment";
             this.deleteAppointmentButton.UseVisualStyleBackColor = true;
             // 
+            // viewAppointmentButton
+            // 
+            this.viewAppointmentButton.Location = new System.Drawing.Point(764, 95);
+            this.viewAppointmentButton.Margin = new System.Windows.Forms.Padding(2);
+            this.viewAppointmentButton.Name = "viewAppointmentButton";
+            this.viewAppointmentButton.Size = new System.Drawing.Size(118, 30);
+            this.viewAppointmentButton.TabIndex = 8;
+            this.viewAppointmentButton.Text = "View Appointment";
+            this.viewAppointmentButton.UseVisualStyleBackColor = true;
+            this.viewAppointmentButton.Click += new System.EventHandler(this.viewAppointmentButton_Click);
+            // 
             // Calendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 460);
+            this.Controls.Add(this.viewAppointmentButton);
             this.Controls.Add(this.deleteAppointmentButton);
             this.Controls.Add(this.addAppointmentButton);
             this.Controls.Add(this.customersButton);
@@ -156,5 +171,6 @@ namespace C969
         private System.Windows.Forms.Button customersButton;
         private System.Windows.Forms.Button addAppointmentButton;
         private System.Windows.Forms.Button deleteAppointmentButton;
+        private System.Windows.Forms.Button viewAppointmentButton;
     }
 }
