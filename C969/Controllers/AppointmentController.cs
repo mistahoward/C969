@@ -22,7 +22,10 @@ namespace C969.Controllers
         {
             _appointmentData = new AppointmentData();
         }
-
+        public List<Appointment> GetAllAppointments()
+        {
+            return _appointmentData.GetAppointments();
+        }
         /// <summary>
         /// Set week appointments for the given epoch week number
         /// </summary>

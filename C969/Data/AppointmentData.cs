@@ -203,5 +203,17 @@ namespace C969.Data
             // Return the consolidated list
             return appointmentList;
         }
+        /// <summary>
+        /// Gets all appointments
+        /// </summary>
+        /// <returns>All appointments in a list</returns>
+        public List<Appointment> GetAppointments()
+        {
+            var appointmentTable = RetrieveData<Appointment>();
+
+            var appointmentList = DataTableConverter.ConvertDataTableToList<Appointment>(appointmentTable);
+
+            return appointmentList;
+        }
     }
 }

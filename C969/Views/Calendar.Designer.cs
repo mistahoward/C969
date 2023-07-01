@@ -38,6 +38,7 @@ namespace C969
             this.addAppointmentButton = new System.Windows.Forms.Button();
             this.deleteAppointmentButton = new System.Windows.Forms.Button();
             this.viewAppointmentButton = new System.Windows.Forms.Button();
+            this.reportsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -141,11 +142,23 @@ namespace C969
             this.viewAppointmentButton.UseVisualStyleBackColor = true;
             this.viewAppointmentButton.Click += new System.EventHandler(this.viewAppointmentButton_Click);
             // 
+            // reportsButton
+            // 
+            this.reportsButton.Location = new System.Drawing.Point(764, 197);
+            this.reportsButton.Margin = new System.Windows.Forms.Padding(2);
+            this.reportsButton.Name = "reportsButton";
+            this.reportsButton.Size = new System.Drawing.Size(118, 30);
+            this.reportsButton.TabIndex = 9;
+            this.reportsButton.Text = "Reports";
+            this.reportsButton.UseVisualStyleBackColor = true;
+            this.reportsButton.Click += new System.EventHandler(this.reportsButton_Click);
+            // 
             // Calendar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 460);
+            this.Controls.Add(this.reportsButton);
             this.Controls.Add(this.viewAppointmentButton);
             this.Controls.Add(this.deleteAppointmentButton);
             this.Controls.Add(this.addAppointmentButton);
@@ -175,5 +188,6 @@ namespace C969
         private System.Windows.Forms.Button addAppointmentButton;
         private System.Windows.Forms.Button deleteAppointmentButton;
         private System.Windows.Forms.Button viewAppointmentButton;
+        private System.Windows.Forms.Button reportsButton;
     }
 }

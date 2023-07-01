@@ -264,5 +264,11 @@ namespace C969
                 MessageBox.Show("Appointment failed to delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void reportsButton_Click(object sender, EventArgs e)
+        {
+            var reportsView = new Reports(_appointmentController);
+            reportsView.ShowDialog();
+        }
     }
 }
