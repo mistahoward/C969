@@ -117,6 +117,7 @@ namespace C969
             this.addAppointmentButton.TabIndex = 6;
             this.addAppointmentButton.Text = "Add Appointment";
             this.addAppointmentButton.UseVisualStyleBackColor = true;
+            this.addAppointmentButton.Click += new System.EventHandler(this.addAppointmentButton_Click);
             // 
             // deleteAppointmentButton
             // 
@@ -155,6 +156,7 @@ namespace C969
             this.Controls.Add(this.AppointmentDataGridView);
             this.Name = "Calendar";
             this.Text = "Appointments";
+            this.Activated += new System.EventHandler(this.Calendar_Activated);
             ((System.ComponentModel.ISupportInitialize)(this.AppointmentDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

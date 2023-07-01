@@ -17,6 +17,7 @@ namespace C969
     {
         private readonly AppointmentController _appointmentController;
         private int _selectedAppointmentId;
+        private CalendarViewType _viewType;
         public List<AppointmentMeta> Appointments { get; set; }
         public BindingList<string> Weeks { get; set; }
         public BindingList<string> Months { get; set;  }
@@ -31,25 +32,33 @@ namespace C969
 
             Weeks = new BindingList<string>();
             Months = new BindingList<string>();
+            _viewType = requestedView;
+
 
             var currentWeekNumber = EpochConverter.GetEpochWeekNumber(requestedDate);
             RequestedWeekNumber = currentWeekNumber;
             RequestedMonthNumber = requestedDate.Month;
 
-            switch (requestedView)
+            PopulateWeeks();
+            PopulateMonths();
+
+            PopulateAppointments();
+
+            AppointmentDataGridView.DataSource = Appointments;
+        }
+        public void PopulateAppointments()
+        {
+            switch (_viewType)
             {
                 case CalendarViewType.Week:
-                    ChangeToWeekView(currentWeekNumber);
-                    PopulateWeeks();
+                    ChangeToWeekView(RequestedWeekNumber);
                     break;
                 case CalendarViewType.Month:
-                    ChangeToMonthView(requestedDate.Month);
-                    PopulateMonths();
+                    ChangeToMonthView(RequestedMonthNumber);
                     break;
                 default:
                     throw new ArgumentException("Invalid view type specified");
             }
-            AppointmentDataGridView.DataSource = Appointments;
         }
         /// <summary>
         /// Updates the list of appointments displayed in the calendar by filtering for appointments in the specified week number.
@@ -69,6 +78,7 @@ namespace C969
         private void ChangeToWeekView(int requestedWeek)
         {
             UpdateAppointmentsByWeek(requestedWeek);
+            _viewType = CalendarViewType.Week;
             weekMonthLabel.Text = "Week Range";
             weekMonthToggle.Text = "Weeks";
             weekMonthToggle.Checked = true;
@@ -91,6 +101,7 @@ namespace C969
         private void ChangeToMonthView(int requestedMonth)
         {
             UpdateAppointmentsByMonth(requestedMonth);
+            _viewType = CalendarViewType.Month;
             weekMonthLabel.Text = "Month Range";
             weekMonthToggle.Text = "Months";
             weekMonthToggle.Checked = false;
@@ -223,6 +234,17 @@ namespace C969
                     throw ex;
                 }
             }
+        }
+
+        private void addAppointmentButton_Click(object sender, EventArgs e)
+        {
+            var addAppointment = new AppointmentView(_appointmentController, editing: true);
+            addAppointment.ShowDialog();
+        }
+
+        private void Calendar_Activated(object sender, EventArgs e)
+        {
+            PopulateAppointments();
         }
     }
 }

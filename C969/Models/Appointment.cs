@@ -14,6 +14,8 @@ namespace C969.Models
         {
             this.createdBy = ApplicationState.CurrentUser.userName;
             this.createDate = DateTime.Now;
+            this.start = DateTime.Now;
+            this.end = DateTime.Now;
             this.lastUpdateBy = ApplicationState.CurrentUser.userName;
             this.lastUpdate = DateTime.Now;
         }

@@ -29,7 +29,6 @@ namespace C969
         private List<CustomerMeta> CustomersMetaList { get; set; }
         private Customer _selectedCustomer => _customerController.Customer;
         private bool _editing = false;
-        private bool _adding = false;
         private bool _changesMade = false;
         public Appointment Appointment => _appointment;
         public Customer Customer => _selectedCustomer;
@@ -71,10 +70,6 @@ namespace C969
         {
             InitializeComponent();
             _editing = editing;
-            if (editing)
-            {
-                _adding = true;
-            }
             appointmentController.AppointmentId = appointmentId;
             _appointmentController = appointmentController;
             _customerController = new CustomerController();
@@ -341,8 +336,8 @@ namespace C969
                 bool cancelClose = false;
                 if (_workingAppointment.customerId == 0)
                 {
-                    cancelClose = true;
                     MessageBox.Show("Please add a customer before continuing", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
                 try
