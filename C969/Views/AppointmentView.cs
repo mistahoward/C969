@@ -79,7 +79,7 @@ namespace C969
             
             if (_editing)
             {
-                // handle toggle
+                HandleToggleEdit();
             } else
             {
                 EditSaveButton.Text = "Edit";
@@ -114,6 +114,20 @@ namespace C969
                 { "start", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.start) },
                 { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
             };
+        }
+        private void HandleToggleEdit()
+        {
+            _editing = true;
+            EditSaveButton.Text = "Save";
+            EditSaveButton.Enabled = false;
+            titleTextBox.Enabled = true;
+            descriptionTextBox.Enabled = true;
+            locationTextBox.Enabled = true;
+            contactTextBox.Enabled = true;
+            typeTextBox.Enabled = true;
+            urlTextBox.Enabled = true;
+            startDateTimePicker.Enabled = true;
+            endDateTimePicker.Enabled = true;
         }
         /// <summary>
         /// Event handler called when the ChangesMade property is updated
@@ -216,7 +230,7 @@ namespace C969
                 // do stuff
             } else
             {
-                // HandleToggleEdit();
+                HandleToggleEdit();
             }
         }
     }
