@@ -254,7 +254,15 @@ namespace C969
                 MessageBox.Show("Please select an appointment before trying to delete one", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            _appointmentController.HandleDeleteAppointment(SelectedAppointmentId);
+            var result = _appointmentController.HandleDeleteAppointment(SelectedAppointmentId);
+            if (result)
+            {
+                PopulateAppointments();
+                MessageBox.Show("Appointment Deleted Successfully", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else
+            {
+                MessageBox.Show("Appointment failed to delete", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

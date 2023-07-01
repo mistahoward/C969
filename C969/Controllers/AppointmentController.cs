@@ -189,7 +189,13 @@ namespace C969.Controllers
                 var result = _appointmentData.DeleteAppointmentById(claimedAppointment.appointmentId);
                 if (result)
                 {
-                    return true;
+                    bool updatedInWeek = UpdateAppointmentInWeek(claimedAppointment);
+                    bool updatedInMonth = UpdateAppointmentInMonth(claimedAppointment);
+
+                    if (updatedInWeek || updatedInMonth)
+                    {
+                        return true;
+                    }
                 }
                 return false;
             } catch (DataNotFound ex)
