@@ -121,10 +121,10 @@ namespace C969.Data
         /// Add country to db
         /// </summary>
         /// <param name="workingAddress">Country object to add</param>
-        /// <returns>Boolean of success</returns>
+        /// <returns>ID of newly added country</returns>
         /// <exception cref="DuplicateData">Thrown when the country already exists</exception>
         /// <exception cref="InvalidObject">Thrown when the country object is not valid</exception>
-        public bool AddCountry(Country workingCountry)
+        public int AddCountry(Country workingCountry)
         {
             var validCountry = ModelValidator.ValidateModel(workingCountry);
 

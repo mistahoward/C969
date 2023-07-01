@@ -150,10 +150,10 @@ namespace C969.Data
         /// Add address to db
         /// </summary>
         /// <param name="workingAddress">Address object to add</param>
-        /// <returns>Boolean of success</returns>
+        /// <returns>ID of newly created address</returns>
         /// <exception cref="DuplicateData">Thrown when the address already exists</exception>
         /// <exception cref="InvalidObject">Thrown when the address object is not valid</exception>
-        public bool AddAddress(Address workingAddress)
+        public int AddAddress(Address workingAddress)
         {
             bool validAddress = ModelValidator.ValidateModel(workingAddress);
             if (!validAddress)

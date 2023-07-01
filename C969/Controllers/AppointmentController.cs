@@ -161,7 +161,7 @@ namespace C969.Controllers
             {
                 workingAppointment.UpdateAppointment();
                 var result = _appointmentData.AddAppointment(workingAppointment);
-                if (result)
+                if (result != 0)
                 {
                     bool addedToWeek = AddAppointmentToWeek(workingAppointment);
                     bool addedToMonth = AddAppointmentToMonth(workingAppointment);

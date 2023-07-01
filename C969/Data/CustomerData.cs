@@ -85,10 +85,10 @@ namespace C969.Data
         /// Add Customer to db
         /// </summary>
         /// <param name="workingCustomer">Customer object to add</param>
-        /// <returns>Boolean of success</returns>
+        /// <returns>Id of new customer</returns>
         /// <exception cref="DuplicateData">Thrown when the customer already exists</exception>
         /// <exception cref="InvalidObject">Thrown when the customer object is not valid</exception>
-        public bool AddCustomer(Customer workingCustomer)
+        public int AddCustomer(Customer workingCustomer)
         {
             bool validCustomer = ModelValidator.ValidateModel(workingCustomer);
 

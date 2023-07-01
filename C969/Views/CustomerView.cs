@@ -287,54 +287,90 @@ namespace C969.Views
         {
             if (_editing)
             {
-                // Prepare updates and their corresponding messages
-                var updates = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
-                    {
-                        (() => _customerController.HandleUpdateCustomer(WorkingCustomer), "Customer saved successfully", "Something went wrong saving the customer"),
-                        (() => _customerController.HandleUpdateAddress(WorkingCustomerAddress), "Customer address saved successfully", "Something went wrong saving the customers address"),
-                        (() => _customerController.HandleUpdateCity(WorkingCustomerCity), "Customer city saved successfully", "Something went wrong saving the customers city"),
-                        (() => _customerController.HandleUpdateCountry(WorkingCustomerCountry), "Customer country saved successfully", "Something went wrong saving the customers country")
-                    };
-
-                // Check which updates we need to perform
-                var updatesToPerform = _adding ? updates :
-                new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                // Prepare add operations and their corresponding messages
+                var addOperations = new List<(Func<int> Action, string ObjectName, string SuccessMessage, string ErrorMessage)>
                 {
-                    _customerUpdated ? updates[0] : default,
-                    _addressUpdated ? updates[1] : default,
-                    _cityUpdated ? updates[2] : default,
-                    _countryUpdated ? updates[3] : default,
-                }.Where(x => x.Action != null).ToList();
+                    (() => _customerController.HandleAddCountry(WorkingCustomerCountry), "Country", "Customer country added successfully", "Something went wrong adding the customer's country"),
+                    (() => _customerController.HandleAddCity(WorkingCustomerCity), "City", "Customer city added successfully", "Something went wrong adding the customer's city"),
+                    (() => _customerController.HandleAddAddress(WorkingCustomerAddress), "Address", "Customer address added successfully", "Something went wrong adding the customer's address"),
+                    (() => _customerController.HandleAddCustomer(WorkingCustomer), "Customer", "Customer added successfully", "Something went wrong adding the customer")
+                };
 
+                // Prepare update operations and their corresponding messages
+                var updateOperations = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                {
+                    (() => _customerController.HandleUpdateCustomer(WorkingCustomer), "Customer saved successfully", "Something went wrong saving the customer"),
+                    (() => _customerController.HandleUpdateAddress(WorkingCustomerAddress), "Customer address saved successfully", "Something went wrong saving the customer's address"),
+                    (() => _customerController.HandleUpdateCity(WorkingCustomerCity), "Customer city saved successfully", "Something went wrong saving the customer's city"),
+                    (() => _customerController.HandleUpdateCountry(WorkingCustomerCountry), "Customer country saved successfully", "Something went wrong saving the customer's country")
+                };
 
                 // Gather all the results and messages
                 var results = new List<(bool Success, string Message)>();
-                bool cancelClose = false;
-                foreach (var update in updatesToPerform)
+
+                if (_adding)
                 {
-                    try
+                    foreach (var operation in addOperations)
+                    {
+                        try
+                        {
+                            var newId = operation.Action();
+                            if (newId != 0)
+                            {
+                                if (operation.ObjectName == "Country")
+                                {
+                                    WorkingCustomerCity.countryId = newId;
+                                }
+                                else if (operation.ObjectName == "City")
+                                {
+                                    WorkingCustomerAddress.cityId = newId;
+                                }
+                                else if (operation.ObjectName == "Address")
+                                {
+                                    WorkingCustomer.addressId = newId;
+                                }
+                            }
+                            var message = newId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
+                            results.Add((newId != 0, message));
+                        } catch (DuplicateData ex)
+                        {
+                            if (operation.ObjectName == "Country")
+                            {
+                                WorkingCustomerCity.countryId = ex.DuplicateId;
+                            }
+                            if (operation.ObjectName == "City")
+                            {
+                                WorkingCustomerAddress.cityId = ex.DuplicateId;
+                            }
+                            if (operation.ObjectName == "Address")
+                            {
+                                WorkingCustomer.addressId = ex.DuplicateId;
+                            }
+                            var message = ex.DuplicateId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
+                            results.Add((ex.DuplicateId != 0, message));
+                        }
+                    }
+                } else
+                {
+                    // Check which updates we need to perform
+                    var updatesToPerform = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                    {
+                        _customerUpdated ? updateOperations[0] : default,
+                        _addressUpdated ? updateOperations[1] : default,
+                        _cityUpdated ? updateOperations [2] : default,
+                        _countryUpdated ? updateOperations[3] : default,
+                    }.Where(x => x.Action != null).ToList();
+                    foreach (var update in updatesToPerform)
                     {
                         var result = update.Action();
                         var message = result ? update.SuccessMessage : update.ErrorMessage;
                         results.Add((result, message));
                     }
-                    catch (InvalidObject ex)
-                    {
-                        cancelClose = true;
-                        results.Add((false, ex.Message));
-                    }
-                    catch (Exception ex)
-                    {
-                        // Catch all other exceptions
-                        Console.WriteLine(ex.Message); // replace this with your preferred logging method
-                        results.Add((false, "An unexpected error occurred."));
-                    }
                 }
 
-
-                // Now prepare and show the final message, batching the messages together
                 var successMessages = results.Where(r => r.Success).Select(r => r.Message);
                 var errorMessages = results.Where(r => !r.Success).Select(r => r.Message);
+
 
                 if (successMessages.Any())
                 {
@@ -346,14 +382,13 @@ namespace C969.Views
                     MessageBox.Show(string.Join("\n", errorMessages), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                if (!cancelClose) {
-                    Close();
-                }
+                Close();
             }
             else
             {
-                HandleToggleEdit(); 
+                HandleToggleEdit();
             }
         }
+
     }
 }

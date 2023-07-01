@@ -109,10 +109,10 @@ namespace C969.Data
         /// Add City to db
         /// </summary>
         /// <param name="workingCity">City object to add</param>
-        /// <returns>Boolean of success</returns>
+        /// <returns>ID of newly added city</returns>
         /// <exception cref="DuplicateData">Thrown when the city already exists</exception>
         /// <exception cref="InvalidObject">Thrown when the city object is not valid</exception>
-        public bool AddCity(City workingCity)
+        public int AddCity(City workingCity)
         {
             bool validCity = ModelValidator.ValidateModel(workingCity);
 

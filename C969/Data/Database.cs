@@ -202,9 +202,10 @@ namespace C969.Data
         /// </Summary>
         /// <typeparam name="T">The type of the model</typeparam>
         /// <param name="model">Model object with the data to add</param>
-        /// <returns>True if the data was successfully added, false otherwise.</returns>
-        protected bool AddData<T>(T model) where T : class
+        /// <returns>ID of the newly inserted record</returns>
+        protected int AddData<T>(T model) where T : class
         {
+            int newId;
             using (MySqlConnection connection = OpenConnection())
             {
                 // Getting the table name from the type of model, lower casing it to match db ERD
@@ -231,7 +232,7 @@ namespace C969.Data
                 // Construct the SQL query
                 string columns = string.Join(", ", columnNames);
                 string values = string.Join(", ", paramNames);
-                string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({values})";
+                string insertQuery = $"INSERT INTO {tableName} ({columns}) VALUES ({values}); SELECT LAST_INSERT_ID();";
 
                 MySqlCommand command = new MySqlCommand(insertQuery, connection);
 
@@ -246,13 +247,14 @@ namespace C969.Data
                 // Execute Query
                 try
                 {
-                    return command.ExecuteNonQuery() > 0;
+                    newId = Convert.ToInt32(command.ExecuteScalar());
                 }
                 catch (MySqlException ex)
                 {
                     throw new Exception($"An error occurred while executing the query. Error Code: {ex.ErrorCode}, SQL State: {ex.SqlState}, Error Message: {ex.Message}", ex);
                 }
             }
+            return newId;
         }
         /// <summary>
         /// Updates data in DB

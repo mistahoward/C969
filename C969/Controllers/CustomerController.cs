@@ -30,6 +30,135 @@ namespace C969.Controllers
             _customers = _customerData.GetCustomers();
         }
         /// <summary>
+        /// Adds a customer to the database.
+        /// </summary>
+        /// <param name="workingCustomer">The customer to be added.</param>
+        /// <returns>ID of the new customer - 0 if fail</returns>
+        public int HandleAddCustomer(Customer workingCustomer)
+        {
+            var validCustomer = ModelValidator.ValidateModel(workingCustomer);
+            if (!validCustomer)
+            {
+                throw new InvalidObject("Customer is missing required data");
+            }
+            try
+            {
+                workingCustomer.UpdateCustomer();
+                var result = _customerData.AddCustomer(workingCustomer);
+                if (result != 0)
+                {
+                    workingCustomer.customerId = result;
+                    _customers.Add(workingCustomer);
+                    return result;
+                }
+                return 0;
+            }
+            catch (DuplicateData ex)
+            {
+                return ex.DuplicateId;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Handles adding an address to the database
+        /// </summary>
+        /// <param name="workingAddress">The address to be added</param>
+        /// <returns>True if the address is added successfully, false otherwise</returns>
+        public int HandleAddAddress(Address workingAddress)
+        {
+            var validAddress = ModelValidator.ValidateModel(workingAddress);
+            if (!validAddress)
+            {
+                throw new InvalidObject("Address is missing required data");
+            }
+            try
+            {
+                workingAddress.UpdateAddress();
+                int duplicateAddress = _addressData.DoesDuplicateExist(workingAddress);
+                if (duplicateAddress != 0)
+                {
+                    throw new DuplicateData($"Address already exists - use ${duplicateAddress}", duplicateAddress);
+                }
+                var result = _addressData.AddAddress(workingAddress);
+                return result;
+            }
+            catch (DuplicateData ex)
+            {
+                return ex.DuplicateId;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Handles the adding of a city to the database
+        /// </summary>
+        /// <param name="workingCity">The city to add to the database</param>
+        /// <returns>True if the city is added, false otherwise</returns>
+        public int HandleAddCity(City workingCity)
+        {
+            var validCity = ModelValidator.ValidateModel(workingCity);
+            if (!validCity)
+            {
+                throw new InvalidObject("City is missing required data");
+            }
+            try
+            {
+                workingCity.UpdateCity();
+                int duplicateCity = _cityData.DoesDuplicateExist(workingCity);
+                if (duplicateCity != 0)
+                {
+                    throw new DuplicateData($"City already exists - use ${duplicateCity}", duplicateCity);
+                }
+                var result = _cityData.AddCity(workingCity);
+                return result;
+            }
+            catch (DuplicateData ex)
+            {
+                return ex.DuplicateId;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Handles adding a new country to the system
+        /// </summary>
+        /// <param name="workingCountry">The new country to add</param>
+        /// <returns>True if the addition was successful, false if it failed</returns>
+        public int HandleAddCountry(Country workingCountry)
+        {
+            var validCountry = ModelValidator.ValidateModel(workingCountry);
+            if (!validCountry)
+            {
+                throw new InvalidObject("Country is missing required data");
+            }
+            try
+            {
+                workingCountry.UpdateCountry();
+                int duplicateCountry = _countryData.DoesDuplicateExist(workingCountry);
+                if (duplicateCountry != 0)
+                {
+                    throw new DuplicateData($"Country already exists - use ${duplicateCountry}", duplicateCountry);
+                }
+                var result = _countryData.AddCountry(workingCountry);
+                return result;
+            }
+            catch (DuplicateData ex)
+            {
+                return ex.DuplicateId;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        /// <summary>
         /// Updates the customer information in the database
         /// </summary>
         /// <param name="workingCustomer">The updated Customer object</param>

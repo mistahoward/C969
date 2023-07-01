@@ -73,13 +73,13 @@ namespace C969.Data
 
             return DataTableConverter.ConvertDataRowToModel<Appointment>(appointmentById);
         }
-            /// <summary>
+        /// <summary>
         /// Add Appointment to db
         /// </summary>
         /// <param name="workingAppointment">Appointment to add</param>
-        /// <returns>Boolean of success</returns>
+        /// <returns>ID of newly created appointment</returns>
         /// <exception cref="InvalidObject"></exception>
-        public bool AddAppointment(Appointment workingAppointment)
+        public int AddAppointment(Appointment workingAppointment)
         {
             var validAppointment = ModelValidator.ValidateModel(workingAppointment);
 
