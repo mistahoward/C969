@@ -48,6 +48,7 @@ namespace C969.Controllers
                 if (result != 0)
                 {
                     workingCustomer.customerId = result;
+                    WriteActivityLog.Write($"{workingCustomer.customerId} has been created");
                     _customers.Add(workingCustomer);
                     return result;
                 }
@@ -83,6 +84,7 @@ namespace C969.Controllers
                     throw new DuplicateData($"Address already exists - use ${duplicateAddress}", duplicateAddress);
                 }
                 var result = _addressData.AddAddress(workingAddress);
+                WriteActivityLog.Write($"{workingAddress.addressId} has been created");
                 return result;
             }
             catch (DuplicateData ex)
@@ -115,6 +117,7 @@ namespace C969.Controllers
                     throw new DuplicateData($"City already exists - use ${duplicateCity}", duplicateCity);
                 }
                 var result = _cityData.AddCity(workingCity);
+                WriteActivityLog.Write($"{workingCity.cityId} has been created");
                 return result;
             }
             catch (DuplicateData ex)
@@ -147,6 +150,7 @@ namespace C969.Controllers
                     throw new DuplicateData($"Country already exists - use ${duplicateCountry}", duplicateCountry);
                 }
                 var result = _countryData.AddCountry(workingCountry);
+                WriteActivityLog.Write($"{workingCountry.countryId} has been created");
                 return result;
             }
             catch (DuplicateData ex)
@@ -181,6 +185,7 @@ namespace C969.Controllers
                 var result = _customerData.UpdateCustomer(workingCustomer);
                 if (result)
                 {
+                    WriteActivityLog.Write($"{workingCustomer.customerId} has been updated");
                     int index = _customers.FindIndex(x => x.customerId == workingCustomer.customerId);
                     _customers[index] = workingCustomer;
                     return true;
@@ -213,6 +218,7 @@ namespace C969.Controllers
             {
                 workingCustomerAddress.UpdateAddress();
                 var result = _addressData.UpdateAddress(workingCustomerAddress);
+                WriteActivityLog.Write($"{workingCustomerAddress.addressId} has been updated");
                 return result;
             }
             catch (DuplicateData ex)
@@ -221,6 +227,8 @@ namespace C969.Controllers
                 Customer updatedCustomer = Customer;
                 updatedCustomer.addressId = duplicateAddress.addressId;
                 var result = _customerData.UpdateCustomer(updatedCustomer);
+                WriteActivityLog.Write($"{updatedCustomer.customerId} has been updated");
+
                 return result;
             }
             catch
@@ -249,6 +257,7 @@ namespace C969.Controllers
             {
                 workingCustomerCity.UpdateCity();
                 var result = _cityData.UpdateCity(workingCustomerCity);
+                WriteActivityLog.Write($"{workingCustomerCity.cityId} has been updated");
                 return result;
             }
             catch (DuplicateData ex)
@@ -257,6 +266,7 @@ namespace C969.Controllers
                 Address updatedAddress = CustomerAddress;
                 updatedAddress.cityId = duplicateCity.cityId;
                 var result = _addressData.UpdateAddress(updatedAddress);
+                WriteActivityLog.Write($"{updatedAddress.addressId} has been updated");
                 return result;
             }
             catch (Exception ex)
@@ -286,6 +296,7 @@ namespace C969.Controllers
             {
                 workingCustomerCountry.UpdateCountry();    
                 var result = _countryData.UpdateCountry(workingCustomerCountry);
+                WriteActivityLog.Write($"{workingCustomerCountry.countryId} has been updated");
                 return result;
             }
             catch (DuplicateData ex)
@@ -294,6 +305,7 @@ namespace C969.Controllers
                 City updatedCity = CustomerCity;
                 updatedCity.countryId = duplicateCountry.countryId;
                 var result = _cityData.UpdateCity(updatedCity);
+                WriteActivityLog.Write($"{updatedCity.cityId} has been updated");
                 return result;
             }
             catch
