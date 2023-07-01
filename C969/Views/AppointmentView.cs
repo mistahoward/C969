@@ -120,8 +120,8 @@ namespace C969
             };
             dateTimePropertySetters = new Dictionary<string, Action<DateTime>>
             {
-                { "start", (value) => _workingAppointment.start = value.ToUniversalTime() },
-                { "end", (value) => _workingAppointment.end = value.ToUniversalTime() },
+                { "start", (value) => _workingAppointment.start = value },
+                { "end", (value) => _workingAppointment.end = value },
             };
             dateTimePropertyGetters = new Dictionary<string, Func<DateTime>>
             {

@@ -24,11 +24,11 @@ namespace C969
         public int RequestedWeekNumber { get; set; }
         public int RequestedMonthNumber { get; set; }
         public int SelectedAppointmentId => _selectedAppointmentId;
-        public Calendar(DateTime requestedDate, CalendarViewType requestedView)
+        public Calendar(DateTime requestedDate, CalendarViewType requestedView, AppointmentController appointmentController)
         {
             InitializeComponent();
 
-            _appointmentController = new AppointmentController();
+            _appointmentController = appointmentController;
 
             Weeks = new BindingList<string>();
             Months = new BindingList<string>();

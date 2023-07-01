@@ -16,6 +16,8 @@ namespace C969
     public partial class LoginForm : Form
     {
         private readonly UserController _userController;
+        private readonly AppointmentController _appointmentController;
+        private List<Appointment> _usersAppointments;
         readonly Dictionary<string, Dictionary<string, string>> translations = new Dictionary<string, Dictionary<string, string>>
         {
             { "en-US", new Dictionary<string, string> {
@@ -40,6 +42,7 @@ namespace C969
             InitializeComponent();
 
             _userController = new UserController();
+            _appointmentController = new AppointmentController();
         }
         // Helper function for getting language (locale code)
         private string GetLanguage()
@@ -91,7 +94,24 @@ namespace C969
                 return;
             }
             ApplicationState.CurrentUser = loginResult;
-            var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week);
+            _usersAppointments = _appointmentController.GetUserAppointments(loginResult.userId);
+            if (_usersAppointments.Any())
+            {
+                // Find the closest appointment with start time at or after DateTime.Now
+                var approachingAppt = _usersAppointments
+                    .Where(appt => appt.start >= DateTime.Now)
+                    .OrderBy(appt => appt.start)
+                    .FirstOrDefault();
+                
+                if (approachingAppt != null && approachingAppt.start <= DateTime.Now.AddMinutes(15))
+                {
+                    // Calculate the minutes left until the approaching appointment starts
+                    int minutesLeft = (int)Math.Round((approachingAppt.start - DateTime.Now).TotalMinutes);
+                    MessageBox.Show("You have an appointment in " + minutesLeft + " minute(s).", "Appointment Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            
+            var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week, _appointmentController);
             this.Hide();
             calendarForm.ShowDialog();
             this.Close();

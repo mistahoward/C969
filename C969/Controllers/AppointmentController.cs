@@ -203,6 +203,10 @@ namespace C969.Controllers
                 throw ex;
             }
         }
+        public List<Appointment> GetUserAppointments(int userId)
+        {
+            return _appointmentData.GetAppointmentsByUserId(userId);
+        }
         public List<Appointment> MonthAppointments => _monthAppointments;
         public List<Appointment> WeekAppointments => _weekAppointments;
         public Appointment Appointment => AppointmentId == 0 ? new Appointment() : _appointmentData.GetAppointmentById(AppointmentId);
