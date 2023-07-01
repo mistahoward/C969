@@ -173,14 +173,14 @@ namespace C969
             // 
             // startDateTimePicker
             // 
-            this.startDateTimePicker.Location = new System.Drawing.Point(10, 327);
+            this.startDateTimePicker.Location = new System.Drawing.Point(10, 321);
             this.startDateTimePicker.Name = "startDateTimePicker";
             this.startDateTimePicker.Size = new System.Drawing.Size(156, 20);
             this.startDateTimePicker.TabIndex = 25;
             // 
             // endDateTimePicker
             // 
-            this.endDateTimePicker.Location = new System.Drawing.Point(204, 327);
+            this.endDateTimePicker.Location = new System.Drawing.Point(204, 321);
             this.endDateTimePicker.Name = "endDateTimePicker";
             this.endDateTimePicker.Size = new System.Drawing.Size(153, 20);
             this.endDateTimePicker.TabIndex = 26;
@@ -189,7 +189,7 @@ namespace C969
             // 
             this.startLabel.AutoSize = true;
             this.startLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.startLabel.Location = new System.Drawing.Point(11, 307);
+            this.startLabel.Location = new System.Drawing.Point(9, 301);
             this.startLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.startLabel.Name = "startLabel";
             this.startLabel.Size = new System.Drawing.Size(38, 17);
@@ -200,7 +200,7 @@ namespace C969
             // 
             this.endLabel.AutoSize = true;
             this.endLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.endLabel.Location = new System.Drawing.Point(201, 307);
+            this.endLabel.Location = new System.Drawing.Point(200, 301);
             this.endLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.endLabel.Name = "endLabel";
             this.endLabel.Size = new System.Drawing.Size(33, 17);
