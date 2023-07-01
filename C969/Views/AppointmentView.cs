@@ -2,6 +2,7 @@
 using C969.Exceptions;
 using C969.Models;
 using C969.Utilities;
+using C969.Utilities.Exceptions;
 using C969.Views;
 using System;
 using System.Collections.Generic;
@@ -342,14 +343,30 @@ namespace C969
 
             try
             {
-                bool result;
+                bool result = false;
                 if (_adding)
                 {
-                    result = _appointmentController.HandleAddAppointment(_workingAppointment);
+                    try
+                    {
+                        result = _appointmentController.HandleAddAppointment(_workingAppointment);
+                    }
+                    catch (OutsideOfBusinessHours)
+                    {
+                        MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (_editing)
                 {
-                    result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
+                    try
+                    {
+                        result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
+                    }
+                    catch (OutsideOfBusinessHours)
+                    {
+                        MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else
                 {

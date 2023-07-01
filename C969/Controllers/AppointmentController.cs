@@ -2,6 +2,7 @@
 using C969.Exceptions;
 using C969.Models;
 using C969.Utilities;
+using C969.Utilities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,23 @@ namespace C969.Controllers
                 appointmentMetas.Add(appointmentMeta);
             }
             return appointmentMetas;
+        }
+        /// <summary>
+        /// Checks if the given appointment falls outside of business hours (8:00AM - 5:00PM)
+        /// </summary>
+        /// <param name="appointment">The appointment to check</param>
+        /// <returns>True if the appointment is outside business hours, false otherwise</returns>
+        private bool IsAppointmentOutsideBusinessHours(Appointment appointment)
+        {
+            TimeSpan businessStart = new TimeSpan(8, 0, 0); // Represents 8:00 am
+            TimeSpan businessEnd = new TimeSpan(17, 0, 0); // Represents 5:00 pm
+
+            if (appointment.start.TimeOfDay < businessStart || appointment.end.TimeOfDay > businessEnd)
+            {
+                return true;
+            }
+
+            return false;
         }
         /// <summary>
         /// Updates an appointment in the week appointments list with the given appointment
@@ -148,6 +166,11 @@ namespace C969.Controllers
             {
                 throw new InvalidObject("Appointment is missing required data");
             }
+            var outsideOfBusinessHours = IsAppointmentOutsideBusinessHours(workingAppointment);
+            if (outsideOfBusinessHours)
+            {
+                throw new OutsideOfBusinessHours("Appointment cannot be outside of business hours");
+            }
             try
             {
                 workingAppointment.UpdateAppointment();
@@ -180,6 +203,11 @@ namespace C969.Controllers
             if (!validAppointment)
             {
                 throw new InvalidObject("Appointment is missing required data");
+            }
+            var outsideOfBusinessHours = IsAppointmentOutsideBusinessHours(workingAppointment);
+            if (outsideOfBusinessHours)
+            {
+                throw new OutsideOfBusinessHours("Appointment cannot be outside of business hours");
             }
             try
             {
