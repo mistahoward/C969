@@ -355,6 +355,11 @@ namespace C969
                         MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
+                    catch (OverlappingAppointments)
+                    {
+                        MessageBox.Show("You cannot schedule an appointment during another appointment. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else if (_editing)
                 {
@@ -365,6 +370,11 @@ namespace C969
                     catch (OutsideOfBusinessHours)
                     {
                         MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    catch (OverlappingAppointments)
+                    {
+                        MessageBox.Show("You cannot schedule an appointment during another appointment. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }

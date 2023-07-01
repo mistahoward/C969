@@ -171,6 +171,11 @@ namespace C969.Controllers
             {
                 throw new OutsideOfBusinessHours("Appointment cannot be outside of business hours");
             }
+            var overlappingAppointments = HasOverlappingAppointments(workingAppointment);
+            if (overlappingAppointments)
+            {
+                throw new OverlappingAppointments("You cannot schedule an appointment when you already have appointments during that time slot");
+            }
             try
             {
                 workingAppointment.UpdateAppointment();
@@ -208,6 +213,11 @@ namespace C969.Controllers
             if (outsideOfBusinessHours)
             {
                 throw new OutsideOfBusinessHours("Appointment cannot be outside of business hours");
+            }
+            var overlappingAppointments = HasOverlappingAppointments(workingAppointment);
+            if (overlappingAppointments)
+            {
+                throw new OverlappingAppointments("You cannot schedule an appointment when you already have appointments during that time slot");
             }
             try
             {
@@ -261,6 +271,26 @@ namespace C969.Controllers
                 throw ex;
             }
         }
+        /// <summary>
+        /// Determines if there are any overlapping appointments with the provided appointment
+        /// </summary>
+        /// <param name="appointment">The appointment to check for overlaps</param>
+        /// <returns>True if there are any overlaps, false otherwise</returns>
+        public bool HasOverlappingAppointments(Appointment appointment)
+        {
+            User user = ApplicationState.CurrentUser;
+            List<Appointment> appointments = GetUserAppointments(user.userId);
+
+            foreach (Appointment a in appointments)
+            {
+                if (appointment.start < a.end && a.start < appointment.end)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Retrieves a list of appointments for a given user ID.
         /// </summary>

@@ -118,6 +118,7 @@
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Utilities\Exceptions\OutsideOfBusinessHours.cs" />
+    <Compile Include="Utilities\Exceptions\OverlappingAppointments.cs" />
     <Compile Include="Utilities\ModelValidator.cs" />
     <Compile Include="Views\CustomersList.cs">
       <SubType>Form</SubType>
