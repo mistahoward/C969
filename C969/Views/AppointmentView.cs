@@ -75,6 +75,16 @@ namespace C969
             endDateTimePicker.CustomFormat = "MM/dd/yyyy hh:mm tt";
             FillOutFields();
             AttachEventHandlers();
+            ChangesMadeChanged += OnChangesMadeChanged;
+            
+            if (_editing)
+            {
+                // handle toggle
+            } else
+            {
+                EditSaveButton.Text = "Edit";
+            }
+            // Initializing property setters and getters on appointment to allow for "change tracking" and removing the needs for verbose switch statements
             propertySetters = new Dictionary<string, Action<string>>
             {
                 { "title", (value) => _workingAppointment.title = value },
@@ -104,6 +114,15 @@ namespace C969
                 { "start", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.start) },
                 { "end", () => EpochConverter.ConvertUtcToUserTime(_workingAppointment.end) },
             };
+        }
+        /// <summary>
+        /// Event handler called when the ChangesMade property is updated
+        /// </summary>
+        /// <param name="sender">The object that raised the event</param>
+        /// <param name="e">The event data</param>
+        private void OnChangesMadeChanged(object sender, EventArgs e)
+        {
+            EditSaveButton.Enabled = ChangesMade;
         }
         /// <summary>
         /// Attach event handlers to AppointmentView's text boxes tracking user's changes
@@ -153,6 +172,11 @@ namespace C969
                 }
             }
         }
+        /// <summary>
+        /// Handler for the Date Changed event of DateTimePicker objects.
+        /// </summary>
+        /// <param name="sender">The object that raised the event.</param>
+        /// <param name="e">The event arguments.</param>
         private void OnDateChange(object sender, EventArgs e)
         {
             if (sender is DateTimePicker dateTimePicker)
@@ -171,6 +195,7 @@ namespace C969
                 }
             }
         }
+ 
         private void closeButton_Click(object sender, EventArgs e)
         {
             if (ChangesMade && _editing)
@@ -182,6 +207,17 @@ namespace C969
                 }
             }
             Close();
+        }
+
+        private void EditSaveButton_Click(object sender, EventArgs e)
+        {
+            if (_editing)
+            {
+                // do stuff
+            } else
+            {
+                // HandleToggleEdit();
+            }
         }
     }
 }

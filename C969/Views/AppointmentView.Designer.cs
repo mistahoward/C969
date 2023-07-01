@@ -223,6 +223,7 @@ namespace C969
             this.EditSaveButton.TabIndex = 29;
             this.EditSaveButton.Text = "Loading...";
             this.EditSaveButton.UseVisualStyleBackColor = true;
+            this.EditSaveButton.Click += new System.EventHandler(this.EditSaveButton_Click);
             // 
             // closeButton
             // 
