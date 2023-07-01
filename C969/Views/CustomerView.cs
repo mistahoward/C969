@@ -319,7 +319,7 @@ namespace C969.Views
                             {
                                 if (operation.ObjectName == "Country")
                                 {
-                                    WorkingCustomerCity.countryId = newId;
+                                    WorkingCustomerCity.countryId = newId;         
                                 }
                                 else if (operation.ObjectName == "City")
                                 {
@@ -332,22 +332,9 @@ namespace C969.Views
                             }
                             var message = newId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
                             results.Add((newId != 0, message));
-                        } catch (DuplicateData ex)
+                        } catch (Exception ex)
                         {
-                            if (operation.ObjectName == "Country")
-                            {
-                                WorkingCustomerCity.countryId = ex.DuplicateId;
-                            }
-                            if (operation.ObjectName == "City")
-                            {
-                                WorkingCustomerAddress.cityId = ex.DuplicateId;
-                            }
-                            if (operation.ObjectName == "Address")
-                            {
-                                WorkingCustomer.addressId = ex.DuplicateId;
-                            }
-                            var message = ex.DuplicateId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
-                            results.Add((ex.DuplicateId != 0, message));
+                            throw ex;
                         }
                     }
                 } else
