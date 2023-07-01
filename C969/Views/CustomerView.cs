@@ -212,6 +212,7 @@ namespace C969.Views
                                 activeCheckBox.CheckedChanged += OnCheckChanged;
                                 return;
                             }
+                            WorkingCustomer.active = false;
                         }
                     }
                     if (currentValue.ToString() != previousValue)
