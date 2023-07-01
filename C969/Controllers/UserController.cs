@@ -1,5 +1,6 @@
 ﻿using C969.Data;
 using C969.Models;
+using C969.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace C969.Controllers
                 User claimedUser = _userData.GetUserByName(username);
                 if (claimedUser.password == password)
                 {
+                    WriteActivityLog.Write($"{username} has logged in");
                     return claimedUser;
                 }
             }
