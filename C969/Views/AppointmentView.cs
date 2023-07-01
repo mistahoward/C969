@@ -87,8 +87,8 @@ namespace C969
                 { "contact", () => _workingAppointment.contact },
                 { "type", () => _workingAppointment.type },
                 { "url", () => _workingAppointment.url },
-                { "start", () => _workingAppointment.start.ToString() },
-                { "end", () => _workingAppointment.end.ToString() },
+                { "start", () => EpochConverter.ConvertUtcToUserTimeWithTimeZone(_workingAppointment.start) },
+                { "end", () => EpochConverter.ConvertUtcToUserTimeWithTimeZone(_workingAppointment.end) },
                 { "customerId", () => _selectedCustomer.customerId.ToString() }
             };
         }
