@@ -24,7 +24,7 @@ namespace C969.Data
         /// </remarks>
         protected Database()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["schedulingDb"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["client_schedule"].ConnectionString;
         }
 
         /// <summary>
