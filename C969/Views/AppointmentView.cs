@@ -328,6 +328,7 @@ namespace C969
             {
                 ChangesMade = true;
                 _customerController.CustomerId = 0;
+                _workingAppointment.customerId = 0;
                 RemoveCustomerButton.Enabled = false;
                 selectedCustomerNameTextBox.Text = "";
             }
