@@ -207,7 +207,7 @@ namespace C969.Controllers
                 {
                     bool updatedInWeek = UpdateAppointmentInWeek(workingAppointment);
                     bool updatedInMonth = UpdateAppointmentInMonth(workingAppointment);
-
+                    WriteActivityLog.Write($"{workingAppointment.appointmentId} has been updated");
                     if (updatedInWeek || updatedInMonth)
                     {
                         return true;
@@ -241,6 +241,7 @@ namespace C969.Controllers
                 var result = _appointmentData.AddAppointment(workingAppointment);
                 if (result != 0)
                 {
+                    WriteActivityLog.Write($"{workingAppointment.appointmentId} has been added");
                     bool addedToWeek = AddAppointmentToWeek(workingAppointment);
                     bool addedToMonth = AddAppointmentToMonth(workingAppointment);
                     if (addedToWeek || addedToMonth)
@@ -275,6 +276,7 @@ namespace C969.Controllers
                     bool updatedInWeek = UpdateAppointmentInWeek(claimedAppointment);
                     bool updatedInMonth = UpdateAppointmentInMonth(claimedAppointment);
 
+                    WriteActivityLog.Write($"{appointmentId} has been deleted");
                     if (updatedInWeek || updatedInMonth)
                     {
                         return true;
