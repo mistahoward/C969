@@ -75,39 +75,43 @@ namespace C969
             PasswordLabel.Text = translations[selectedLanguage]["password"];
         }
 
-        private void HandleLogin(string selectedLanguage)
-        {
-            var userName = UsernameTextBox.Text;
-            var password = PasswordTextBox.Text;
-            User loginResult = _userController.Login(userName, password);
-            if (loginResult == null)
+        /// <summary>
+        /// Handles user login attempt and displays any relevant errors
+        /// </summary>
+        /// <param name="selectedLanguage">The language selected for the user. Expects language code in IETF format</param>
+            private void HandleLogin(string selectedLanguage)
             {
-                errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["error"]);
-                return;
-            }
-            ApplicationState.CurrentUser = loginResult;
-            _usersAppointments = _appointmentController.GetUserAppointments(loginResult.userId);
-            if (_usersAppointments.Any())
-            {
-                // Find the closest appointment with start time at or after DateTime.Now
-                var approachingAppt = _usersAppointments
-                    .Where(appt => appt.start >= DateTime.Now)
-                    .OrderBy(appt => appt.start)
-                    .FirstOrDefault();
-
-                if (approachingAppt != null && approachingAppt.start <= DateTime.Now.AddMinutes(15))
+                var userName = UsernameTextBox.Text;
+                var password = PasswordTextBox.Text;
+                User loginResult = _userController.Login(userName, password);
+                if (loginResult == null)
                 {
-                    // Calculate the minutes left until the approaching appointment starts
-                    int minutesLeft = (int)Math.Round((approachingAppt.start - DateTime.Now).TotalMinutes);
-                    MessageBox.Show("You have an appointment in " + minutesLeft + " minute(s).", "Appointment Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["error"]);
+                    return;
                 }
-            }
+                ApplicationState.CurrentUser = loginResult;
+                _usersAppointments = _appointmentController.GetUserAppointments(loginResult.userId);
+                if (_usersAppointments.Any())
+                {
+                    // Find the closest appointment with start time at or after DateTime.Now
+                    var approachingAppt = _usersAppointments
+                        .Where(appt => appt.start >= DateTime.Now)
+                        .OrderBy(appt => appt.start)
+                        .FirstOrDefault();
 
-            var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week, _appointmentController);
-            this.Hide();
-            calendarForm.ShowDialog();
-            this.Close();
-        }
+                    if (approachingAppt != null && approachingAppt.start <= DateTime.Now.AddMinutes(15))
+                    {
+                        // Calculate the minutes left until the approaching appointment starts
+                        int minutesLeft = (int)Math.Round((approachingAppt.start - DateTime.Now).TotalMinutes);
+                        MessageBox.Show("You have an appointment in " + minutesLeft + " minute(s).", "Appointment Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week, _appointmentController);
+                this.Hide();
+                calendarForm.ShowDialog();
+                this.Close();
+            }
         private void LoginButton_Click(object sender, EventArgs e)
         {
             // clear any existing errors first and foremost
