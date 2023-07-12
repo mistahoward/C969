@@ -338,7 +338,7 @@ namespace C969
             bool cancelClose = false;
             if (_workingAppointment.customerId == 0)
             {
-                MessageBox.Show("Please add a customer before continuing", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Please add a customer before continuing", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
