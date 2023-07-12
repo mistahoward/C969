@@ -44,7 +44,7 @@ namespace C969
             // 
             this.UsernameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.UsernameTextBox.Location = new System.Drawing.Point(24, 56);
-            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.UsernameTextBox.Name = "UsernameTextBox";
             this.UsernameTextBox.Size = new System.Drawing.Size(430, 37);
             this.UsernameTextBox.TabIndex = 0;
@@ -53,10 +53,11 @@ namespace C969
             // 
             this.PasswordTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
             this.PasswordTextBox.Location = new System.Drawing.Point(24, 180);
-            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6);
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.Size = new System.Drawing.Size(430, 37);
             this.PasswordTextBox.TabIndex = 1;
+            this.PasswordTextBox.UseSystemPasswordChar = true;
             this.PasswordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PasswordTextBox_KeyPress);
             // 
             // UsernameLabel
@@ -88,7 +89,7 @@ namespace C969
             // loginButton
             // 
             this.loginButton.Location = new System.Drawing.Point(338, 304);
-            this.loginButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(6);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(150, 45);
             this.loginButton.TabIndex = 4;
@@ -99,7 +100,7 @@ namespace C969
             // CloseButton
             // 
             this.CloseButton.Location = new System.Drawing.Point(24, 304);
-            this.CloseButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(6);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(150, 45);
             this.CloseButton.TabIndex = 5;
@@ -118,7 +119,7 @@ namespace C969
             this.Controls.Add(this.UsernameLabel);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.UsernameTextBox);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "LoginForm";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.LoginForm_Load);
