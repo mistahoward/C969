@@ -106,6 +106,7 @@
     <Compile Include="Utilities\DataTableConverter.cs" />
     <Compile Include="Utilities\Debouncer.cs" />
     <Compile Include="Utilities\EpochConverter.cs" />
+    <Compile Include="Utilities\Exceptions\InvalidDate.cs" />
     <Compile Include="Utilities\Exceptions\ChangeNotPermitted.cs" />
     <Compile Include="Utilities\Exceptions\DataNotFound.cs" />
     <Compile Include="Utilities\Exceptions\DuplicateData.cs" />

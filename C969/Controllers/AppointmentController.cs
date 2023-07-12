@@ -152,18 +152,13 @@ namespace C969.Controllers
 
             return false;
         }
-
         /// <summary>
-        /// Updates an appointment
+        /// Validates a given appointment and its properties
         /// </summary>
-        /// <param name="workingAppointment">The appointment to update</param>
-        /// <returns>True if the update is successful; false otherwise</returns>
-        public bool HandleUpdateAppointment(Appointment workingAppointment)
+        /// <param name="workingAppointment">The appointment to be validated</param>
+        /// <returns>Whether or not the appointment is valid - also handles exceptions</returns>
+        private bool HandleAppointmentValidation(Appointment workingAppointment)
         {
-            if (workingAppointment.Equals(Appointment))
-            {
-                return false;
-            }
             var validAppointment = ModelValidator.ValidateModel(workingAppointment);
             if (!validAppointment)
             {
@@ -178,6 +173,31 @@ namespace C969.Controllers
             if (overlappingAppointments)
             {
                 throw new OverlappingAppointments("You cannot schedule an appointment when you already have appointments during that time slot");
+            }
+            var endDateBeforeStartDate = EndDateBeforeStartDate(workingAppointment);
+            if (endDateBeforeStartDate)
+            {
+                throw new InvalidDate("End date cannot be before start date");
+            }
+            return true;
+        }
+        /// <summary>
+        /// Updates an appointment
+        /// </summary>
+        /// <param name="workingAppointment">The appointment to update</param>
+        /// <returns>True if the update is successful; false otherwise</returns>
+        public bool HandleUpdateAppointment(Appointment workingAppointment)
+        {
+            if (workingAppointment.Equals(Appointment))
+            {
+                return false;
+            }
+            try
+            {
+                 var validAppointment = HandleAppointmentValidation(workingAppointment);
+            } catch (Exception ex)
+            {
+                throw ex;
             }
             try
             {
@@ -207,20 +227,13 @@ namespace C969.Controllers
         /// <returns>True if the appointment was added to the system, false otherwise</returns>
         public bool HandleAddAppointment(Appointment workingAppointment)
         {
-            var validAppointment = ModelValidator.ValidateModel(workingAppointment);
-            if (!validAppointment)
+            try
             {
-                throw new InvalidObject("Appointment is missing required data");
+                var validAppointment = HandleAppointmentValidation(workingAppointment);
             }
-            var outsideOfBusinessHours = IsAppointmentOutsideBusinessHours(workingAppointment);
-            if (outsideOfBusinessHours)
+            catch (Exception ex)
             {
-                throw new OutsideOfBusinessHours("Appointment cannot be outside of business hours");
-            }
-            var overlappingAppointments = HasOverlappingAppointments(workingAppointment);
-            if (overlappingAppointments)
-            {
-                throw new OverlappingAppointments("You cannot schedule an appointment when you already have appointments during that time slot");
+                throw ex;
             }
             try
             {
@@ -290,6 +303,19 @@ namespace C969.Controllers
                 {
                     return true;
                 }
+            }
+            return false;
+        }
+        /// <summary>
+        /// Determines whether the end date of the appointment is before the start date
+        /// </summary>
+        /// <param name="appointment">The appointment to check</param>
+        /// <returns>True if the end date is before the start date, False otherwise</returns>
+        public bool EndDateBeforeStartDate(Appointment appointment)
+        {
+            if (appointment.start > appointment.end)
+            {
+                return true;
             }
             return false;
         }

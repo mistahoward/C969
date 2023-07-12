@@ -342,67 +342,37 @@ namespace C969
                 return;
             }
 
-            try
+            bool result = false;
+            if (_adding)
             {
-                bool result = false;
-                if (_adding)
+                try
                 {
-                    try
-                    {
-                        result = _appointmentController.HandleAddAppointment(_workingAppointment);
-                    }
-                    catch (OutsideOfBusinessHours)
-                    {
-                        MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    catch (OverlappingAppointments)
-                    {
-                        MessageBox.Show("You cannot schedule an appointment during another appointment. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    result = _appointmentController.HandleAddAppointment(_workingAppointment);
                 }
-                else if (_editing)
+                catch (Exception ex)
                 {
-                    try
-                    {
-                        result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
-                    }
-                    catch (OutsideOfBusinessHours)
-                    {
-                        MessageBox.Show("You cannot schedule an appointment outside of business hours. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                    catch (OverlappingAppointments)
-                    {
-                        MessageBox.Show("You cannot schedule an appointment during another appointment. Please adjust and try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cancelClose = true;
                 }
-                else
+            }
+            else if (_editing)
+            {
+                try
                 {
-                    throw new InvalidOperationException("Neither adding nor editing is currently active");
+                    result = _appointmentController.HandleUpdateAppointment(_workingAppointment);
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    cancelClose = true;
+                }
+            }
 
-                if (result)
-                {
-                    MessageBox.Show("Appointment Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Appointment failed to save", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (InvalidObject)
+            if (result)
             {
-                cancelClose = true;
-                MessageBox.Show("Appointment is missing required data - please fill out all fields before proceeding", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Appointment Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (InvalidOperationException ex)
-            {
-                cancelClose = true;
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
 
             if (!cancelClose)
             {
