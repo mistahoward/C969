@@ -267,7 +267,7 @@ namespace C969
         /// </summary>
         /// <param name="sender">The object that raised the event</param>
         /// <param name="e">The EventArgs instance containing the event data</param>
-        private void closeButton_Click(object sender, EventArgs e)
+        private void CloseButton_Click(object sender, EventArgs e)
         {
             if (ChangesMade && _editing)
             {
@@ -306,7 +306,7 @@ namespace C969
         /// </summary>
         /// <param name="sender">The object raising the event</param>
         /// <param name="e">The EventArgs associated with the event</param>
-        private void selectCustomerButton_Click(object sender, EventArgs e)
+        private void SelectCustomerButton_Click(object sender, EventArgs e)
         {
             if (CustomerDataGridView.SelectedRows.Count > 0 && _customerController.Customer != null)
             {
@@ -322,7 +322,7 @@ namespace C969
         /// </summary>
         /// <param name="sender">The button that triggered the event</param>
         /// <param name="e">The event arguments</param>
-        private void removeCustomerButton_Click(object sender, EventArgs e)
+        private void RemoveCustomerButton_Click(object sender, EventArgs e)
         {
             if (_selectedCustomer.customerId != 0)
             {

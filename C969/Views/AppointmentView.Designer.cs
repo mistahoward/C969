@@ -243,7 +243,7 @@ namespace C969
             this.CloseButton.TabIndex = 30;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
-            this.CloseButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // selectedCustomerLabel
             // 
@@ -276,7 +276,7 @@ namespace C969
             this.RemoveCustomerButton.TabIndex = 34;
             this.RemoveCustomerButton.Text = "Remove Customer";
             this.RemoveCustomerButton.UseVisualStyleBackColor = true;
-            this.RemoveCustomerButton.Click += new System.EventHandler(this.removeCustomerButton_Click);
+            this.RemoveCustomerButton.Click += new System.EventHandler(this.RemoveCustomerButton_Click);
             // 
             // SelectCustomerButton
             // 
@@ -288,7 +288,7 @@ namespace C969
             this.SelectCustomerButton.TabIndex = 35;
             this.SelectCustomerButton.Text = "Select Customer";
             this.SelectCustomerButton.UseVisualStyleBackColor = true;
-            this.SelectCustomerButton.Click += new System.EventHandler(this.selectCustomerButton_Click);
+            this.SelectCustomerButton.Click += new System.EventHandler(this.SelectCustomerButton_Click);
             // 
             // CustomerDataGridView
             // 
