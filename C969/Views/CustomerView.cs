@@ -284,12 +284,17 @@ namespace C969.Views
             }
             Close();
         }
-        private void EditSaveButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles saving the customer and relevant details
+        /// </summary>
+        /// <remarks>
+        /// This method prepares add and update operations and their corresponding messages
+        /// Results and messages are gathered and messages displayed in message boxes
+        /// </remarks>
+        private void HandleSave()
         {
-            if (_editing)
-            {
-                // Prepare add operations and their corresponding messages
-                var addOperations = new List<(Func<int> Action, string ObjectName, string SuccessMessage, string ErrorMessage)>
+            // Prepare add operations and their corresponding messages
+            var addOperations = new List<(Func<int> Action, string ObjectName, string SuccessMessage, string ErrorMessage)>
                 {
                     (() => _customerController.HandleAddCountry(WorkingCustomerCountry), "Country", "Customer country added successfully", "Something went wrong adding the customer's country"),
                     (() => _customerController.HandleAddCity(WorkingCustomerCity), "City", "Customer city added successfully", "Something went wrong adding the customer's city"),
@@ -297,8 +302,8 @@ namespace C969.Views
                     (() => _customerController.HandleAddCustomer(WorkingCustomer), "Customer", "Customer added successfully", "Something went wrong adding the customer")
                 };
 
-                // Prepare update operations and their corresponding messages
-                var updateOperations = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+            // Prepare update operations and their corresponding messages
+            var updateOperations = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
                 {
                     (() => _customerController.HandleUpdateCustomer(WorkingCustomer), "Customer saved successfully", "Something went wrong saving the customer"),
                     (() => _customerController.HandleUpdateAddress(WorkingCustomerAddress), "Customer address saved successfully", "Something went wrong saving the customer's address"),
@@ -306,71 +311,79 @@ namespace C969.Views
                     (() => _customerController.HandleUpdateCountry(WorkingCustomerCountry), "Customer country saved successfully", "Something went wrong saving the customer's country")
                 };
 
-                // Gather all the results and messages
-                var results = new List<(bool Success, string Message)>();
+            // Gather all the results and messages
+            var results = new List<(bool Success, string Message)>();
 
-                if (_adding)
+            if (_adding)
+            {
+                foreach (var operation in addOperations)
                 {
-                    foreach (var operation in addOperations)
+                    try
                     {
-                        try
+                        var newId = operation.Action();
+                        if (newId != 0)
                         {
-                            var newId = operation.Action();
-                            if (newId != 0)
+                            if (operation.ObjectName == "Country")
                             {
-                                if (operation.ObjectName == "Country")
-                                {
-                                    WorkingCustomerCity.countryId = newId;         
-                                }
-                                else if (operation.ObjectName == "City")
-                                {
-                                    WorkingCustomerAddress.cityId = newId;
-                                }
-                                else if (operation.ObjectName == "Address")
-                                {
-                                    WorkingCustomer.addressId = newId;
-                                }
+                                WorkingCustomerCity.countryId = newId;
                             }
-                            var message = newId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
-                            results.Add((newId != 0, message));
-                        } catch (Exception ex)
-                        {
-                            throw ex;
+                            else if (operation.ObjectName == "City")
+                            {
+                                WorkingCustomerAddress.cityId = newId;
+                            }
+                            else if (operation.ObjectName == "Address")
+                            {
+                                WorkingCustomer.addressId = newId;
+                            }
                         }
+                        var message = newId != 0 ? operation.SuccessMessage : operation.ErrorMessage;
+                        results.Add((newId != 0, message));
                     }
-                } else
-                {
-                    // Check which updates we need to perform
-                    var updatesToPerform = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            else
+            {
+                // Check which updates we need to perform
+                var updatesToPerform = new List<(Func<bool> Action, string SuccessMessage, string ErrorMessage)>
                     {
                         _customerUpdated ? updateOperations[0] : default,
                         _addressUpdated ? updateOperations[1] : default,
                         _cityUpdated ? updateOperations [2] : default,
                         _countryUpdated ? updateOperations[3] : default,
                     }.Where(x => x.Action != null).ToList();
-                    foreach (var update in updatesToPerform)
-                    {
-                        var result = update.Action();
-                        var message = result ? update.SuccessMessage : update.ErrorMessage;
-                        results.Add((result, message));
-                    }
-                }
-
-                var successMessages = results.Where(r => r.Success).Select(r => r.Message);
-                var errorMessages = results.Where(r => !r.Success).Select(r => r.Message);
-
-
-                if (successMessages.Any())
+                foreach (var update in updatesToPerform)
                 {
-                    MessageBox.Show(string.Join("\n", successMessages), "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var result = update.Action();
+                    var message = result ? update.SuccessMessage : update.ErrorMessage;
+                    results.Add((result, message));
                 }
+            }
 
-                if (errorMessages.Any())
-                {
-                    MessageBox.Show(string.Join("\n", errorMessages), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+            var successMessages = results.Where(r => r.Success).Select(r => r.Message);
+            var errorMessages = results.Where(r => !r.Success).Select(r => r.Message);
 
-                Close();
+
+            if (successMessages.Any())
+            {
+                MessageBox.Show(string.Join("\n", successMessages), "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            if (errorMessages.Any())
+            {
+                MessageBox.Show(string.Join("\n", errorMessages), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            Close();
+        }
+        private void EditSaveButton_Click(object sender, EventArgs e)
+        {
+            if (_editing)
+            {
+                HandleSave();
             }
             else
             {
@@ -378,5 +391,19 @@ namespace C969.Views
             }
         }
 
+        private void countryTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                if (_editing)
+                {
+                    HandleSave();
+                } else
+                {
+                    HandleToggleEdit();
+                }
+            }
+        }
     }
 }
