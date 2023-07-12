@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,7 +51,7 @@ namespace C969
         /// <returns>Language string (locale code)</returns>
         private string GetLanguage()
         {
-            string localeCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
+            string localeCode = CultureInfo.CurrentCulture.ToString();
 
             if (translations.ContainsKey(localeCode))
             {
