@@ -168,10 +168,10 @@ namespace C969
             endDateTimePicker.Enabled = true;
             CustomerDataGridView.Enabled = true;
             CustomerDataGridView.Cursor = Cursors.Arrow;
-            selectCustomerButton.Enabled = true;
+            SelectCustomerButton.Enabled = true;
             if (_selectedCustomer.customerId != 0)
             {
-                removeCustomerButton.Enabled = true;
+                RemoveCustomerButton.Enabled = true;
             }
         }
         /// <summary>
@@ -313,7 +313,7 @@ namespace C969
                 ChangesMade = true;
                 _workingAppointment.customerId = _selectedCustomer.customerId;
                 selectedCustomerNameTextBox.Text = _selectedCustomer.customerName;
-                removeCustomerButton.Enabled = true;
+                RemoveCustomerButton.Enabled = true;
             }
         }
         /// <summary>
@@ -328,7 +328,7 @@ namespace C969
             {
                 ChangesMade = true;
                 _customerController.CustomerId = 0;
-                removeCustomerButton.Enabled = false;
+                RemoveCustomerButton.Enabled = false;
                 selectedCustomerNameTextBox.Text = "";
             }
         }
