@@ -37,3 +37,6 @@ I.   Provide the ability to generate each of the following reports using the col
 J.   Provide the ability to track user activity by recording timestamps for user log-ins in a .txt file. Each new record should be appended to the log file if the file already exists.
 
 K.   Demonstrate professional communication in the content and presentation of your submission.
+
+### Notes
+I decided to tackle this project using the MVC structure which was not a requirement - while MVC with Winforms isn't conventional, I wanted to expand my understanding and implementation of said structure. 
