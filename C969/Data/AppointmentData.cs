@@ -87,6 +87,10 @@ namespace C969.Data
             {
                 throw new InvalidObject("Appointment isn't valid");
             }
+            var utcStartTime = TimeZoneInfo.ConvertTimeToUtc(workingAppointment.start, ApplicationState.UserTimeZone);
+            workingAppointment.start = utcStartTime;
+            var utcEndTime = TimeZoneInfo.ConvertTimeToUtc(workingAppointment.end, ApplicationState.UserTimeZone);
+            workingAppointment.end = utcEndTime;
 
             return AddData(workingAppointment);
         }

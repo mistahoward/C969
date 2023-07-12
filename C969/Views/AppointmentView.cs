@@ -209,8 +209,8 @@ namespace C969
             contactTextBox.Text = Appointment.contact;
             typeTextBox.Text = Appointment.type;
             urlTextBox.Text = Appointment.url;
-            startDateTimePicker.Value = Appointment.start;
-            endDateTimePicker.Value = Appointment.end;
+            startDateTimePicker.Value = EpochConverter.ConvertUtcToUserTime(Appointment.start);
+            endDateTimePicker.Value = EpochConverter.ConvertUtcToUserTime(Appointment.end);
             if (_selectedCustomer.customerId != 0)
             {
                 selectedCustomerNameTextBox.Text = _selectedCustomer.customerName;
@@ -272,7 +272,7 @@ namespace C969
         {
             if (ChangesMade && _editing)
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to close this customer view? You have pending changes that need saved.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                DialogResult result = MessageBox.Show("Are you sure you want to close this appointment view? You have pending changes that need saved.", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
                 if (result != DialogResult.OK)
                 {
                     return;

@@ -86,6 +86,9 @@ namespace C969.Utilities
         {
             TimeZoneInfo localTimeZone = ApplicationState.UserTimeZone;
 
+            // Set the Kind property to Utc
+            utcDateTime = DateTime.SpecifyKind(utcDateTime, DateTimeKind.Utc);
+
             DateTime userDateTime = TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, localTimeZone);
 
             // Get the appropriate time zone name
