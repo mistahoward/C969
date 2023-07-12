@@ -113,7 +113,7 @@ namespace C969
             // clear any existing errors first and foremost
             errorProvider.Clear();
 
-            string selectedLanguage = this.GetLanguage();
+            string selectedLanguage = GetLanguage();
             // begin error checking, check if fields are empty or whitespace
             if(string.IsNullOrWhiteSpace(UsernameTextBox.Text))
             {
