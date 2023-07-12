@@ -43,26 +43,30 @@ namespace C969
             // UsernameTextBox
             // 
             this.UsernameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.UsernameTextBox.Location = new System.Drawing.Point(12, 29);
+            this.UsernameTextBox.Location = new System.Drawing.Point(24, 56);
+            this.UsernameTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.UsernameTextBox.Name = "UsernameTextBox";
-            this.UsernameTextBox.Size = new System.Drawing.Size(217, 22);
+            this.UsernameTextBox.Size = new System.Drawing.Size(430, 37);
             this.UsernameTextBox.TabIndex = 0;
             // 
             // PasswordTextBox
             // 
             this.PasswordTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.PasswordTextBox.Location = new System.Drawing.Point(12, 93);
+            this.PasswordTextBox.Location = new System.Drawing.Point(24, 180);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(217, 22);
+            this.PasswordTextBox.Size = new System.Drawing.Size(430, 37);
             this.PasswordTextBox.TabIndex = 1;
+            this.PasswordTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PasswordTextBox_KeyPress);
             // 
             // UsernameLabel
             // 
             this.UsernameLabel.AutoSize = true;
             this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.UsernameLabel.Location = new System.Drawing.Point(12, 9);
+            this.UsernameLabel.Location = new System.Drawing.Point(24, 17);
+            this.UsernameLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(70, 16);
+            this.UsernameLabel.Size = new System.Drawing.Size(132, 30);
             this.UsernameLabel.TabIndex = 2;
             this.UsernameLabel.Text = "Username";
             // 
@@ -70,9 +74,10 @@ namespace C969
             // 
             this.PasswordLabel.AutoSize = true;
             this.PasswordLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.PasswordLabel.Location = new System.Drawing.Point(12, 73);
+            this.PasswordLabel.Location = new System.Drawing.Point(24, 141);
+            this.PasswordLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(67, 16);
+            this.PasswordLabel.Size = new System.Drawing.Size(126, 30);
             this.PasswordLabel.TabIndex = 3;
             this.PasswordLabel.Text = "Password";
             // 
@@ -82,9 +87,10 @@ namespace C969
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(169, 157);
+            this.loginButton.Location = new System.Drawing.Point(338, 304);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.loginButton.Name = "loginButton";
-            this.loginButton.Size = new System.Drawing.Size(75, 23);
+            this.loginButton.Size = new System.Drawing.Size(150, 45);
             this.loginButton.TabIndex = 4;
             this.loginButton.Text = "Login";
             this.loginButton.UseVisualStyleBackColor = true;
@@ -92,9 +98,10 @@ namespace C969
             // 
             // CloseButton
             // 
-            this.CloseButton.Location = new System.Drawing.Point(12, 157);
+            this.CloseButton.Location = new System.Drawing.Point(24, 304);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(75, 23);
+            this.CloseButton.Size = new System.Drawing.Size(150, 45);
             this.CloseButton.TabIndex = 5;
             this.CloseButton.Text = "Close";
             this.CloseButton.UseVisualStyleBackColor = true;
@@ -102,15 +109,16 @@ namespace C969
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(256, 194);
+            this.ClientSize = new System.Drawing.Size(584, 376);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.PasswordLabel);
             this.Controls.Add(this.UsernameLabel);
             this.Controls.Add(this.PasswordTextBox);
             this.Controls.Add(this.UsernameTextBox);
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "LoginForm";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.LoginForm_Load);

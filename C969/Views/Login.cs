@@ -44,7 +44,10 @@ namespace C969
             _userController = new UserController();
             _appointmentController = new AppointmentController();
         }
-        // Helper function for getting language (locale code)
+        /// <summary>
+        /// Utility function for getting local user's language
+        /// </summary>
+        /// <returns>Language string (locale code)</returns>
         private string GetLanguage()
         {
             string localeCode = System.Globalization.CultureInfo.CurrentUICulture.IetfLanguageTag;
@@ -59,7 +62,9 @@ namespace C969
                 return "en-US";
             }
         }
-
+        /// <summary>
+        /// Loading method for login form. Grab user's langauge and adjust labels accordingly.
+        /// </summary>
         private void LoginForm_Load(object sender, EventArgs e)
         {
             // grab selected language
@@ -69,22 +74,9 @@ namespace C969
             UsernameLabel.Text = translations[selectedLanguage]["username"];
             PasswordLabel.Text = translations[selectedLanguage]["password"];
         }
-        private void LoginButton_Click(object sender, EventArgs e)
-        {
-            // clear any existing errors first and foremost
-            errorProvider.Clear();
 
-            string selectedLanguage = this.GetLanguage();
-            // begin error checking, check if fields are empty or whitespace
-            if(string.IsNullOrWhiteSpace(UsernameTextBox.Text))
-            {
-                errorProvider.SetError(UsernameTextBox, translations[selectedLanguage]["username_error"]);
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(PasswordTextBox.Text)) {
-                errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["password_error"]);
-                return;
-            }
+        private void HandleLogin(string selectedLanguage)
+        {
             var userName = UsernameTextBox.Text;
             var password = PasswordTextBox.Text;
             User loginResult = _userController.Login(userName, password);
@@ -102,7 +94,7 @@ namespace C969
                     .Where(appt => appt.start >= DateTime.Now)
                     .OrderBy(appt => appt.start)
                     .FirstOrDefault();
-                
+
                 if (approachingAppt != null && approachingAppt.start <= DateTime.Now.AddMinutes(15))
                 {
                     // Calculate the minutes left until the approaching appointment starts
@@ -110,11 +102,29 @@ namespace C969
                     MessageBox.Show("You have an appointment in " + minutesLeft + " minute(s).", "Appointment Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            
+
             var calendarForm = new Calendar(DateTime.Now, CalendarViewType.Week, _appointmentController);
             this.Hide();
             calendarForm.ShowDialog();
             this.Close();
+        }
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            // clear any existing errors first and foremost
+            errorProvider.Clear();
+
+            string selectedLanguage = this.GetLanguage();
+            // begin error checking, check if fields are empty or whitespace
+            if(string.IsNullOrWhiteSpace(UsernameTextBox.Text))
+            {
+                errorProvider.SetError(UsernameTextBox, translations[selectedLanguage]["username_error"]);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(PasswordTextBox.Text)) {
+                errorProvider.SetError(PasswordTextBox, translations[selectedLanguage]["password_error"]);
+                return;
+            }
+            HandleLogin(selectedLanguage);
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
@@ -122,6 +132,13 @@ namespace C969
             this.Close();
         }
 
-
+        private void PasswordTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+                HandleLogin(GetLanguage());
+            }
+        }
     }
 }
