@@ -71,6 +71,7 @@ namespace C969
         public AppointmentView(AppointmentController appointmentController, int appointmentId = 0, bool editing = false)
         {
             InitializeComponent();
+            AutoSize = true;
             _editing = editing;
             appointmentController.AppointmentId = appointmentId;
             _appointmentController = appointmentController;

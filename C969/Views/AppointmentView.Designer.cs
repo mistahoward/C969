@@ -71,7 +71,7 @@ namespace C969
             this.titleTextBox.Enabled = false;
             this.titleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.titleTextBox.Location = new System.Drawing.Point(29, 64);
-            this.titleTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.titleTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.titleTextBox.Name = "titleTextBox";
             this.titleTextBox.Size = new System.Drawing.Size(407, 45);
             this.titleTextBox.TabIndex = 13;
@@ -113,7 +113,7 @@ namespace C969
             this.locationTextBox.Enabled = false;
             this.locationTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.locationTextBox.Location = new System.Drawing.Point(27, 494);
-            this.locationTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.locationTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.locationTextBox.Name = "locationTextBox";
             this.locationTextBox.Size = new System.Drawing.Size(407, 45);
             this.locationTextBox.TabIndex = 17;
@@ -134,7 +134,7 @@ namespace C969
             this.contactTextBox.Enabled = false;
             this.contactTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.contactTextBox.Location = new System.Drawing.Point(539, 494);
-            this.contactTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.contactTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.contactTextBox.Name = "contactTextBox";
             this.contactTextBox.Size = new System.Drawing.Size(407, 45);
             this.contactTextBox.TabIndex = 19;
@@ -155,7 +155,7 @@ namespace C969
             this.typeTextBox.Enabled = false;
             this.typeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.typeTextBox.Location = new System.Drawing.Point(27, 627);
-            this.typeTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.typeTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.typeTextBox.Name = "typeTextBox";
             this.typeTextBox.Size = new System.Drawing.Size(407, 45);
             this.typeTextBox.TabIndex = 21;
@@ -176,7 +176,7 @@ namespace C969
             this.urlTextBox.Enabled = false;
             this.urlTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.urlTextBox.Location = new System.Drawing.Point(541, 627);
-            this.urlTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.urlTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.urlTextBox.Name = "urlTextBox";
             this.urlTextBox.Size = new System.Drawing.Size(407, 45);
             this.urlTextBox.TabIndex = 23;
@@ -226,7 +226,7 @@ namespace C969
             // EditSaveButton
             // 
             this.EditSaveButton.Location = new System.Drawing.Point(1843, 866);
-            this.EditSaveButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.EditSaveButton.Margin = new System.Windows.Forms.Padding(5);
             this.EditSaveButton.Name = "EditSaveButton";
             this.EditSaveButton.Size = new System.Drawing.Size(261, 81);
             this.EditSaveButton.TabIndex = 29;
@@ -237,7 +237,7 @@ namespace C969
             // CloseButton
             // 
             this.CloseButton.Location = new System.Drawing.Point(27, 866);
-            this.CloseButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.CloseButton.Margin = new System.Windows.Forms.Padding(5);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(261, 81);
             this.CloseButton.TabIndex = 30;
@@ -261,7 +261,7 @@ namespace C969
             this.selectedCustomerNameTextBox.Enabled = false;
             this.selectedCustomerNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.selectedCustomerNameTextBox.Location = new System.Drawing.Point(1059, 64);
-            this.selectedCustomerNameTextBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.selectedCustomerNameTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.selectedCustomerNameTextBox.Name = "selectedCustomerNameTextBox";
             this.selectedCustomerNameTextBox.Size = new System.Drawing.Size(383, 45);
             this.selectedCustomerNameTextBox.TabIndex = 31;
@@ -270,7 +270,7 @@ namespace C969
             // 
             this.RemoveCustomerButton.Enabled = false;
             this.RemoveCustomerButton.Location = new System.Drawing.Point(1549, 38);
-            this.RemoveCustomerButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.RemoveCustomerButton.Margin = new System.Windows.Forms.Padding(5);
             this.RemoveCustomerButton.Name = "RemoveCustomerButton";
             this.RemoveCustomerButton.Size = new System.Drawing.Size(248, 81);
             this.RemoveCustomerButton.TabIndex = 34;
@@ -282,7 +282,7 @@ namespace C969
             // 
             this.SelectCustomerButton.Enabled = false;
             this.SelectCustomerButton.Location = new System.Drawing.Point(1808, 38);
-            this.SelectCustomerButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.SelectCustomerButton.Margin = new System.Windows.Forms.Padding(5);
             this.SelectCustomerButton.Name = "SelectCustomerButton";
             this.SelectCustomerButton.Size = new System.Drawing.Size(261, 81);
             this.SelectCustomerButton.TabIndex = 35;
@@ -299,7 +299,7 @@ namespace C969
             this.CustomerDataGridView.Cursor = System.Windows.Forms.Cursors.No;
             this.CustomerDataGridView.Enabled = false;
             this.CustomerDataGridView.Location = new System.Drawing.Point(1061, 191);
-            this.CustomerDataGridView.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.CustomerDataGridView.Margin = new System.Windows.Forms.Padding(5);
             this.CustomerDataGridView.MultiSelect = false;
             this.CustomerDataGridView.Name = "CustomerDataGridView";
             this.CustomerDataGridView.ReadOnly = true;
